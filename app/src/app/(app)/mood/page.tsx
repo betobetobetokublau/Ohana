@@ -3,6 +3,15 @@ import { createClient } from '@/lib/supabase/server';
 import { MoodHeatmap } from '@/components/mood/heatmap';
 import { MoodCaptureFull } from '@/components/mood/capture-full';
 import { Button } from '@/components/ui';
+import type { MoodEmocion } from '@/lib/types';
+
+type MoodRow = {
+  id: string;
+  user_id: string;
+  emocion: MoodEmocion;
+  nota: string | null;
+  created_at: string;
+};
 
 export const metadata = { title: 'Ohana · Mood' };
 export const dynamic = 'force-dynamic';
@@ -31,7 +40,8 @@ export default async function MoodPage() {
     .select('id, user_id, emocion, nota, created_at')
     .eq('couple_id', couple.id)
     .gte('created_at', sinceDate.toISOString())
-    .order('created_at', { ascending: true });
+    .order('created_at', { ascending: true })
+    .returns<MoodRow[]>();
 
   return (
     <div className="px-5 py-8 md:px-10 md:py-10 max-w-5xl mx-auto">

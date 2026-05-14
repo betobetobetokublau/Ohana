@@ -42,9 +42,10 @@ describe('<Pill />', () => {
 
 describe('<Dot />', () => {
   it('renderiza con color inline', () => {
-    const { container } = render(<Dot color="hsl(0 100% 50%)" />);
+    // jsdom normaliza hsl/named-color a rgb · usamos rgb directo
+    const { container } = render(<Dot color="rgb(255, 0, 0)" />);
     const dot = container.firstChild as HTMLElement;
-    expect(dot.style.backgroundColor).toBe('hsl(0 100% 50%)');
+    expect(dot.style.backgroundColor).toBe('rgb(255, 0, 0)');
   });
 
   it('tiene clases base de tamaño y borde redondeado', () => {

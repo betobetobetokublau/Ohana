@@ -6,6 +6,15 @@ import { MoodQuickCapture } from '@/components/mood/quick-capture';
 import { Card, CardIconRow, CardIcon, Button, Pill, Dot } from '@/components/ui';
 import Link from 'next/link';
 import { CheckCircle2, Heart } from 'lucide-react';
+import type { MoodEmocion } from '@/lib/types';
+
+type MoodRow = {
+  id: string;
+  user_id: string;
+  emocion: MoodEmocion;
+  nota: string | null;
+  created_at: string;
+};
 
 export const metadata = { title: 'Ohana · Hoy' };
 export const dynamic = 'force-dynamic';
@@ -71,7 +80,8 @@ export default async function HoyPage() {
     .select('id, user_id, emocion, nota, created_at')
     .eq('couple_id', couple.id)
     .gte('created_at', sevenDaysAgo.toISOString())
-    .order('created_at', { ascending: true });
+    .order('created_at', { ascending: true })
+    .returns<MoodRow[]>();
 
   const name = userRow?.display_name || user.email?.split('@')[0] || 'tú';
 

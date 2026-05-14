@@ -1,9 +1,11 @@
-import { format, startOfWeek, isSameDay, parseISO, differenceInDays } from 'date-fns';
+import { format, startOfWeek, isSameDay, parseISO, differenceInCalendarDays } from 'date-fns';
 import { es } from 'date-fns/locale';
 
 export function fmtRel(dateStr: string | Date, now: Date = new Date()): string {
   const date = typeof dateStr === 'string' ? parseISO(dateStr) : dateStr;
-  const diff = differenceInDays(date, now);
+  // Calendar days · ignora hora, cuenta fechas. "vence may 19 a las 8am, hoy es
+  // may 14 al mediodía" debe decir "en 5 días", no "en 4 días".
+  const diff = differenceInCalendarDays(date, now);
   if (diff === 0) return 'hoy';
   if (diff === 1) return 'mañana';
   if (diff === -1) return 'ayer';

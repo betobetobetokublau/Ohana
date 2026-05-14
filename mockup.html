@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ohana — Domestic Modernism · full mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Instrument+Sans:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBF7F2;
+    --surface: #F4EDE3;
+    --surface-2: #EFE6D8;
+    --surface-3: #E8DDC8;
+    --ink: #1A1714;
+    --muted: #6B6358;
+    --muted-2: #9A9082;
+    --accent: #C4623E;
+    --accent-soft: #E8B89F;
+    --accent-deep: #8E4427;
+    --line: #E2D9CB;
+    --line-2: #D4C9B8;
+    --success: #5A7A47;
+    --warning: #C99432;
+    --error: #A8362B;
+
+    --citas: #B85544;
+    --salud: #8C5E8A;
+    --gastos: #C99432;
+    --proyectos: #4A6B82;
+    --mant: #5A7A47;
+    --viajes: #4D8489;
+    --fechas: #B89043;
+    --discus: #8B847A;
+    --mimos: #C4623E;
+
+    --r-sm: 4px;
+    --r-md: 8px;
+    --r-lg: 16px;
+
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Instrument Sans', -apple-system, system-ui, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, Menlo, monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  body{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+  /* TOC sidebar */
+  .toc{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;padding:32px 24px;background:var(--surface);border-right:1px solid var(--line)}
+  .toc-title{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-0.01em;margin-bottom:4px}
+  .toc-title em{font-style:italic;color:var(--accent)}
+  .toc-sub{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:24px}
+  .toc-group{margin-bottom:20px}
+  .toc-h{font-family:var(--mono);font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:8px}
+  .toc a{display:block;font-size:13px;color:var(--ink);text-decoration:none;padding:4px 0;border-bottom:1px dotted transparent}
+  .toc a:hover{color:var(--accent);border-bottom-color:var(--accent-soft)}
+
+  /* Main canvas */
+  .canvas{padding:48px 56px 96px;max-width:1280px}
+  .canvas-header{padding-bottom:32px;border-bottom:1px solid var(--line);margin-bottom:48px}
+  .canvas-meta{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .canvas-title{font-family:var(--serif);font-weight:400;font-size:48px;letter-spacing:-0.02em;line-height:1}
+  .canvas-title em{font-style:italic;color:var(--accent)}
+  .canvas-sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:18px;color:var(--muted);margin-top:12px;max-width:64ch}
+
+  /* Screen frame */
+  .screen{margin-bottom:64px;scroll-margin-top:32px}
+  .screen-h{display:flex;align-items:baseline;gap:16px;margin-bottom:8px}
+  .screen-num{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.08em}
+  .screen-title{font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:-0.01em}
+  .screen-title em{font-style:italic}
+  .screen-device{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-left:auto}
+  .screen-desc{font-size:13px;color:var(--muted);margin-bottom:16px;max-width:62ch;line-height:1.55}
+
+  /* iPad frame */
+  .ipad{background:var(--bg);border:1px solid var(--ink);border-radius:var(--r-md);padding:24px;position:relative;overflow:visible}
+  .ipad-bar{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+
+  /* Mobile frame */
+  .mob{width:340px;background:var(--bg);border:1px solid var(--ink);border-radius:24px;padding:20px;margin:0 auto}
+  .mob-bar{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.06em;padding-bottom:8px;border-bottom:1px solid var(--line);margin-bottom:20px}
+  .mob-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;justify-items:center}
+
+  /* Common patterns */
+  .row-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .row-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .stack{display:flex;flex-direction:column;gap:12px}
+  .between{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+
+  .eyebrow{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+  .display{font-family:var(--serif);font-weight:400;font-size:32px;letter-spacing:-0.015em;line-height:1.05}
+  .display em{font-style:italic;color:var(--accent)}
+  .h1{font-family:var(--serif);font-weight:500;font-size:22px;letter-spacing:-0.005em;line-height:1.2}
+  .h1 em{font-style:italic}
+  .h2{font-family:var(--sans);font-weight:600;font-size:16px}
+  .body-s{font-family:var(--sans);font-weight:400;font-size:14px;line-height:1.55;color:var(--ink)}
+  .body-mute{color:var(--muted)}
+  .meta{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.04em}
+  .num{font-family:var(--mono);font-weight:500}
+  .italic-serif{font-family:var(--serif);font-style:italic;font-weight:300;color:var(--muted)}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px}
+  .card-warm{background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--r-md);padding:18px}
+  .card-ghost{background:transparent;border:1px dashed var(--line-2)}
+  .pill{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;padding:3px 8px;border-radius:var(--r-sm);background:var(--surface-2);color:var(--muted)}
+  .pill.accent{background:var(--accent-soft);color:var(--accent-deep)}
+  .pill.success{background:#D8E5CD;color:#3D5C30}
+  .pill.warn{background:#F0D9A6;color:#806020}
+  .pill.error{background:#EBC5BF;color:#7A2820}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-right:6px}
+  .dot.citas{background:var(--citas)}.dot.salud{background:var(--salud)}.dot.gastos{background:var(--gastos)}.dot.proyectos{background:var(--proyectos)}.dot.mant{background:var(--mant)}.dot.viajes{background:var(--viajes)}.dot.fechas{background:var(--fechas)}.dot.discus{background:var(--discus)}.dot.mimos{background:var(--mimos)}
+
+  .btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-weight:600;font-size:13px;padding:10px 16px;border-radius:var(--r-md);border:1px solid var(--ink);background:var(--ink);color:var(--bg);cursor:pointer;text-decoration:none}
+  .btn-2{background:transparent;color:var(--ink)}
+  .btn-accent{background:var(--accent);border-color:var(--accent);color:white}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+  .btn-link{background:transparent;color:var(--accent);border:0;padding:10px 0;text-decoration:underline;text-underline-offset:4px}
+  .btn-sm{font-size:11px;padding:6px 10px}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+  .field{display:block;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;font-family:var(--sans);font-size:15px;color:var(--ink)}
+  .field.placeholder{color:var(--muted);font-style:italic;font-family:var(--serif);font-size:15px}
+  .field-label{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:block}
+
+  .divider{height:1px;background:var(--line);margin:16px 0;border:0}
+
+  .module-strip{display:flex;align-items:center;gap:8px;padding:6px 0}
+
+  /* List rows */
+  .list{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+  .list-row{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+  .list-row:last-child{border-bottom:0}
+  .list-row.dense{padding:10px 16px}
+  .list-row .name{font-weight:500;font-size:14px}
+  .list-row .meta-r{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right;letter-spacing:0.04em}
+  .list-row.completado .name{color:var(--muted);text-decoration:line-through}
+
+  .check{width:16px;height:16px;border:1px solid var(--line-2);border-radius:var(--r-sm);background:var(--bg);flex-shrink:0;cursor:pointer}
+  .check.on{background:var(--ink);border-color:var(--ink);position:relative}
+  .check.on::after{content:'✓';color:var(--bg);font-size:11px;position:absolute;top:-2px;left:2px}
+
+  /* Sidebar nav (iPad shell) */
+  .shell-wrapper{border:1px solid var(--ink);border-radius:var(--r-md);overflow:hidden;background:var(--bg)}
+  .topbar{display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--ink);color:var(--bg)}
+  .hamburger{background:transparent;border:0;color:var(--bg);font-size:20px;cursor:pointer;padding:4px 12px;border-radius:var(--r-sm);font-family:var(--sans);line-height:1}
+  .hamburger:hover{background:rgba(255,255,255,0.12)}
+  .topbar-brand{font-family:var(--serif);font-weight:400;font-size:18px;letter-spacing:-0.005em}
+  .topbar-brand em{font-style:italic;color:var(--accent-soft)}
+  .topbar-meta{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.65);letter-spacing:0.08em;text-transform:uppercase;padding-left:14px;border-left:1px solid rgba(255,255,255,0.2)}
+  .topbar-actions{margin-left:auto;display:flex;gap:6px;align-items:center}
+  .topbar-icon{background:transparent;border:0;color:var(--bg);font-size:14px;padding:6px 10px;cursor:pointer;border-radius:var(--r-sm);position:relative;font-family:var(--sans)}
+  .topbar-icon:hover{background:rgba(255,255,255,0.12)}
+  .topbar-icon .pill-dot{position:absolute;top:4px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  .topbar-actions .avatar{width:30px;height:30px;background:var(--accent);color:white;font-size:14px;margin-left:4px}
+  .shell{display:grid;grid-template-columns:200px 1fr;gap:0;background:var(--bg);overflow:hidden;min-height:680px;transition:grid-template-columns 220ms ease}
+  .shell.collapsed{grid-template-columns:0 1fr}
+  .shell.collapsed .nav{border-right:0;padding-left:0;padding-right:0}
+
+  /* Card icons (mobile Hoy) */
+  .card-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;color:white;font-family:var(--serif);line-height:1}
+  .card-icon.checkin{background:var(--accent)}
+  .card-icon.cita{background:var(--citas)}
+  .card-icon.pend{background:var(--ink)}
+  .card-icon-row{display:flex;gap:14px;align-items:flex-start}
+  .card-icon-row > div:last-child{flex:1;min-width:0}
+
+  /* Side-panel view: default flat, checkbox enables grouping */
+  .cbox-row{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;padding:6px 0;user-select:none}
+  .cbox-row input{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;margin:0;flex-shrink:0}
+  .cbox-row:hover{color:var(--ink)}
+  .panel-views .view-categorized{display:none}
+  .panel-views.grouped .view-categorized{display:block}
+  .panel-views.grouped .view-flat{display:none}
+  .flat-row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;padding:8px 0;align-items:baseline;border-bottom:1px dotted var(--line)}
+  .flat-row:last-child{border-bottom:0}
+  .flat-row .flat-name{font-size:13px;font-weight:500}
+  .flat-row .flat-mod{display:block;font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px}
+  .flat-row .flat-meta{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right;letter-spacing:0.04em;white-space:nowrap}
+  .nav{background:var(--surface);border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column;gap:24px}
+  .nav-brand{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-0.01em;padding:0 8px}
+  .nav-brand em{font-style:italic;color:var(--accent)}
+  .nav-couple{padding:0 8px;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-top:-16px;margin-bottom:0}
+  .nav-group .nav-h{font-family:var(--mono);font-size:9px;font-weight:600;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;padding:0 8px;margin-bottom:6px}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:var(--r-sm);font-size:13px;font-weight:500;cursor:pointer;color:var(--ink)}
+  .nav-item:hover{background:var(--surface-2)}
+  .nav-item.active{background:var(--ink);color:var(--bg)}
+  .nav-item .badge{margin-left:auto;font-family:var(--mono);font-size:10px;background:var(--accent);color:white;padding:1px 5px;border-radius:8px}
+  .nav-item.active .badge{background:var(--bg);color:var(--accent)}
+  .nav-item .ico{width:14px;display:inline-block;text-align:center;font-size:13px;opacity:0.7}
+  .nav-foot{margin-top:auto;display:flex;align-items:center;gap:10px;padding:8px;border-top:1px solid var(--line);padding-top:16px}
+  .avatar{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent-deep);font-family:var(--serif);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+  .pane{padding:32px;overflow:hidden}
+
+  /* Mobile bottom nav */
+  .bottom-nav{display:flex;justify-content:space-around;padding:12px 8px 16px;border-top:1px solid var(--line);background:var(--surface);margin:20px -20px -20px}
+  .bottom-nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--sans);font-size:10px;color:var(--muted);font-weight:500}
+  .bottom-nav-item .ico{font-size:18px}
+  .bottom-nav-item.active{color:var(--accent)}
+
+  /* Calendar (compact for shell) */
+  .cal-wrap{display:grid;grid-template-columns:7fr 3fr;gap:24px}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--line);border-radius:var(--r-md);overflow:hidden;border:1px solid var(--line)}
+  .cal-dow{background:var(--surface-2);padding:8px 8px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);text-align:center}
+  .cal-day{background:var(--bg);min-height:64px;padding:6px 8px;display:flex;flex-direction:column;gap:4px;font-size:12px}
+  .cal-day.muted{background:var(--surface);opacity:0.6}
+  .cal-day.today{background:var(--surface-2)}
+  .cal-day.session{background:var(--accent-soft)}
+  .cal-day .num{font-family:var(--mono);font-size:11px;font-weight:500}
+  .cal-day .ev{font-size:10px;font-weight:500;line-height:1.3;border-left:2px solid var(--ink);padding-left:5px;margin-top:auto}
+  .cal-day .ev.citas{border-color:var(--citas)}
+  .cal-day .ev.gastos{border-color:var(--gastos)}
+  .cal-day .ev.mant{border-color:var(--mant)}
+  .cal-day .ev.viajes{border-color:var(--viajes)}
+  .cal-day .ev.fechas{border-color:var(--fechas)}
+
+  /* Stats / charts */
+  .bars{display:flex;align-items:flex-end;gap:6px;height:80px;padding:8px 0;border-bottom:1px solid var(--line)}
+  .bar{flex:1;background:var(--accent-soft);border-radius:2px 2px 0 0;position:relative}
+  .bar.alt{background:var(--surface-2)}
+  .bar-labels{display:flex;gap:6px;margin-top:6px}
+  .bar-labels span{flex:1;text-align:center;font-family:var(--mono);font-size:9px;color:var(--muted)}
+
+  /* Voting cards */
+  .vote-card{padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);display:flex;flex-direction:column;gap:10px;cursor:pointer;position:relative}
+  .vote-card.picked{background:var(--bg);border:2px solid var(--ink);padding:19px}
+  .vote-card.picked::after{content:'✓';position:absolute;top:14px;right:14px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--bg);font-family:var(--sans);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1}
+  .vote-rationale{font-family:var(--serif);font-style:italic;font-weight:300;font-size:13px;color:var(--muted);line-height:1.5}
+  .vote-attrs{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+
+  /* Mimos session */
+  .session-stage{padding:48px 32px;background:linear-gradient(180deg,var(--accent-soft) 0%,var(--surface) 100%);border:1px solid var(--accent);border-radius:var(--r-lg);text-align:center;min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+  .session-card{max-width:480px;background:var(--bg);border:1px solid var(--accent);border-radius:var(--r-lg);padding:32px;text-align:left}
+
+  /* Chat (Pregúntale a Claude) */
+  .chat{display:flex;flex-direction:column;gap:12px;max-width:680px}
+  .bubble{max-width:80%;padding:14px 16px;border-radius:var(--r-md);font-size:14px;line-height:1.55}
+  .bubble.user{align-self:flex-end;background:var(--ink);color:var(--bg);border-radius:var(--r-md) var(--r-md) 4px var(--r-md)}
+  .bubble.ai{align-self:flex-start;background:#FFFFFF;border:1px solid var(--accent-soft);border-radius:var(--r-md) var(--r-md) var(--r-md) 4px;box-shadow:0 1px 0 rgba(196,98,62,0.04)}
+  .bubble.ai strong{font-family:var(--serif);font-weight:500;color:var(--accent)}
+  .bubble.ai .verdict{display:inline-block;padding:3px 8px;border-radius:var(--r-sm);font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px}
+  .bubble.ai .verdict.no-concern{background:#D8E5CD;color:#3D5C30}
+  .bubble.ai .verdict.talk-first{background:#F0D9A6;color:#806020}
+  .bubble.ai .verdict.violation{background:#EBC5BF;color:#7A2820}
+  .bubble.ai .verdict.ambiguous{background:var(--surface-2);color:var(--muted)}
+
+  /* Tema timeline */
+  .timeline{position:relative;padding-left:24px}
+  .timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:var(--line-2)}
+  .tl-item{position:relative;padding:8px 0 16px}
+  .tl-item::before{content:'';position:absolute;left:-21px;top:14px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+  .tl-item.discus::before{border-color:var(--discus)}
+  .tl-item.acuerdo::before{border-color:var(--success);background:var(--success)}
+  .tl-item.coment::before{background:var(--muted-2);border-color:var(--muted-2)}
+
+  /* Notification rows */
+  .notif-row{display:grid;grid-template-columns:24px 1fr auto;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);align-items:flex-start}
+  .notif-row:last-child{border-bottom:0}
+  .notif-row.unread{background:var(--surface)}
+  .notif-icon{width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent-deep);display:flex;align-items:center;justify-content:center;font-size:12px}
+  .notif-body{font-size:13px;line-height:1.5}
+  .notif-body strong{font-weight:600}
+  .notif-time{font-family:var(--mono);font-size:10px;color:var(--muted);white-space:nowrap}
+
+  /* Onboarding */
+  .onboarding-illust{aspect-ratio:1.4;background:linear-gradient(135deg,var(--accent-soft) 0%,var(--surface-3) 100%);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-weight:300;font-size:48px;color:var(--accent);position:relative}
+  .onboarding-illust::after{content:'❋';position:absolute;top:24px;right:32px;font-size:24px;opacity:0.4}
+
+  /* Email mock */
+  .email-frame{max-width:600px;margin:0 auto;background:var(--bg);border:1px solid var(--line-2);border-radius:var(--r-md);overflow:hidden}
+  .email-head{padding:20px 24px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--surface)}
+  .email-head .from{color:var(--ink);font-weight:500}
+  .email-body{padding:48px 32px}
+
+  /* Tabs */
+  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:24px}
+  .tab{padding:10px 16px;font-family:var(--sans);font-weight:500;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+  .tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+
+  /* Stat */
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);overflow:hidden}
+  .stat{padding:16px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+  .stat:last-child{border-right:0}
+  .stat-l{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase}
+  .stat-v{font-family:var(--serif);font-weight:400;font-size:28px;letter-spacing:-0.01em;line-height:1}
+  .stat-d{font-family:var(--mono);font-size:10px;font-weight:500}
+  .stat-d.up{color:var(--success)}
+  .stat-d.down{color:var(--error)}
+
+  /* Wishlist gallery */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .wish{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;display:flex;flex-direction:column}
+  .wish-img{aspect-ratio:1.3;background:linear-gradient(135deg,var(--surface-3),var(--accent-soft));display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;color:var(--accent-deep);font-size:32px;opacity:0.8}
+  .wish-img.alt{background:linear-gradient(135deg,#C8D5CD,#A8B8A0)}
+  .wish-img.alt2{background:linear-gradient(135deg,#D4C8AE,#B8A88E)}
+  .wish-body{padding:14px}
+  .interest{display:flex;gap:4px;margin-top:8px;align-items:center;font-family:var(--mono);font-size:10px;color:var(--muted)}
+  .interest .stars{color:var(--accent);letter-spacing:1px}
+
+  /* Anchor offset */
+  :target{scroll-margin-top:32px}
+</style>
+</head>
+<body>
+
+<aside class="toc">
+  <div class="toc-title">Ohana <em>Domestic Modernism</em></div>
+  <div class="toc-sub">Full mockup · 23 pantallas</div>
+
+  <div class="toc-group">
+    <div class="toc-h">Sistema</div>
+    <a href="#shell">01 · Shell + navegación (iPad)</a>
+    <a href="#mobile-nav">02 · Bottom nav (móvil)</a>
+    <a href="#onboarding">03 · Onboarding · invitar pareja</a>
+    <a href="#monday">04 · Monday digest (email)</a>
+    <a href="#notif">05 · Centro de notificaciones</a>
+  </div>
+
+  <div class="toc-group">
+    <div class="toc-h">Vistas principales</div>
+    <a href="#calendario">06 · Calendario (iPad)</a>
+    <a href="#resumen">07 · Resumen mensual (iPad)</a>
+  </div>
+
+  <div class="toc-group">
+    <div class="toc-h">Citas</div>
+    <a href="#citas-suggest">08 · Sugerencias semanales</a>
+    <a href="#citas-vote">09 · Votación (móvil)</a>
+    <a href="#citas-ideas">10 · Ideas library</a>
+    <a href="#citas-events">11 · Citas pasadas + ratings</a>
+    <a href="#citas-rate">12 · Calificar cita (móvil)</a>
+  </div>
+
+  <div class="toc-group">
+    <div class="toc-h">Salud emocional</div>
+    <a href="#checkin-form">13 · Checkin · captura (móvil)</a>
+    <a href="#checkin-compare">14 · Checkin · comparativa (iPad)</a>
+    <a href="#mimos-add">15 · Agregar mimo (móvil)</a>
+    <a href="#mimos-session">16 · Sesión Mimos (iPad)</a>
+    <a href="#mimos-archive">17 · Archivo Mimos (iPad)</a>
+  </div>
+
+  <div class="toc-group">
+    <div class="toc-h">Acuerdos · Discusiones · Temas</div>
+    <a href="#acuerdos">18 · Acuerdos · lista</a>
+    <a href="#claude">19 · Pregúntale a Claude</a>
+    <a href="#discusiones">20 · Discusiones</a>
+    <a href="#tema-detail">21 · Tema · detalle + timeline</a>
+  </div>
+
+  <div class="toc-group">
+    <div class="toc-h">Logística</div>
+    <a href="#pagos">22 · Pagos / Gastos</a>
+    <a href="#mant">23 · Mantenimiento</a>
+    <a href="#proyectos">24 · Proyectos · detalle</a>
+    <a href="#viajes">25 · Viajes · wishlist</a>
+    <a href="#salud">26 · SaludSexual</a>
+    <a href="#fechas">27 · Fechas clave</a>
+  </div>
+</aside>
+
+<main class="canvas">
+
+<header class="canvas-header">
+  <div class="canvas-meta">Domestic Modernism · pantallas completas según PRD</div>
+  <h1 class="canvas-title">Ohana, <em>de extremo a extremo</em>.</h1>
+  <p class="canvas-sub">Cada pantalla del producto, en la dirección visual aprobada. iPad para consumo, móvil para captura. El sistema se mantiene coherente a lo largo de los catorce módulos.</p>
+</header>
+
+<!-- ============== 01 SHELL ============== -->
+<section class="screen" id="shell">
+  <div class="screen-h"><span class="screen-num">01</span><h2 class="screen-title">Shell <em>+ navegación</em> (iPad)</h2><span class="screen-device">iPad · landscape</span></div>
+  <p class="screen-desc">El esqueleto. Top bar fijo arriba con hamburguesa que expande/colapsa el sidebar. Sidebar agrupa módulos por intención (rituales, logística, conversación). Estado activo en tinta. Badges en terracotta para pendientes. <strong>Click en ☰ para colapsar el sidebar.</strong></p>
+  <div class="shell-wrapper">
+    <header class="topbar">
+      <button class="hamburger" onclick="this.closest('.shell-wrapper').querySelector('.shell').classList.toggle('collapsed')" title="Mostrar / ocultar navegación">☰</button>
+      <div class="topbar-brand">Ohana</div>
+      <div class="topbar-meta">Alberto y Sofía · 4 años</div>
+      <div class="topbar-actions">
+        <button class="topbar-icon" title="Buscar">⌕</button>
+        <button class="topbar-icon" title="Capturar rápido">＋</button>
+        <button class="topbar-icon" title="Notificaciones">✉<span class="pill-dot"></span></button>
+        <div class="avatar">A</div>
+      </div>
+    </header>
+    <div class="shell">
+    <nav class="nav">
+      <div>
+      <div class="nav-group">
+        <div class="nav-h">Hoy</div>
+        <div class="nav-item active"><span class="ico">▦</span>Calendario</div>
+        <div class="nav-item"><span class="ico">◐</span>Mis pendientes <span class="badge">5</span></div>
+        <div class="nav-item"><span class="ico">✉</span>Notificaciones <span class="badge">2</span></div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-h">Rituales</div>
+        <div class="nav-item"><span class="ico">♡</span>Citas</div>
+        <div class="nav-item"><span class="ico">❋</span>Mimos</div>
+        <div class="nav-item"><span class="ico">⊙</span>Checkin</div>
+        <div class="nav-item"><span class="ico">✦</span>Resumen</div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-h">Conversación</div>
+        <div class="nav-item"><span class="ico">§</span>Acuerdos</div>
+        <div class="nav-item"><span class="ico">⌇</span>Discusiones</div>
+        <div class="nav-item"><span class="ico">◇</span>Temas <span class="badge">3</span></div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-h">Logística</div>
+        <div class="nav-item"><span class="ico">$</span>Pagos</div>
+        <div class="nav-item"><span class="ico">⌂</span>Mantenimiento</div>
+        <div class="nav-item"><span class="ico">▤</span>Proyectos</div>
+        <div class="nav-item"><span class="ico">→</span>Viajes</div>
+        <div class="nav-item"><span class="ico">+</span>Salud sexual</div>
+        <div class="nav-item"><span class="ico">★</span>Fechas clave</div>
+      </div>
+      <div class="nav-foot">
+        <div class="avatar">A</div>
+        <div style="display:flex;flex-direction:column;line-height:1.2"><span style="font-size:13px;font-weight:500">Alberto</span><span class="meta">Configuración</span></div>
+      </div>
+    </nav>
+    <div class="pane">
+      <div class="ipad-bar"><span>CALENDARIO · MAYO 2026</span><span>SEM 19 / 52</span></div>
+      <div class="between" style="margin-bottom:24px">
+        <div>
+          <div class="display">Mayo <em>2026</em></div>
+          <div class="italic-serif" style="margin-top:6px">12 eventos esta semana, 3 pendientes tuyos</div>
+        </div>
+        <div class="btn-row"><button class="btn btn-ghost btn-sm">← Abr</button><button class="btn btn-ghost btn-sm">Hoy</button><button class="btn btn-ghost btn-sm">Jun →</button></div>
+      </div>
+      <div class="cal-wrap">
+        <div class="cal-grid">
+          <div class="cal-dow">L</div><div class="cal-dow">M</div><div class="cal-dow">M</div><div class="cal-dow">J</div><div class="cal-dow">V</div><div class="cal-dow">S</div><div class="cal-dow">D</div>
+          <div class="cal-day muted"><span class="num">28</span></div><div class="cal-day muted"><span class="num">29</span></div><div class="cal-day muted"><span class="num">30</span></div>
+          <div class="cal-day"><span class="num">1</span></div><div class="cal-day"><span class="num">2</span><div class="ev mant">Plantas</div></div><div class="cal-day"><span class="num">3</span></div><div class="cal-day"><span class="num">4</span></div>
+          <div class="cal-day"><span class="num">5</span></div><div class="cal-day"><span class="num">6</span><div class="ev gastos">Internet</div></div><div class="cal-day today"><span class="num">7</span></div><div class="cal-day"><span class="num">8</span></div>
+          <div class="cal-day"><span class="num">9</span><div class="ev citas">La Docena</div></div><div class="cal-day"><span class="num">10</span></div><div class="cal-day"><span class="num">11</span></div>
+          <div class="cal-day"><span class="num">12</span><div class="ev gastos">CFE luz</div></div><div class="cal-day"><span class="num">13</span></div><div class="cal-day"><span class="num">14</span><div class="ev mant">Filtros</div></div><div class="cal-day"><span class="num">15</span></div><div class="cal-day"><span class="num">16</span><div class="ev citas">Cine</div></div><div class="cal-day"><span class="num">17</span></div><div class="cal-day"><span class="num">18</span></div>
+          <div class="cal-day"><span class="num">19</span><div class="ev fechas">Aniversario</div></div><div class="cal-day"><span class="num">20</span></div><div class="cal-day"><span class="num">21</span></div><div class="cal-day"><span class="num">22</span><div class="ev gastos">Renta</div></div><div class="cal-day"><span class="num">23</span><div class="ev viajes">Valle</div></div><div class="cal-day"><span class="num">24</span></div><div class="cal-day"><span class="num">25</span></div>
+          <div class="cal-day"><span class="num">26</span></div><div class="cal-day"><span class="num">27</span></div><div class="cal-day"><span class="num">28</span></div><div class="cal-day"><span class="num">29</span></div><div class="cal-day"><span class="num">30</span></div><div class="cal-day"><span class="num">31</span></div><div class="cal-day session"><span class="num">1</span><div class="ev" style="border-color:var(--accent)">Mimos</div></div>
+        </div>
+        <aside class="stack">
+          <div>
+            <div class="eyebrow">Próximos 14 días</div>
+            <div class="italic-serif">una ventana, no un historial</div>
+          </div>
+          <label class="cbox-row">
+            <input type="checkbox" onchange="this.closest('aside').querySelector('.panel-views').classList.toggle('grouped', this.checked)">
+            <span>Agrupar por categoría</span>
+          </label>
+          <hr class="divider">
+          <div class="panel-views">
+            <div class="view-categorized">
+              <div><span class="eyebrow"><span class="dot citas"></span>Citas</span></div>
+              <div class="between"><span style="font-size:13px">Cena en La Docena</span><span class="meta">9 may</span></div>
+              <div class="between"><span style="font-size:13px">Cine y caminar</span><span class="meta">16 may</span></div>
+              <hr class="divider">
+              <div><span class="eyebrow"><span class="dot gastos"></span>Pagos</span></div>
+              <div class="between"><span style="font-size:13px">CFE luz</span><span class="meta num">$2,400</span></div>
+              <div class="between"><span style="font-size:13px">Renta</span><span class="meta num">$28,500</span></div>
+              <hr class="divider">
+              <div><span class="eyebrow"><span class="dot mant"></span>Mantenimiento</span></div>
+              <div class="between"><span style="font-size:13px">Filtros AC</span><span class="meta">14 may</span></div>
+              <hr class="divider">
+              <div><span class="eyebrow"><span class="dot fechas"></span>Fechas clave</span></div>
+              <div class="between"><span style="font-size:13px">Aniversario · 4 años</span><span class="meta">19 may</span></div>
+            </div>
+            <div class="view-flat">
+              <div class="flat-row"><span class="dot citas"></span><div><div class="flat-name">Cena · La Docena</div><span class="flat-mod">Cita</span></div><span class="flat-meta">vie 9 may</span></div>
+              <div class="flat-row"><span class="dot gastos"></span><div><div class="flat-name">CFE · luz</div><span class="flat-mod">Pago · $2,400</span></div><span class="flat-meta">lun 12 may</span></div>
+              <div class="flat-row"><span class="dot mant"></span><div><div class="flat-name">Filtros AC</div><span class="flat-mod">Mantenimiento</span></div><span class="flat-meta">mié 14 may</span></div>
+              <div class="flat-row"><span class="dot citas"></span><div><div class="flat-name">Cine y caminar</div><span class="flat-mod">Cita</span></div><span class="flat-meta">vie 16 may</span></div>
+              <div class="flat-row"><span class="dot fechas"></span><div><div class="flat-name">Aniversario · 4 años</div><span class="flat-mod">Fecha clave</span></div><span class="flat-meta">lun 19 may</span></div>
+              <div class="flat-row"><span class="dot gastos"></span><div><div class="flat-name">Renta departamento</div><span class="flat-mod">Pago · $28,500</span></div><span class="flat-meta">jue 22 may</span></div>
+              <div class="flat-row"><span class="dot viajes"></span><div><div class="flat-name">Valle de Bravo</div><span class="flat-mod">Viaje · 2 días</span></div><span class="flat-meta">vie 23 may</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ============== 02 MOBILE NAV ============== -->
+<section class="screen" id="mobile-nav">
+  <div class="screen-h"><span class="screen-num">02</span><h2 class="screen-title">Bottom nav <em>(móvil)</em></h2><span class="screen-device">iPhone · 5-tab nav</span></div>
+  <p class="screen-desc">En móvil predominan las tareas de captura. La nav inferior agrupa: Hoy (mis pendientes + checkin), Capturar (mimos / discusiones / accionables), Citas (votar / calificar), Conversar (acuerdos chat), Yo (perfil + ajustes).</p>
+  <div class="mob-grid">
+    <div class="mob">
+      <div class="mob-bar"><span>9:41</span><span>OHANA</span><span>100%</span></div>
+      <div class="eyebrow" style="margin-bottom:8px">Hoy · lunes 4 mayo</div>
+      <div class="display" style="font-size:28px">Buenos días, <em>Alberto</em>.</div>
+      <div class="italic-serif" style="margin:8px 0 16px;font-size:14px">3 pendientes para esta semana, vence tu checkin hoy.</div>
+
+      <div class="card card-icon-row" style="background:var(--accent-soft);border-color:var(--accent);margin-bottom:12px">
+        <div class="card-icon checkin" title="Checkin semanal">⊙</div>
+        <div>
+          <div class="eyebrow" style="color:var(--accent-deep)">Esta semana · vence dom</div>
+          <div class="h1" style="margin-top:6px">Tu checkin semanal</div>
+          <button class="btn btn-accent btn-sm" style="margin-top:10px">Empezar · 2 min</button>
+        </div>
+      </div>
+
+      <div class="card card-icon-row" style="margin-bottom:12px">
+        <div class="card-icon cita" title="Cita de la semana">♡</div>
+        <div>
+          <div class="eyebrow">Vota la cita de la semana</div>
+          <div style="font-size:13px;margin-top:4px">3 propuestas listas. Sofía ya votó.</div>
+          <button class="btn btn-ghost btn-sm" style="margin-top:8px">Ver propuestas</button>
+        </div>
+      </div>
+
+      <div class="card card-icon-row">
+        <div class="card-icon pend" title="Pendientes">◐</div>
+        <div>
+          <div class="eyebrow">Tus pendientes</div>
+          <div class="list-row dense" style="border-bottom:0;padding:8px 0"><span class="check"></span><span class="name"><span class="dot mant"></span>Cambiar filtros AC</span><span class="meta-r">en 3 días</span></div>
+          <div class="list-row dense" style="border-bottom:0;padding:8px 0"><span class="check"></span><span class="name"><span class="dot gastos"></span>Pagar CFE</span><span class="meta-r">12 may · $2,400</span></div>
+          <div class="list-row dense" style="border-bottom:0;padding:8px 0"><span class="check on"></span><span class="name completado"><span class="dot mant"></span>Riego de plantas</span><span class="meta-r">hoy</span></div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="bottom-nav-item active"><span class="ico">⊙</span>Hoy</div>
+        <div class="bottom-nav-item"><span class="ico">＋</span>Capturar</div>
+        <div class="bottom-nav-item"><span class="ico">♡</span>Citas</div>
+        <div class="bottom-nav-item"><span class="ico">§</span>Conversar</div>
+        <div class="bottom-nav-item"><span class="ico">●</span>Yo</div>
+      </div>
+    </div>
+
+    <div class="mob">
+      <div class="mob-bar"><span>9:41</span><span>CAPTURAR</span><span>100%</span></div>
+      <div class="eyebrow" style="margin-bottom:8px">Capturar</div>
+      <div class="display" style="font-size:28px"><em>¿Qué</em> quieres anotar?</div>
+      <div class="italic-serif" style="margin:8px 0 24px;font-size:14px">Lo importante se anota antes de que se olvide.</div>
+
+      <div class="stack">
+        <div class="card" style="display:flex;align-items:center;gap:14px">
+          <div class="card-icon" style="background:var(--mimos)">❋</div>
+          <div style="flex:1"><div class="eyebrow">Mimos</div><div style="font-size:14px;margin-top:4px;font-weight:500">Un detalle de Sofía</div></div>
+          <span style="font-size:24px;color:var(--muted)">›</span>
+        </div>
+        <div class="card" style="display:flex;align-items:center;gap:14px">
+          <div class="card-icon" style="background:var(--discus)">⌇</div>
+          <div style="flex:1"><div class="eyebrow">Discusión</div><div style="font-size:14px;margin-top:4px;font-weight:500">Algo importante que pasó</div></div>
+          <span style="font-size:24px;color:var(--muted)">›</span>
+        </div>
+        <div class="card" style="display:flex;align-items:center;gap:14px">
+          <div class="card-icon" style="background:var(--ink)">◇</div>
+          <div style="flex:1"><div class="eyebrow">Tema</div><div style="font-size:14px;margin-top:4px;font-weight:500">Algo que tenemos que platicar</div></div>
+          <span style="font-size:24px;color:var(--muted)">›</span>
+        </div>
+        <div class="card" style="display:flex;align-items:center;gap:14px">
+          <div class="card-icon" style="background:var(--citas)">♡</div>
+          <div style="flex:1"><div class="eyebrow">Idea de cita</div><div style="font-size:14px;margin-top:4px;font-weight:500">Para la biblioteca de citas</div></div>
+          <span style="font-size:24px;color:var(--muted)">›</span>
+        </div>
+        <div class="card" style="display:flex;align-items:center;gap:14px">
+          <div class="card-icon" style="background:var(--viajes)">→</div>
+          <div style="flex:1"><div class="eyebrow">Lugar para viajar</div><div style="font-size:14px;margin-top:4px;font-weight:500">Wishlist de viajes</div></div>
+          <span style="font-size:24px;color:var(--muted)">›</span>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="bottom-nav-item"><span class="ico">⊙</span>Hoy</div>
+        <div class="bottom-nav-item active"><span class="ico">＋</span>Capturar</div>
+        <div class="bottom-nav-item"><span class="ico">♡</span>Citas</div>
+        <div class="bottom-nav-item"><span class="ico">§</span>Conversar</div>
+        <div class="bottom-nav-item"><span class="ico">●</span>Yo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 03 ONBOARDING ============== -->
+<section class="screen" id="onboarding">
+  <div class="screen-h"><span class="screen-num">03</span><h2 class="screen-title">Onboarding · <em>invitar a tu pareja</em></h2><span class="screen-device">móvil · primer uso</span></div>
+  <p class="screen-desc">Tres pasos: crear cuenta, nombrar el espacio común, invitar a la pareja por email. Toda la historia de la relación se construye después; este flujo es deliberadamente corto.</p>
+  <div class="mob-grid">
+    <div class="mob">
+      <div class="mob-bar"><span>9:41</span><span>OHANA</span><span>100%</span></div>
+      <div class="onboarding-illust">Ohana</div>
+      <div class="display" style="font-size:30px;margin-top:24px">Un espacio para los <em>dos</em>.</div>
+      <p class="italic-serif" style="margin:12px 0 24px;font-size:15px">Citas, acuerdos, mimos, discusiones, calendario compartido. Hecho con cariño y opinión.</p>
+      <button class="btn btn-accent" style="width:100%;justify-content:center;padding:14px">Crear cuenta con email</button>
+      <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:8px;padding:14px">Continuar con Apple</button>
+      <p class="meta" style="text-align:center;margin-top:20px">¿Ya tienes cuenta? <a href="#" style="color:var(--accent)">Iniciar sesión</a></p>
+    </div>
+
+    <div class="mob">
+      <div class="mob-bar"><span>9:41</span><span>PASO 2 / 3</span><span>100%</span></div>
+      <div class="eyebrow">Paso 2 · espacio compartido</div>
+      <div class="display" style="font-size:28px;margin-top:8px">¿Cómo se llama <em>su espacio</em>?</div>
+      <p class="italic-serif" style="margin:12px 0 24px;font-size:14px">Solo lo verán ustedes dos. Pueden cambiarlo después.</p>
+
+      <span class="field-label">Nombre del espacio</span>
+      <input class="field" value="Alberto y Sofía">
+
+      <span class="field-label" style="margin-top:16px">Aniversario</span>
+      <input class="field" value="19 mayo 2022">
+
+      <button class="btn btn-accent" style="width:100%;justify-content:center;padding:14px;margin-top:32px">Continuar</button>
+    </div>
+
+    <div class="mob">
+      <div class="mob-bar"><span>9:41</span><span>PASO 3 / 3</span><span>100%</span></div>
+      <div class="eyebrow">Paso 3 · invita a Sofía</div>
+      <div class="display" style="font-size:28px;margin-top:8px">Tu pareja entra <em>aquí</em>.</div>
+      <p class="italic-serif" style="margin:12px 0 24px;font-size:14px">Le mandamos una invitación por email. Cuando entre, los dos verán todo lo que registren.</p>
+
+      <span class="field-label">Email de tu pareja</span>
+      <input class="field" placeholder="sofia@email.com">
+
+      <div class="card" style="margin-top:16px;background:var(--surface-2);border:0">
+        <div class="eyebrow">Mensaje opcional</div>
+        <div class="italic-serif" style="font-size:14px;margin-top:6px">"Mi amor, te metí a una app que se me hace bonita. Léelo cuando puedas."</div>
+      </div>
+
+      <button class="btn btn-accent" style="width:100%;justify-content:center;padding:14px;margin-top:24px">Enviar invitación</button>
+      <button class="btn-link" style="width:100%;text-align:center;margin-top:8px">Hacer esto después</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 04 MONDAY DIGEST ============== -->
+<section class="screen" id="monday">
+  <div class="screen-h"><span class="screen-num">04</span><h2 class="screen-title">Monday digest <em>(email)</em></h2><span class="screen-device">Postmark · magic-link</span></div>
+  <p class="screen-desc">Una sola atención por semana. Tres bloques: pendientes de la semana, votar las 3 propuestas de cita, llenar checkin. Cada CTA es un magic-link que aterriza autenticado en la pantalla relevante.</p>
+  <div class="email-frame">
+    <div class="email-head">
+      <div><span class="from">Ohana</span> &lt;hola@ohana.app&gt;</div>
+      <div style="margin-top:4px">Para: alberto@kublau.com</div>
+      <div style="margin-top:4px">Asunto: <strong style="color:var(--ink)">Tu lunes en Ohana · semana del 4 de mayo</strong></div>
+    </div>
+    <div class="email-body">
+      <div class="eyebrow" style="color:var(--accent)">Lunes · 04 mayo · semana 19</div>
+      <h1 class="display" style="font-size:36px;margin-top:6px">Buenos días, <em>Alberto</em>.</h1>
+      <p class="italic-serif" style="font-size:16px;margin:12px 0 32px">Aquí va lo de la semana, en orden.</p>
+
+      <h3 class="h2" style="margin-bottom:10px">1 · Tus pendientes esta semana</h3>
+      <div class="list" style="margin-bottom:32px">
+        <div class="list-row dense"><span class="dot mant"></span><span><span class="name">Cambiar filtros AC</span></span><span class="meta-r">vie 9 may</span></div>
+        <div class="list-row dense"><span class="dot gastos"></span><span><span class="name">Pagar CFE</span></span><span class="meta-r">lun 12 may · $2,400</span></div>
+        <div class="list-row dense"><span class="dot citas"></span><span><span class="name">Confirmar reserva La Docena</span></span><span class="meta-r">jue 8 may</span></div>
+      </div>
+
+      <h3 class="h2" style="margin-bottom:10px">2 · Vota la cita de esta semana</h3>
+      <p class="body-s body-mute" style="margin-bottom:14px">Sofía ya votó. Falta tu voto para confirmar.</p>
+      <button class="btn btn-accent" style="margin-bottom:32px">Ver las 3 propuestas →</button>
+
+      <h3 class="h2" style="margin-bottom:10px">3 · Tu checkin semanal</h3>
+      <p class="body-s body-mute" style="margin-bottom:14px">Dos minutos. Reflejas la semana que terminó.</p>
+      <button class="btn">Empezar checkin →</button>
+
+      <hr class="divider" style="margin:48px 0">
+      <p class="meta" style="text-align:center">Estás recibiendo esto porque eres parte del espacio compartido <strong style="color:var(--ink)">Alberto y Sofía</strong>. <a href="#" style="color:var(--accent)">Ajustar notificaciones</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 05 NOTIFICATIONS ============== -->
+<section class="screen" id="notif">
+  <div class="screen-h"><span class="screen-num">05</span><h2 class="screen-title">Centro de <em>notificaciones</em></h2><span class="screen-device">iPad · in-app</span></div>
+  <p class="screen-desc">Inbox unificado de eventos del sistema (notification_events table). No-leídas con fondo cream, leídas en transparente. Agrupadas por día. Filtros por tipo en la parte superior.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>NOTIFICACIONES · 2 SIN LEER</span><span>FILTRAR · TODAS</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display">Notificaciones</div>
+        <div class="italic-serif" style="margin-top:6px">Lo que está pasando en su espacio.</div>
+      </div>
+      <div class="btn-row"><button class="btn btn-ghost btn-sm">Marcar todas leídas</button></div>
+    </div>
+    <div class="tabs">
+      <span class="tab active">Todas <span class="meta">12</span></span>
+      <span class="tab">Citas</span>
+      <span class="tab">Pagos</span>
+      <span class="tab">Mimos</span>
+      <span class="tab">Acuerdos</span>
+      <span class="tab">Sistema</span>
+    </div>
+
+    <div class="eyebrow" style="margin:8px 0">Hoy · lunes 4 mayo</div>
+    <div class="list">
+      <div class="notif-row unread"><div class="notif-icon">♡</div><div class="notif-body"><strong>Sofía votó las propuestas de cita.</strong><br><span class="body-mute">Tu voto desbloquea el consenso. La Docena tiene su voto.</span></div><div class="notif-time">9:14</div></div>
+      <div class="notif-row unread"><div class="notif-icon">⊙</div><div class="notif-body"><strong>Es lunes — tu digest está listo.</strong><br><span class="body-mute">3 pendientes, 3 propuestas para votar, checkin pendiente.</span></div><div class="notif-time">8:00</div></div>
+    </div>
+
+    <div class="eyebrow" style="margin:24px 0 8px">Domingo · 3 mayo</div>
+    <div class="list">
+      <div class="notif-row"><div class="notif-icon">❋</div><div class="notif-body"><strong>Sofía agregó un mimo nuevo.</strong> <span class="pill accent">Sorpresa</span><br><span class="body-mute">Se revela contigo en la sesión del 1 de junio.</span></div><div class="notif-time">19:42</div></div>
+      <div class="notif-row"><div class="notif-icon">§</div><div class="notif-body"><strong>Nuevo comentario en "Acuerdo de fines de semana familiares".</strong><br><span class="body-mute">Sofía: "Funcionó muy bien este sábado."</span></div><div class="notif-time">14:08</div></div>
+    </div>
+
+    <div class="eyebrow" style="margin:24px 0 8px">Sábado · 2 mayo</div>
+    <div class="list">
+      <div class="notif-row"><div class="notif-icon">★</div><div class="notif-body"><strong>Aniversario en 17 días.</strong> <span class="pill warn">Recordatorio</span><br><span class="body-mute">19 de mayo · 4 años. ¿Algo planeado?</span></div><div class="notif-time">9:00</div></div>
+      <div class="notif-row"><div class="notif-icon">+</div><div class="notif-body"><strong>Próxima revisión médica en 7 días.</strong> Asignada a ti y Sofía.<br><span class="body-mute">Estudios agrupados · 11 mayo · Dr. Ramírez</span></div><div class="notif-time">9:00</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 06 CALENDARIO ============== -->
+<section class="screen" id="calendario">
+  <div class="screen-h"><span class="screen-num">06</span><h2 class="screen-title">Calendario · <em>vista mes</em></h2><span class="screen-device">iPad · landscape</span></div>
+  <p class="screen-desc">Ya cubierto en la propuesta inicial. La rejilla del mes con dots por módulo (color desaturado), side panel con ventana fija de 14 días futuros. La sesión de Mimos siempre destacada en accent-soft.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>VISTA MES · MAYO 2026</span><span>SESIÓN MIMOS · 1 JUN</span></div>
+    <p class="italic-serif" style="margin-bottom:8px">Esta pantalla está documentada en la propuesta visual #1 con todo el detalle. La incluyo aquí solo como referencia de la vista canónica del producto.</p>
+    <div style="padding:24px;background:var(--surface);border-radius:var(--r-md);text-align:center">
+      <div class="meta">↑ Ver propuesta #1 — sección 03 · Calendario</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 07 RESUMEN ============== -->
+<section class="screen" id="resumen">
+  <div class="screen-h"><span class="screen-num">07</span><h2 class="screen-title">Resumen mensual · <em>las 4 secciones</em></h2><span class="screen-device">iPad · editorial</span></div>
+  <p class="screen-desc">Las cuatro secciones narrativas que pide el PRD: Conexión, Conflicto, Logística, Intimidad. Drop cap solo en la primera. Stats strip arriba con deltas vs mes anterior. Generado el 1° de cada mes para el mes anterior.</p>
+  <div class="ipad" style="padding:48px 64px">
+    <div class="eyebrow" style="color:var(--accent)">Resumen · Abril 2026 · generado el 1 de mayo</div>
+    <h1 class="display" style="font-size:64px;margin-top:8px">Un mes de <em>presencia</em>.</h1>
+    <p class="italic-serif" style="font-size:22px;margin:8px 0 32px;max-width:36ch">Cuatro citas, doce mimos, una conversación pendiente que ya no lo está.</p>
+
+    <div class="stat-row" style="margin-bottom:32px">
+      <div class="stat"><span class="stat-l">Citas</span><span class="stat-v">4</span><span class="stat-d up">+1 vs mar</span></div>
+      <div class="stat"><span class="stat-l">Mimos</span><span class="stat-v">12</span><span class="stat-d up">+5 vs mar</span></div>
+      <div class="stat"><span class="stat-l">Energía media</span><span class="stat-v">7.4</span><span class="stat-d up">+0.6</span></div>
+      <div class="stat"><span class="stat-l">Discusiones</span><span class="stat-v">1</span><span class="stat-d down">−2 vs mar</span></div>
+    </div>
+
+    <div style="margin-bottom:32px">
+      <div class="eyebrow" style="color:var(--accent);margin-bottom:12px">Conexión</div>
+      <p style="font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.65;max-width:62ch">
+        <span style="font-family:var(--serif);font-weight:500;font-size:64px;line-height:0.85;float:left;padding:6px 10px 0 0;color:var(--accent)">H</span>icieron cuatro citas en abril, una más que en marzo, y las calificaciones promedio subieron de 3.8 a 4.4. La cena en El Califa fue la mejor calificada por ambos. Sofía agregó siete mimos esta vez, casi todos en la categoría de ternura; Alberto agregó cinco, repartidos entre gratitud y diversión.
+      </p>
+    </div>
+
+    <div style="margin-bottom:32px">
+      <div class="eyebrow" style="color:var(--accent);margin-bottom:12px">Conflicto</div>
+      <p style="font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.65;max-width:62ch">Una sola discusión registrada este mes, sobre los tiempos para visitar a la familia. El tema "tiempo con familias" pasó de abierto a resuelto el 22 de abril cuando crearon el acuerdo de alternar fines de semana. Es la tercera vez este año que un tema recurrente se convierte en acuerdo formal.</p>
+    </div>
+
+    <div style="margin-bottom:32px">
+      <div class="eyebrow" style="color:var(--accent);margin-bottom:12px">Logística</div>
+      <p style="font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.65;max-width:62ch">87% de accionables completados en plazo. Dos mantenimientos vencidos al cierre del mes (filtros AC, limpieza balcón). Sin pagos atrasados. El proyecto "renovación cocina" avanzó dos seguimientos: cotizaciones recibidas y selección de carpintero.</p>
+    </div>
+
+    <div>
+      <div class="eyebrow" style="color:var(--accent);margin-bottom:12px">Intimidad</div>
+      <p style="font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.65;max-width:62ch">Dos eventos registrados, una salida. Deseo promedio 6.8, sin cambio significativo respecto al mes anterior. La revisión médica programada para el 11 de junio sigue agendada, estudios agrupados.</p>
+    </div>
+
+    <hr class="divider" style="margin:48px 0">
+    <div class="between">
+      <div class="meta">Generado por Claude · 412 palabras · revisable los dos pueden comentar</div>
+      <button class="btn btn-ghost btn-sm">Imprimir / Guardar PDF</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 08 CITAS SUGGEST ============== -->
+<section class="screen" id="citas-suggest">
+  <div class="screen-h"><span class="screen-num">08</span><h2 class="screen-title">Citas · <em>3 propuestas semanales</em></h2><span class="screen-device">iPad · vista pareja</span></div>
+  <p class="screen-desc">Generadas por Claude cada lunes 7AM con el algoritmo estratificado del PRD. Cada tarjeta marca su tipo (winner / gem / wildcard) y muestra el rationale. Estado de votos abajo: lo que cada uno votó.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>CITAS · SEMANA 19 · 4-10 MAYO</span><span>GENERADO LUN 7 AM · CLAUDE</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display">Esta semana, <em>tres opciones</em>.</div>
+        <div class="italic-serif" style="margin-top:6px">Cada uno vota 2. Cuando coincidan, se vuelve cita.</div>
+      </div>
+      <button class="btn btn-ghost btn-sm">↻ Regenerar</button>
+    </div>
+
+    <div class="row-3">
+      <div class="vote-card picked">
+        <div class="between"><span class="pill accent">Conocida favorita</span><span class="meta">★ 4.6 · 3 veces</span></div>
+        <div class="h1" style="margin-top:6px">Cena en La Docena</div>
+        <div class="italic-serif" style="font-size:14px">Restaurante en Roma Norte. Mariscos. Buena ambient.</div>
+        <div class="vote-attrs"><span class="pill">2-3 horas</span><span class="pill">Media</span><span class="pill">~$1,200</span></div>
+        <p class="vote-rationale">"Lo han calificado 4+ los dos. La última fue hace 4 meses, suficiente para que se sienta como una buena vuelta."</p>
+        <hr class="divider" style="margin:8px 0">
+        <div class="between"><span class="meta">Tú: votada</span><span class="meta">Sofía: votada</span></div>
+      </div>
+
+      <div class="vote-card picked">
+        <div class="between"><span class="pill" style="background:#D8E5CD;color:#3D5C30">Joya escondida</span><span class="meta">★ 4.5 · 1 vez</span></div>
+        <div class="h1" style="margin-top:6px">Picnic en Chapultepec</div>
+        <div class="italic-serif" style="font-size:14px">Parque + pan en Panadería Rosetta + vino. Domingo.</div>
+        <div class="vote-attrs"><span class="pill">3-4 horas</span><span class="pill">Baja</span><span class="pill">~$700</span></div>
+        <p class="vote-rationale">"La calificaron alto pero solo lo hicieron una vez en abril. La temperatura está perfecta esta semana."</p>
+        <hr class="divider" style="margin:8px 0">
+        <div class="between"><span class="meta">Tú: votada</span><span class="meta">Sofía: votada</span></div>
+      </div>
+
+      <div class="vote-card">
+        <div class="between"><span class="pill" style="background:var(--surface-2);color:var(--muted)">Wildcard</span><span class="meta">Nueva</span></div>
+        <div class="h1" style="margin-top:6px">Clase de cerámica en La Roma</div>
+        <div class="italic-serif" style="font-size:14px">Sofía agregó esta idea hace 2 semanas. Estudio Suculenta.</div>
+        <div class="vote-attrs"><span class="pill">2 horas</span><span class="pill">Media</span><span class="pill">~$1,400</span></div>
+        <p class="vote-rationale">"Nunca la han hecho. Es de Sofía. Vale la pena la apuesta."</p>
+        <hr class="divider" style="margin:8px 0">
+        <div class="between"><span class="meta">Tú: —</span><span class="meta">Sofía: —</span></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:24px;padding:28px;text-align:center;background:var(--bg);border:2px solid var(--accent);border-radius:var(--r-md)">
+      <div class="eyebrow" style="color:var(--accent)">Consenso alcanzado</div>
+      <div class="display" style="font-size:28px;margin-top:6px">Cena <em>+</em> Picnic empatadas.</div>
+      <p class="italic-serif" style="font-size:14px;margin:8px 0 18px">Las dos fueron votadas por ambos. La Docena queda como cita oficial; Picnic queda en la lista para la siguiente.</p>
+      <button class="btn">Confirmar fecha · viernes 9</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 09 CITAS VOTE MOBILE ============== -->
+<section class="screen" id="citas-vote">
+  <div class="screen-h"><span class="screen-num">09</span><h2 class="screen-title">Votar la cita <em>(móvil)</em></h2><span class="screen-device">iPhone · llegado del Monday digest</span></div>
+  <p class="screen-desc">Pantalla de captura. Tarjetas swipeables. Pickea 2 de 3. Estado del partner oculto hasta votar (anti-anchoring, igual que el checkin).</p>
+  <div class="mob-grid">
+    <div class="mob">
+      <div class="mob-bar"><span>9:41</span><span>VOTAR · SEM 19</span><span>1 / 3</span></div>
+      <div class="eyebrow">Vota 2 de 3 · semana 4-10 mayo</div>
+      <div class="display" style="font-size:24px;margin-top:6px">Marca las que <em>te emocionen</em>.</div>
+      <p class="italic-serif" style="font-size:14px;margin:8px 0 20px">Sofía ya votó. Verás su voto cuando termines.</p>
+
+      <div class="vote-card picked" style="margin-bottom:12px">
+        <div class="between"><span class="pill accent">Conocida favorita</span><span class="check on"></span></div>
+        <div class="h1" style="margin-top:6px;font-size:18px">Cena en La Docena</div>
+        <div class="italic-serif" style="font-size:13px">Mariscos · Roma · 4.6★ promedio</div>
+        <p class="vote-rationale" style="font-size:12px">"Calificación alta, última hace 4 meses."</p>
+      </div>
+
+      <div class="vote-card picked" style="margin-bottom:12px">
+        <div class="between"><span class="pill" style="background:#D8E5CD;color:#3D5C30">Joya escondida</span><span class="check on"></span></div>
+        <div class="h1" style="margin-top:6px;font-size:18px">Picnic en Chapultepec</div>
+        <div class="italic-serif" style="font-size:13px">Pan + vino · domingo · 4.5★</div>
+        <p class="vote-rationale" style="font-size:12px">"Solo la han hecho una vez. Vale la repetición."</p>
+      </div>
+
+      <div class="vote-card" style="margin-bottom:12px">
+        <div class="between"><span class="pill" style="background:var(--surface-2);color:var(--muted)">Wildcard</span><span class="check"></span></div>
+        <div class="h1" style="margin-top:6px;font-size:18px">Clase de cerámica</div>
+        <div class="italic-serif" style="font-size:13px">Idea de Sofía · La Roma · ~$1,400</div>
+        <p class="vote-rationale" style="font-size:12px">"Nunca la han hecho. Es nueva."</p>
+      </div>
+
+      <button class="btn btn-accent" style="width:100%;justify-content:center;padding:14px">Enviar mis 2 votos</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 10 CITAS IDEAS ============== -->
+<section class="screen" id="citas-ideas">
+  <div class="screen-h"><span class="screen-num">10</span><h2 class="screen-title">Citas · <em>biblioteca de ideas</em></h2><span class="screen-device">iPad · CRUD compartido</span></div>
+  <p class="screen-desc">Persistente. Ambos pueden agregar, editar, archivar. Filtros: complejidad, presupuesto, quién la prefiere, veces ejecutada. Ordenable por calificación promedio.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>CITAS · BIBLIOTECA</span><span>32 IDEAS · 4 ARCHIVADAS</span></div>
+    <div class="between" style="margin-bottom:16px">
+      <div>
+        <div class="display">Ideas de <em>citas</em></div>
+        <div class="italic-serif" style="margin-top:6px">Lo que cualquiera de los dos quiere hacer alguna vez.</div>
+      </div>
+      <button class="btn btn-accent btn-sm">+ Nueva idea</button>
+    </div>
+
+    <div class="tabs">
+      <span class="tab active">Activas <span class="meta">28</span></span>
+      <span class="tab">Más calificadas</span>
+      <span class="tab">Nunca ejecutadas</span>
+      <span class="tab">Archivadas</span>
+    </div>
+
+    <div class="row-2" style="gap:16px">
+      <div class="list">
+        <div class="list-row"><span class="dot citas"></span><div><span class="name">Cena en La Docena</span><div class="meta">2-3h · media · ~$1,200 · Roma</div></div><div style="text-align:right"><div class="meta">★ 4.6</div><div class="meta">3 veces</div></div></div>
+        <div class="list-row"><span class="dot citas"></span><div><span class="name">Picnic en Chapultepec</span><div class="meta">3-4h · baja · ~$700</div></div><div style="text-align:right"><div class="meta">★ 4.5</div><div class="meta">1 vez</div></div></div>
+        <div class="list-row"><span class="dot citas"></span><div><span class="name">Cine + cena</span><div class="meta">3-4h · baja · ~$900</div></div><div style="text-align:right"><div class="meta">★ 4.2</div><div class="meta">8 veces</div></div></div>
+        <div class="list-row"><span class="dot citas"></span><div><span class="name">Concierto en Foro Indie</span><div class="meta">4-5h · alta · ~$2,000</div></div><div style="text-align:right"><div class="meta">★ 4.8</div><div class="meta">2 veces</div></div></div>
+        <div class="list-row"><span class="dot citas"></span><div><span class="name">Caminata Coyoacán + café</span><div class="meta">2-3h · baja · ~$400</div></div><div style="text-align:right"><div class="meta">★ 4.4</div><div class="meta">5 veces</div></div></div>
+      </div>
+
+      <div class="list">
+        <div class="list-row"><span class="dot citas"></span><div><span class="name">Clase de cerámica · Sofía</span><div class="meta">2h · media · ~$1,400 · Roma</div></div><div style="text-align:right"><div class="meta">—</div><div class="meta">nunca</div></div></div>
+        <div class="list-row"><span class="dot citas"></span><div><span class="name">Brunch · Lardo</span><div class="meta">2h · media · ~$1,000 · Condesa</div></div><div style="text-align:right"><div class="meta">★ 4.0</div><div class="meta">2 veces</div></div></div>
+        <div class="list-row"><span class="dot citas"></span><div><span class="name">Lucha libre · Arena México</span><div class="meta">3h · media · ~$800 · Alberto</div></div><div style="text-align:right"><div class="meta">★ 4.1</div><div class="meta">1 vez</div></div></div>
+        <div class="list-row"><span class="dot citas"></span><div><span class="name">Noche de juegos en casa</span><div class="meta">3h · baja · ~$200</div></div><div style="text-align:right"><div class="meta">★ 4.3</div><div class="meta">12 veces</div></div></div>
+        <div class="list-row"><span class="dot citas"></span><div><span class="name">Día en CDMX como turistas</span><div class="meta">8h · alta · ~$1,800</div></div><div style="text-align:right"><div class="meta">—</div><div class="meta">nunca</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 11 CITAS EVENTS ============== -->
+<section class="screen" id="citas-events">
+  <div class="screen-h"><span class="screen-num">11</span><h2 class="screen-title">Citas · <em>historial + calificaciones</em></h2><span class="screen-device">iPad · timeline</span></div>
+  <p class="screen-desc">Lista de citas pasadas con su rating. Cuando los dos ya calificaron se ve el promedio + las notas individuales. Si uno aún no califica, su lado aparece en placeholder.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>CITAS · HISTORIAL</span><span>2026 · 14 CITAS HASTA HOY</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div><div class="display">Lo que <em>han hecho</em>.</div></div>
+      <div class="btn-row"><button class="btn btn-ghost btn-sm">Filtrar · año</button></div>
+    </div>
+
+    <div class="stack">
+      <div class="card">
+        <div class="between"><div><span class="eyebrow"><span class="dot citas"></span>vie 25 abril · 2026</span><div class="h1" style="margin-top:4px">Cena en El Califa</div></div><div style="text-align:right"><div class="meta" style="font-size:13px">★ 4.5 promedio</div></div></div>
+        <hr class="divider">
+        <div class="row-2">
+          <div><div class="eyebrow">Tú · 5 de 5</div><div class="italic-serif" style="font-size:14px;margin-top:6px">"Las quesadillas estaban brutales y la conversación fluyó. Nos reímos mucho del mesero."</div></div>
+          <div><div class="eyebrow">Sofía · 4 de 5</div><div class="italic-serif" style="font-size:14px;margin-top:6px">"Muy rica la cena. Sentí que llegamos un poco tarde, pero relajado."</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="between"><div><span class="eyebrow"><span class="dot citas"></span>dom 13 abril · 2026</span><div class="h1" style="margin-top:4px">Caminata Coyoacán + café Avellaneda</div></div><div style="text-align:right"><div class="meta" style="font-size:13px">★ 4.5 promedio</div></div></div>
+        <hr class="divider">
+        <div class="row-2">
+          <div><div class="eyebrow">Tú · 4 de 5</div><div class="italic-serif" style="font-size:14px;margin-top:6px">"Buena caminata. Hacía calor."</div></div>
+          <div><div class="eyebrow">Sofía · 5 de 5</div><div class="italic-serif" style="font-size:14px;margin-top:6px">"Me encantó la calma. El café estaba perfecto."</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="border-style:dashed;border-color:var(--accent)">
+        <div class="between"><div><span class="eyebrow" style="color:var(--accent)"><span class="dot citas"></span>sáb 5 abril · 2026 · pendiente calificar</span><div class="h1" style="margin-top:4px">Concierto Sabino · Foro Indie</div></div><div><button class="btn btn-accent btn-sm">Calificar →</button></div></div>
+        <hr class="divider">
+        <div class="row-2">
+          <div><div class="eyebrow">Tú</div><div class="italic-serif body-mute" style="font-size:14px;margin-top:6px">"Aún no calificas."</div></div>
+          <div><div class="eyebrow">Sofía · ya calificó</div><div class="italic-serif body-mute" style="font-size:14px;margin-top:6px">"Visible cuando ambos hayan calificado."</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 12 CITAS RATE MOBILE ============== -->
+<section class="screen" id="citas-rate">
+  <div class="screen-h"><span class="screen-num">12</span><h2 class="screen-title">Calificar cita <em>(móvil)</em></h2><span class="screen-device">24h después del evento</span></div>
+  <p class="screen-desc">Notificación push 24h después de la fecha. Se califica de 1 a 5 + nota opcional. La calificación de la pareja queda oculta hasta que ambos califican.</p>
+  <div class="mob-grid">
+    <div class="mob">
+      <div class="mob-bar"><span>9:41</span><span>CITA · 24H DESPUÉS</span><span>100%</span></div>
+      <div class="eyebrow">¿Cómo estuvo el sábado?</div>
+      <div class="display" style="font-size:26px;margin-top:6px">Concierto <em>Sabino</em>.</div>
+      <p class="italic-serif" style="font-size:14px;margin:8px 0 24px">Foro Indie · sábado 5 abril · ~$2,200</p>
+
+      <span class="field-label">Tu calificación · 1 a 5</span>
+      <div style="display:flex;gap:8px;margin-bottom:24px">
+        <div class="check" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:18px;font-family:var(--mono)">1</div>
+        <div class="check" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:18px;font-family:var(--mono)">2</div>
+        <div class="check" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:18px;font-family:var(--mono)">3</div>
+        <div class="check" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:18px;font-family:var(--mono)">4</div>
+        <div class="check on" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:18px;font-family:var(--mono);color:white">5</div>
+      </div>
+
+      <span class="field-label">Notas (opcional)</span>
+      <div class="field placeholder">Lo mejor del concierto fue cuando…</div>
+
+      <div class="card" style="background:var(--surface-2);border:0;margin-top:16px;padding:14px">
+        <div class="meta">Sofía ya calificó. Verás su nota cuando envíes la tuya.</div>
+      </div>
+
+      <button class="btn btn-accent" style="width:100%;justify-content:center;padding:14px;margin-top:24px">Enviar calificación</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 13 CHECKIN FORM ============== -->
+<section class="screen" id="checkin-form">
+  <div class="screen-h"><span class="screen-num">13</span><h2 class="screen-title">Checkin semanal · <em>captura</em></h2><span class="screen-device">móvil · domingo / lunes</span></div>
+  <p class="screen-desc">Ya cubierto en la propuesta inicial — captura mobile-first, dos minutos, anti-anchoring (la respuesta del partner se oculta hasta que ambos envían).</p>
+  <p class="meta">↑ Ver propuesta #1 — sección 05 · Captura móvil</p>
+</section>
+
+<!-- ============== 14 CHECKIN COMPARE ============== -->
+<section class="screen" id="checkin-compare">
+  <div class="screen-h"><span class="screen-num">14</span><h2 class="screen-title">Checkin · <em>comparativa post-revelación</em></h2><span class="screen-device">iPad · lado a lado</span></div>
+  <p class="screen-desc">Cuando ambos partners enviaron, se desbloquea esta vista. Side-by-side de la semana actual + tendencia week-over-week (el chart que pide el PRD). Comentarios al final, threaded.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>CHECKIN · SEM 19 · 4 MAYO</span><span>AMBOS COMPLETADOS · DESBLOQUEADO 11:42</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display">Semana <em>19</em>.</div>
+        <div class="italic-serif" style="margin-top:6px">Los dos cerraron. Ya pueden verlo.</div>
+      </div>
+      <div class="btn-row"><button class="btn btn-ghost btn-sm">Ver historial</button></div>
+    </div>
+
+    <div class="row-2">
+      <div class="card">
+        <div class="eyebrow">Alberto · enviado dom 11:38</div>
+        <div class="h1" style="margin-top:8px">🙂 Neutral · energía 7</div>
+        <div class="meta" style="margin-top:4px">Deseo 6 · Presión laboral mediana</div>
+        <hr class="divider">
+        <p class="italic-serif" style="font-size:15px;line-height:1.6">"Esta semana sentí que estuvimos muy presentes, sobre todo el sábado. La presión bajó después del miércoles y eso ayudó. Me quedé pensando en lo del viaje a Oaxaca que mencionaste."</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Sofía · enviado dom 11:14</div>
+        <div class="h1" style="margin-top:8px">😄 Feliz · energía 8</div>
+        <div class="meta" style="margin-top:4px">Deseo 7 · Presión laboral baja</div>
+        <hr class="divider">
+        <p class="italic-serif" style="font-size:15px;line-height:1.6">"Buena semana. La caminata del domingo me reseteo. Quiero que adelantemos el viaje a Oaxaca, antes de la temporada de lluvias."</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="eyebrow">Tendencia · últimas 8 semanas</div>
+      <div class="h2" style="margin-top:6px">Energía media: tú 7.0 · Sofía 7.8</div>
+      <div class="bars" style="margin-top:16px">
+        <div class="bar" style="height:60%"></div><div class="bar" style="height:50%"></div><div class="bar" style="height:75%"></div><div class="bar" style="height:65%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:60%"></div><div class="bar" style="height:80%"></div><div class="bar" style="height:70%;background:var(--accent)"></div>
+      </div>
+      <div class="bar-labels"><span>S12</span><span>S13</span><span>S14</span><span>S15</span><span>S16</span><span>S17</span><span>S18</span><span>S19</span></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="eyebrow">Conversación sobre esta semana</div>
+      <div style="padding-top:12px">
+        <div style="margin-bottom:14px"><div class="meta">Sofía · 11:45</div><div style="font-size:14px;margin-top:4px">"Coincidimos en lo del viaje. ¿Lo platicamos hoy en la tarde?"</div></div>
+        <div><div class="meta">Tú · 11:48</div><div style="font-size:14px;margin-top:4px">"Va. Estoy en una llamada hasta las 5."</div></div>
+      </div>
+      <input class="field" placeholder="Escribe un comentario…" style="margin-top:14px">
+    </div>
+  </div>
+</section>
+
+<!-- ============== 15 MIMOS ADD ============== -->
+<section class="screen" id="mimos-add">
+  <div class="screen-h"><span class="screen-num">15</span><h2 class="screen-title">Agregar mimo <em>(móvil)</em></h2><span class="screen-device">captura · privada hasta sesión</span></div>
+  <p class="screen-desc">Modelo de sorpresa: quien lo escribe lo guarda en su lado. Se revela junto en la sesión mensual. Cámara directa para foto opcional. Tagging de emoción.</p>
+  <div class="mob-grid">
+    <div class="mob">
+      <div class="mob-bar"><span>9:41</span><span>NUEVO MIMO</span><span>PRIVADO</span></div>
+      <div class="eyebrow"><span class="dot mimos"></span>Mimo para Sofía</div>
+      <div class="display" style="font-size:26px;margin-top:6px">Anota un <em>detalle</em>.</div>
+      <p class="italic-serif" style="font-size:14px;margin:8px 0 20px">Lo verá en la sesión del 1 de junio. Hasta entonces, es tuyo.</p>
+
+      <span class="field-label">Título</span>
+      <input class="field" value="El café del miércoles, sin que lo pidiera">
+
+      <span class="field-label" style="margin-top:16px">Cuéntalo</span>
+      <div class="field" style="min-height:110px;font-family:var(--serif);font-size:15px;line-height:1.5">Estabas concentrado escribiendo y simplemente apareció en la mesa. No dijiste nada, no esperaste un gracias…</div>
+
+      <span class="field-label" style="margin-top:16px">¿Qué emoción?</span>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px">
+        <div class="pill" style="text-align:center;padding:8px 4px;cursor:pointer">Gratitud</div>
+        <div class="pill accent" style="text-align:center;padding:8px 4px">Ternura</div>
+        <div class="pill" style="text-align:center;padding:8px 4px">Admiración</div>
+        <div class="pill" style="text-align:center;padding:8px 4px">Orgullo</div>
+        <div class="pill" style="text-align:center;padding:8px 4px">Diversión</div>
+        <div class="pill" style="text-align:center;padding:8px 4px">Deseo</div>
+        <div class="pill" style="text-align:center;padding:8px 4px">Paz</div>
+      </div>
+
+      <span class="field-label">Foto (opcional)</span>
+      <div class="card-ghost" style="padding:32px;text-align:center;font-family:var(--serif);font-style:italic;color:var(--muted)">+ Agregar foto</div>
+
+      <button class="btn btn-accent" style="width:100%;justify-content:center;padding:14px;margin-top:24px">Guardar mimo</button>
+      <p class="meta" style="text-align:center;margin-top:12px">Has agregado 3 este mes. Sesión: 1 junio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 16 MIMOS SESSION ============== -->
+<section class="screen" id="mimos-session">
+  <div class="screen-h"><span class="screen-num">16</span><h2 class="screen-title">Sesión de <em>Mimos</em></h2><span class="screen-device">iPad compartido · presencial</span></div>
+  <p class="screen-desc">El momento ritual. Una tarjeta a la vez, alternando autores. La animación es la única motion expresiva del producto: card-flip lento, 600ms, con beat entre tarjetas. Reacción opcional al final.</p>
+  <div class="ipad" style="background:linear-gradient(180deg,var(--accent-soft) 0%,var(--surface) 60%);padding:48px">
+    <div class="between" style="margin-bottom:32px">
+      <div>
+        <div class="eyebrow" style="color:var(--accent-deep)">Sesión Mimos · domingo 1 junio · 19:14</div>
+        <div class="display" style="margin-top:6px">Lo que <em>se acumuló</em>.</div>
+      </div>
+      <div class="meta">Mimo 4 de 7 · 3 más</div>
+    </div>
+
+    <div style="display:flex;justify-content:center;padding:32px 0">
+      <div class="session-card">
+        <div class="eyebrow" style="color:var(--accent)">Ternura · de Sofía · 23 abril</div>
+        <div class="display" style="margin-top:8px;font-style:italic;font-weight:300">El café del miércoles, sin que lo pidiera.</div>
+        <p class="italic-serif" style="font-size:17px;margin:20px 0;line-height:1.7;color:var(--ink)">Estabas concentrado escribiendo y simplemente apareció en la mesa. No dijiste nada, no esperaste un gracias, ni siquiera te paraste a verificar si lo había visto. Esos pequeños actos sin performance son los que más me llegan.</p>
+        <hr class="divider">
+        <div class="between"><span class="meta">Sofía → Alberto</span><div class="btn-row"><button class="btn btn-ghost btn-sm">❤︎</button><button class="btn btn-ghost btn-sm">Comentar</button></div></div>
+      </div>
+    </div>
+
+    <div class="between" style="margin-top:32px">
+      <button class="btn btn-ghost">← Anterior</button>
+      <div class="meta">Tú · 3 mimos · Sofía · 4 mimos</div>
+      <button class="btn btn-accent">Siguiente →</button>
+    </div>
+
+    <div class="card" style="margin-top:24px;background:transparent;border-color:var(--accent);text-align:center;padding:20px">
+      <div class="meta" style="color:var(--accent-deep)">Próximamente · al terminar la sesión</div>
+      <p class="italic-serif" style="font-size:15px;margin-top:6px">Los 7 mimos quedan archivados, ordenables por mes, autor o emoción. Pueden volver a leerlos cuando quieran.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 17 MIMOS ARCHIVE ============== -->
+<section class="screen" id="mimos-archive">
+  <div class="screen-h"><span class="screen-num">17</span><h2 class="screen-title">Archivo de <em>Mimos</em></h2><span class="screen-device">iPad · ya revelados</span></div>
+  <p class="screen-desc">Solo accesible después de la sesión correspondiente. Filtrable por mes, autor, emoción. Vista timeline con tarjetas reducidas. Los del mes en curso siguen ocultos hasta su sesión.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>MIMOS · ARCHIVO</span><span>87 MIMOS · 14 SESIONES</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display">Lo que se han <em>dicho</em>.</div>
+        <div class="italic-serif" style="margin-top:6px">87 mimos en 14 meses. Tú: 41. Sofía: 46.</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost btn-sm">Por mes</button>
+        <button class="btn btn-ghost btn-sm">Por emoción</button>
+        <button class="btn btn-ghost btn-sm">Por autor</button>
+      </div>
+    </div>
+
+    <div class="card-warm" style="margin-bottom:24px">
+      <div class="eyebrow" style="color:var(--accent-deep)">Mes actual · oculto hasta el 1 junio</div>
+      <div class="h1" style="margin-top:6px">3 + 4 mimos en proceso</div>
+      <p class="italic-serif" style="font-size:14px;margin-top:6px">Tú has agregado 3, Sofía 4. Se revelan juntos.</p>
+    </div>
+
+    <div class="eyebrow" style="margin-bottom:8px">Mayo 2026 · sesión 1 de mayo · 7 mimos</div>
+    <div class="row-3" style="margin-bottom:24px">
+      <div class="card"><div class="eyebrow" style="color:var(--accent)">Ternura · Sofía</div><div class="h1" style="margin-top:4px;font-size:17px;font-style:italic;font-weight:300">El café del miércoles, sin que lo pidiera.</div><div class="meta" style="margin-top:8px">23 abril</div></div>
+      <div class="card"><div class="eyebrow" style="color:var(--accent)">Diversión · Alberto</div><div class="h1" style="margin-top:4px;font-size:17px;font-style:italic;font-weight:300">Tu cara cuando se cayó la lámpara.</div><div class="meta" style="margin-top:8px">19 abril</div></div>
+      <div class="card"><div class="eyebrow" style="color:var(--accent)">Gratitud · Sofía</div><div class="h1" style="margin-top:4px;font-size:17px;font-style:italic;font-weight:300">Llamaste tú al plomero.</div><div class="meta" style="margin-top:8px">14 abril</div></div>
+    </div>
+
+    <div class="eyebrow" style="margin-bottom:8px">Abril 2026 · sesión 1 abril · 5 mimos</div>
+    <div class="row-3">
+      <div class="card"><div class="eyebrow" style="color:var(--accent)">Admiración · Alberto</div><div class="h1" style="margin-top:4px;font-size:17px;font-style:italic;font-weight:300">Cómo manejaste lo de tu jefe.</div><div class="meta" style="margin-top:8px">28 marzo</div></div>
+      <div class="card"><div class="eyebrow" style="color:var(--accent)">Paz · Sofía</div><div class="h1" style="margin-top:4px;font-size:17px;font-style:italic;font-weight:300">El silencio del domingo.</div><div class="meta" style="margin-top:8px">22 marzo</div></div>
+      <div class="card"><div class="eyebrow" style="color:var(--accent)">Orgullo · Alberto</div><div class="h1" style="margin-top:4px;font-size:17px;font-style:italic;font-weight:300">Cuando hablaste fuerte por nosotros.</div><div class="meta" style="margin-top:8px">15 marzo</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 18 ACUERDOS LIST ============== -->
+<section class="screen" id="acuerdos">
+  <div class="screen-h"><span class="screen-num">18</span><h2 class="screen-title">Acuerdos · <em>lista</em></h2><span class="screen-device">iPad · agrupado por categoría</span></div>
+  <p class="screen-desc">Categorías del PRD: comunicación, dinero, familia, tiempo, intimidad, hogar, otros. Cada acuerdo muestra su origen (creado de cero, o resuelto desde un tema). Botón fijo para Pregúntale a Claude.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>ACUERDOS · 23 ACTIVOS</span><span>CREADOS DESDE 19 MAY 2022</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display">Sus <em>acuerdos</em>.</div>
+        <div class="italic-serif" style="margin-top:6px">Lo que decidieron juntos. Vivos, no escritos en piedra.</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-accent btn-sm">+ Nuevo acuerdo</button>
+        <button class="btn">§ Pregúntale a Claude</button>
+      </div>
+    </div>
+
+    <div class="row-2" style="gap:16px">
+      <div>
+        <div class="eyebrow" style="margin-bottom:8px">Tiempo · 5 acuerdos</div>
+        <div class="list" style="margin-bottom:16px">
+          <div class="list-row"><span class="dot" style="background:var(--ink)"></span><div><span class="name">Fines de semana familiares alternados</span><div class="meta">Resuelto desde tema · 22 abr · 2 comentarios</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+          <div class="list-row"><span class="dot" style="background:var(--ink)"></span><div><span class="name">Una noche libre para cada uno por semana</span><div class="meta">Creado · 12 mar · 4 comentarios</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+          <div class="list-row"><span class="dot" style="background:var(--ink)"></span><div><span class="name">Avisar si llegamos después de las 21:00</span><div class="meta">Creado · 8 feb</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+        </div>
+
+        <div class="eyebrow" style="margin-bottom:8px">Dinero · 4 acuerdos</div>
+        <div class="list">
+          <div class="list-row"><span class="dot" style="background:var(--gastos)"></span><div><span class="name">Compras &gt; $5,000 se consultan</span><div class="meta">Creado · 4 ene · 1 comentario</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+          <div class="list-row"><span class="dot" style="background:var(--gastos)"></span><div><span class="name">Cada uno aporta 50% de gastos compartidos</span><div class="meta">Creado · 19 may 2022</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="eyebrow" style="margin-bottom:8px">Comunicación · 6 acuerdos</div>
+        <div class="list" style="margin-bottom:16px">
+          <div class="list-row"><span class="dot" style="background:var(--discus)"></span><div><span class="name">Cuando uno escala, el otro respira</span><div class="meta">Resuelto desde tema · 15 feb</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+          <div class="list-row"><span class="dot" style="background:var(--discus)"></span><div><span class="name">No discutir antes de dormir</span><div class="meta">Creado · 8 ene · 5 comentarios</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+          <div class="list-row"><span class="dot" style="background:var(--discus)"></span><div><span class="name">Decir las cosas en el momento, no acumular</span><div class="meta">Creado · 19 oct 2025</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+        </div>
+
+        <div class="eyebrow" style="margin-bottom:8px">Hogar · 3 acuerdos</div>
+        <div class="list">
+          <div class="list-row"><span class="dot mant"></span><div><span class="name">Quien cocina no lava</span><div class="meta">Creado · 24 jul 2025</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+          <div class="list-row"><span class="dot mant"></span><div><span class="name">Camas tendidas antes de salir</span><div class="meta">Creado · 8 mar 2025</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 19 PREGÚNTALE A CLAUDE ============== -->
+<section class="screen" id="claude">
+  <div class="screen-h"><span class="screen-num">19</span><h2 class="screen-title">Pregúntale a <em>Claude</em></h2><span class="screen-device">iPad · feature insignia del módulo</span></div>
+  <p class="screen-desc">Búsqueda semántica + análisis. Output estructurado: verdict (no concern / talk first / violation / ambiguous), acuerdos relevantes, recomendación. La interfaz es chat pero las respuestas son tarjetas.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>ACUERDOS · PREGÚNTALE A CLAUDE</span><span>CONTEXT: 23 ACUERDOS</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display">Pregunta <em>antes</em> de hacer.</div>
+        <div class="italic-serif" style="margin-top:6px">Claude lee sus acuerdos y te dice si algo se cruza con uno.</div>
+      </div>
+    </div>
+
+    <div class="chat" style="margin:0 auto">
+      <div class="bubble user">Si me voy de fin de semana solo con mis primos a Valle, sin avisar antes, ¿rompe algún acuerdo?</div>
+
+      <div class="bubble ai">
+        <span class="verdict talk-first">Hablar primero</span>
+        <p style="margin-bottom:12px"><strong>Probablemente sí cruza dos acuerdos:</strong></p>
+        <div style="background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:8px">
+          <div class="eyebrow"><span class="dot" style="background:var(--ink)"></span>Tiempo</div>
+          <div style="font-weight:600;font-size:13px;margin-top:2px">"Avisar si llegamos después de las 21:00"</div>
+          <div class="italic-serif" style="font-size:12px;margin-top:4px">Un fin de semana entero excede el espíritu de avisar tarde llegadas. El acuerdo es sobre transparencia de horarios.</div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:12px">
+          <div class="eyebrow"><span class="dot" style="background:var(--ink)"></span>Tiempo</div>
+          <div style="font-weight:600;font-size:13px;margin-top:2px">"Una noche libre para cada uno por semana"</div>
+          <div class="italic-serif" style="font-size:12px;margin-top:4px">Una noche acordada; un fin de semana es más. Ahí no llegamos a un acuerdo claro todavía.</div>
+        </div>
+        <p style="font-size:14px"><strong>Recomendación:</strong> mejor avísale a Sofía antes y verifiquen que no haya algo planeado. Pueden aprovechar para crear un acuerdo nuevo sobre escapadas más largas.</p>
+      </div>
+
+      <div class="bubble user">¿Y si solo voy una noche y aviso con un día de anticipación?</div>
+
+      <div class="bubble ai">
+        <span class="verdict no-concern">Sin conflicto</span>
+        <p style="font-size:14px;margin-bottom:8px"><strong>No cruza ningún acuerdo</strong> con la información que tienen.</p>
+        <p style="font-size:14px">Una noche con aviso previo cae dentro de "una noche libre por semana" y satisface "avisar si llegamos tarde". Adelante.</p>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+        <input class="field" placeholder="Pregunta otro escenario…">
+        <button class="btn btn-accent btn-sm">Enviar</button>
+      </div>
+      <p class="meta" style="text-align:center;margin-top:8px">Las preguntas son privadas. Sofía no las ve a menos que tú las compartas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 20 DISCUSIONES ============== -->
+<section class="screen" id="discusiones">
+  <div class="screen-h"><span class="screen-num">20</span><h2 class="screen-title">Discusiones · <em>captura sin culpa</em></h2><span class="screen-device">iPad · forma + lista</span></div>
+  <p class="screen-desc">Campos del PRD: nombre del evento, contexto causante (no "culpa"), qué aprendimos, tema relacionado. Ambos pueden editar y agregar a la entrada con el tiempo. Lista a la izquierda, detalle/forma a la derecha.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>DISCUSIONES · 8 EN 2026</span><span>−2 VS Q1</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display">Lo que <em>aprendieron</em>.</div>
+        <div class="italic-serif" style="margin-top:6px">No es un registro de quién tuvo razón. Es un registro de qué hicieron con el desencuentro.</div>
+      </div>
+      <button class="btn btn-accent btn-sm">+ Nueva discusión</button>
+    </div>
+
+    <div class="row-2" style="gap:24px">
+      <div class="list">
+        <div class="list-row"><span class="dot discus"></span><div><span class="name">Discusión sobre tiempos con familias</span><div class="meta">22 abril · resuelta en acuerdo</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+        <div class="list-row"><span class="dot discus"></span><div><span class="name">Pelea por presupuesto de viaje</span><div class="meta">8 marzo · 3 lecciones</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+        <div class="list-row"><span class="dot discus"></span><div><span class="name">Tensión por fin de año en casa</span><div class="meta">28 dic 2025 · vinculada a tema "familias"</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+        <div class="list-row"><span class="dot discus"></span><div><span class="name">Comentario en cena con sus papás</span><div class="meta">14 nov 2025</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+      </div>
+
+      <div class="card">
+        <div class="eyebrow"><span class="dot discus"></span>Discusión · 22 abril</div>
+        <div class="display" style="font-size:24px;margin-top:6px">Discusión sobre <em>tiempos con familias</em>.</div>
+        <p class="italic-serif" style="font-size:14px;margin:6px 0 16px">Creada por Sofía. Ambos editaron 3 veces.</p>
+
+        <span class="field-label">Resumen</span>
+        <p class="body-s" style="margin-bottom:12px">Discutimos durante 40 minutos cuántos fines de semana al mes íbamos a casa de cada familia. Se subió de tono cuando salió el tema de Navidad.</p>
+
+        <span class="field-label">Contexto causante</span>
+        <p class="body-s" style="margin-bottom:12px">El día había sido pesado en el trabajo para los dos. Llegamos tarde a cenar, ya cansados. Mi mamá había llamado a Alberto preguntando por nosotros para el sábado siguiente. Eso destapó el tema sin que estuviéramos preparados.</p>
+
+        <span class="field-label">Qué aprendimos</span>
+        <p class="body-s" style="margin-bottom:12px">1. Los temas familiares no se tocan los miércoles a las 10 PM cansados.<br>2. Necesitamos un acuerdo claro de cómo distribuimos fines de semana.<br>3. Cuando uno escala, el otro tiene que respirar antes de responder.</p>
+
+        <hr class="divider">
+        <div class="between"><span class="pill success">Resuelto en acuerdo</span><span class="meta">Acuerdo creado: "Fines de semana familiares alternados"</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 21 TEMA DETAIL ============== -->
+<section class="screen" id="tema-detail">
+  <div class="screen-h"><span class="screen-num">21</span><h2 class="screen-title">Tema a tratar · <em>detalle + timeline</em></h2><span class="screen-device">iPad · ciclo de vida del tema</span></div>
+  <p class="screen-desc">El timeline mezcla discusiones, comentarios y avances. Estado actual visible arriba. Cuando se resuelve en acuerdo, queda enlazado pero el tema permanece como historial.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>TEMA · TIEMPO CON FAMILIAS</span><span>RESUELTO 22 ABR · DURACIÓN 86 DÍAS</span></div>
+
+    <div class="between" style="margin-bottom:8px">
+      <div>
+        <div class="eyebrow"><span class="dot" style="background:var(--ink)"></span>Tema · creado 26 ene 2026</div>
+        <div class="display" style="font-size:36px;margin-top:6px">Tiempo con <em>familias</em>.</div>
+        <p class="italic-serif" style="font-size:16px;margin-top:6px">Cómo distribuimos fines de semana entre las dos familias. Recurrente desde fin de año.</p>
+      </div>
+      <span class="pill success">Resuelto</span>
+    </div>
+
+    <div class="stat-row" style="margin:24px 0">
+      <div class="stat"><span class="stat-l">Estado</span><span class="stat-v" style="font-size:18px">Resuelto</span><span class="stat-d">en acuerdo</span></div>
+      <div class="stat"><span class="stat-l">Discusiones</span><span class="stat-v">2</span><span class="stat-d">vinculadas</span></div>
+      <div class="stat"><span class="stat-l">Duración</span><span class="stat-v">86</span><span class="stat-d">días desde apertura</span></div>
+      <div class="stat"><span class="stat-l">Comentarios</span><span class="stat-v">9</span><span class="stat-d">5 Sofía · 4 Alberto</span></div>
+    </div>
+
+    <div class="eyebrow" style="margin-bottom:16px">Timeline del tema</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="meta">26 enero · creado por Sofía</div>
+        <div class="h2" style="margin-top:4px">Apertura del tema</div>
+        <p class="italic-serif" style="font-size:14px;margin-top:4px">"Sigo sintiendo que vamos más a casa de mis papás. Creo que vale la pena platicarlo."</p>
+      </div>
+      <div class="tl-item discus">
+        <div class="meta">14 febrero · discusión vinculada</div>
+        <div class="h2" style="margin-top:4px">Tensión por fin de año</div>
+        <p class="italic-serif" style="font-size:14px;margin-top:4px">Pelea sobre dónde pasar Año Nuevo. Aprendimos que decidirlo en diciembre es muy tarde.</p>
+      </div>
+      <div class="tl-item coment">
+        <div class="meta">8 marzo · comentario · Alberto</div>
+        <p class="body-s" style="margin-top:4px">"Estuve pensando. Si planificamos desde enero, evita la presión de último momento."</p>
+      </div>
+      <div class="tl-item discus">
+        <div class="meta">22 abril · discusión vinculada</div>
+        <div class="h2" style="margin-top:4px">Discusión sobre tiempos con familias</div>
+        <p class="italic-serif" style="font-size:14px;margin-top:4px">40 minutos de conversación. Salieron 3 lecciones y la base del acuerdo final.</p>
+      </div>
+      <div class="tl-item acuerdo">
+        <div class="meta">22 abril · resuelto · ambos</div>
+        <div class="h2" style="margin-top:4px">Creó acuerdo: "Fines de semana familiares alternados"</div>
+        <p class="italic-serif" style="font-size:14px;margin-top:4px">2 fines a sus papás, 2 a los míos al mes. Festivos se planean en la última semana del mes anterior.</p>
+        <div class="btn-row" style="margin-top:8px"><button class="btn btn-ghost btn-sm">Ver acuerdo →</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 22 PAGOS ============== -->
+<section class="screen" id="pagos">
+  <div class="screen-h"><span class="screen-num">22</span><h2 class="screen-title">Pagos · <em>cuentas mensuales</em></h2><span class="screen-device">iPad · v2 con monto</span></div>
+  <p class="screen-desc">Recomendación del PRD: renombrar "Gastos" a "Pagos". v2 con monto, categoría, pagador asignado, estado. Marcar como pagado dispara la próxima ocurrencia automáticamente vía trigger.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>PAGOS · MAYO 2026</span><span>5 PAGADOS · 3 PENDIENTES · $48,420 TOTAL</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display">Cuentas <em>de la casa</em>.</div>
+        <div class="italic-serif" style="margin-top:6px">Recurrentes y los próximos vencimientos.</div>
+      </div>
+      <button class="btn btn-accent btn-sm">+ Nuevo pago</button>
+    </div>
+
+    <div class="stat-row" style="margin-bottom:24px">
+      <div class="stat"><span class="stat-l">Total mes</span><span class="stat-v">$48,420</span><span class="stat-d">de 8 pagos</span></div>
+      <div class="stat"><span class="stat-l">Pagados</span><span class="stat-v" style="color:var(--success)">$24,800</span><span class="stat-d">5 de 8</span></div>
+      <div class="stat"><span class="stat-l">Pendientes</span><span class="stat-v" style="color:var(--accent)">$23,620</span><span class="stat-d">3 antes del 22</span></div>
+      <div class="stat"><span class="stat-l">Vs abril</span><span class="stat-v">+2.4%</span><span class="stat-d up">$1,140 más</span></div>
+    </div>
+
+    <div class="list">
+      <div class="list-row"><span class="check"></span><div><span class="name">CFE · luz</span><div class="meta">Servicios · vence 12 mayo · Alberto</div></div><div style="text-align:right"><div class="num" style="font-size:16px;font-weight:500">$2,400</div><div class="meta" style="color:var(--accent)">en 5 días</div></div></div>
+      <div class="list-row"><span class="check"></span><div><span class="name">Renta departamento</span><div class="meta">Vivienda · vence 22 mayo · Sofía</div></div><div style="text-align:right"><div class="num" style="font-size:16px;font-weight:500">$28,500</div><div class="meta">en 15 días</div></div></div>
+      <div class="list-row"><span class="check"></span><div><span class="name">Mantenimiento depa</span><div class="meta">Vivienda · vence 22 mayo · Alberto</div></div><div style="text-align:right"><div class="num" style="font-size:16px;font-weight:500">$3,200</div><div class="meta">en 15 días</div></div></div>
+      <div class="list-row completado"><span class="check on"></span><div><span class="name">Internet · Totalplay</span><div class="meta">Servicios · pagado 6 mayo · Sofía</div></div><div style="text-align:right"><div class="num" style="font-size:16px;font-weight:500">$799</div><div class="meta" style="color:var(--success)">pagado</div></div></div>
+      <div class="list-row completado"><span class="check on"></span><div><span class="name">Spotify familiar</span><div class="meta">Suscripción · pagado 4 mayo · Alberto</div></div><div style="text-align:right"><div class="num" style="font-size:16px;font-weight:500">$199</div><div class="meta" style="color:var(--success)">pagado</div></div></div>
+      <div class="list-row completado"><span class="check on"></span><div><span class="name">Netflix</span><div class="meta">Suscripción · pagado 3 mayo · Sofía</div></div><div style="text-align:right"><div class="num" style="font-size:16px;font-weight:500">$269</div><div class="meta" style="color:var(--success)">pagado</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 23 MANTENIMIENTO ============== -->
+<section class="screen" id="mant">
+  <div class="screen-h"><span class="screen-num">23</span><h2 class="screen-title">Mantenimiento · <em>recurrente + único</em></h2><span class="screen-device">iPad · tareas de la casa</span></div>
+  <p class="screen-desc">Cada item es un accionable con recurrencia opcional. Al marcar completo se dispara trigger Supabase con la siguiente ocurrencia. Vista por estado: vencido / esta semana / próximos / completado.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>MANTENIMIENTO · DEPARTAMENTO</span><span>2 VENCIDOS · 5 ESTA SEMANA</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display">El depa <em>al día</em>.</div>
+        <div class="italic-serif" style="margin-top:6px">Filtros, plantas, limpieza, luces. Lo de los miércoles y lo de los meses.</div>
+      </div>
+      <button class="btn btn-accent btn-sm">+ Nueva tarea</button>
+    </div>
+
+    <div class="tabs">
+      <span class="tab" style="color:var(--error)">Vencidas <span class="meta" style="color:var(--error)">2</span></span>
+      <span class="tab active">Esta semana <span class="meta">5</span></span>
+      <span class="tab">Próximas <span class="meta">12</span></span>
+      <span class="tab">Completadas <span class="meta">38</span></span>
+    </div>
+
+    <div class="row-2" style="gap:16px">
+      <div>
+        <div class="eyebrow" style="margin-bottom:8px;color:var(--error)">Vencidas</div>
+        <div class="list" style="margin-bottom:16px;border-color:var(--error)">
+          <div class="list-row"><span class="check"></span><div><span class="name">Filtros AC</span><div class="meta">Cada 6 meses · venció 4 may · Alberto</div></div><div style="text-align:right"><div class="meta" style="color:var(--error)">3 días tarde</div></div></div>
+          <div class="list-row"><span class="check"></span><div><span class="name">Limpieza balcón</span><div class="meta">Cada 3 meses · venció 1 may · Sofía</div></div><div style="text-align:right"><div class="meta" style="color:var(--error)">6 días tarde</div></div></div>
+        </div>
+
+        <div class="eyebrow" style="margin-bottom:8px">Esta semana</div>
+        <div class="list">
+          <div class="list-row"><span class="check"></span><div><span class="name">Riego de plantas</span><div class="meta">Cada semana · mié · Sofía</div></div><div style="text-align:right"><div class="meta">en 2 días</div></div></div>
+          <div class="list-row"><span class="check"></span><div><span class="name">Tirar reciclaje</span><div class="meta">Cada semana · jue · Alberto</div></div><div style="text-align:right"><div class="meta">en 3 días</div></div></div>
+          <div class="list-row"><span class="check"></span><div><span class="name">Limpieza profunda baño</span><div class="meta">Cada 2 semanas · sáb · Sofía</div></div><div style="text-align:right"><div class="meta">en 5 días</div></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="eyebrow" style="margin-bottom:8px">Próximas (este mes)</div>
+        <div class="list" style="margin-bottom:16px">
+          <div class="list-row"><span class="check"></span><div><span class="name">Limpieza profunda</span><div class="meta">Cada 3 meses · 28 may · Sofía</div></div><div style="text-align:right"><div class="meta">en 21 días</div></div></div>
+          <div class="list-row"><span class="check"></span><div><span class="name">Cambiar foco baño visitas</span><div class="meta">Único · 31 may · Alberto</div></div><div style="text-align:right"><div class="meta">en 24 días</div></div></div>
+        </div>
+
+        <div class="eyebrow" style="margin-bottom:8px">Recientemente completadas</div>
+        <div class="list">
+          <div class="list-row completado"><span class="check on"></span><div><span class="name">Riego de plantas</span><div class="meta">Sofía · 30 abr · próximo 7 may</div></div><span class="meta-r">hace 4 días</span></div>
+          <div class="list-row completado"><span class="check on"></span><div><span class="name">Pago de tintorería</span><div class="meta">Alberto · 28 abr</div></div><span class="meta-r">hace 6 días</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 24 PROYECTOS DETAIL ============== -->
+<section class="screen" id="proyectos">
+  <div class="screen-h"><span class="screen-num">24</span><h2 class="screen-title">Proyectos · <em>detalle</em></h2><span class="screen-device">iPad · seguimientos cronológicos</span></div>
+  <p class="screen-desc">Proyectos multi-mes (renovaciones, ahorros grandes, mudanzas). Meta de ahorro opcional con progreso. Los seguimientos son notas fechadas que cualquiera de los dos agrega. Accionables vinculados al proyecto.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>PROYECTOS · 3 ACTIVOS</span><span>1 EN PAUSA · 2 COMPLETADOS</span></div>
+    <div class="between" style="margin-bottom:8px">
+      <div>
+        <div class="eyebrow"><span class="dot proyectos"></span>Proyecto · activo desde 19 enero 2026</div>
+        <div class="display" style="font-size:42px;margin-top:6px">Renovar <em>cocina</em>.</div>
+        <p class="italic-serif" style="font-size:16px;margin-top:6px;max-width:62ch">Cambiar piso, alacena, isla y barra. Buscamos un look más cálido, mediterráneo. Objetivo agosto 2026.</p>
+      </div>
+      <div class="btn-row"><button class="btn btn-ghost btn-sm">Pausar</button><button class="btn btn-ghost btn-sm">Editar</button></div>
+    </div>
+
+    <div class="row-2" style="gap:24px;margin-top:24px">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="eyebrow">Meta de ahorro</div>
+          <div class="display" style="font-size:32px;margin-top:6px">$182,000 <span style="color:var(--muted);font-size:18px">de</span> $280,000</div>
+          <div style="height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden;margin-top:12px">
+            <div style="height:100%;width:65%;background:var(--accent)"></div>
+          </div>
+          <div class="between" style="margin-top:8px"><span class="meta">65% · 9 meses</span><span class="meta">Falta $98,000</span></div>
+        </div>
+
+        <div class="card">
+          <div class="eyebrow">Accionables del proyecto · 4 pendientes</div>
+          <div class="list" style="background:transparent;border:0">
+            <div class="list-row"><span class="check on"></span><div><span class="name completado">Conseguir 3 cotizaciones</span><div class="meta">Alberto · completado 22 abr</div></div></div>
+            <div class="list-row"><span class="check on"></span><div><span class="name completado">Decidir paleta de colores</span><div class="meta">Sofía · completado 28 abr</div></div></div>
+            <div class="list-row"><span class="check"></span><div><span class="name">Firmar contrato con carpintero</span><div class="meta">Alberto · vence 15 mayo</div></div></div>
+            <div class="list-row"><span class="check"></span><div><span class="name">Pedir muestras de piso</span><div class="meta">Sofía · vence 18 mayo</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="eyebrow" style="margin-bottom:12px">Seguimientos · 6 entradas</div>
+        <div class="timeline">
+          <div class="tl-item"><div class="meta">28 abril · Sofía</div><p class="body-s" style="margin-top:4px">Decidimos paleta cálida: terracotta + cream + madera clara. Inspirados en Apartamento.</p></div>
+          <div class="tl-item"><div class="meta">22 abril · Alberto</div><p class="body-s" style="margin-top:4px">Recibí 3 cotizaciones. Carpintero "Estudio Ramírez" tiene la mejor relación calidad-precio. $145k.</p></div>
+          <div class="tl-item"><div class="meta">14 abril · Alberto</div><p class="body-s" style="margin-top:4px">Visita a 2 showrooms en Roma. Sacamos fotos del estilo que nos gustó.</p></div>
+          <div class="tl-item"><div class="meta">3 marzo · Sofía</div><p class="body-s" style="margin-top:4px">Empezamos Pinterest board compartido. 47 imágenes. Convergencia en mediterráneo cálido.</p></div>
+          <div class="tl-item"><div class="meta">19 enero · Sofía</div><p class="body-s" style="margin-top:4px">Definimos meta: $280k, plazo agosto, foco en cocina. Aportamos 50/50.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 25 VIAJES ============== -->
+<section class="screen" id="viajes">
+  <div class="screen-h"><span class="screen-num">25</span><h2 class="screen-title">Viajes · <em>wishlist + próximos</em></h2><span class="screen-device">iPad · galería + lista</span></div>
+  <p class="screen-desc">Wishlist es inspirational con interés-por-partner (1-5). Próximos viajes traen presupuesto, fechas, características. Después del viaje, sección de revisiones para reflexiones post-viaje.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>VIAJES Y EVENTOS</span><span>WISHLIST 12 · UPCOMING 2 · PASADOS 8</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display">A dónde <em>quieren ir</em>.</div>
+        <div class="italic-serif" style="margin-top:6px">Wishlist abierta. Próximos planeados. Pasados con notas.</div>
+      </div>
+      <button class="btn btn-accent btn-sm">+ Agregar a wishlist</button>
+    </div>
+
+    <div class="tabs">
+      <span class="tab active">Wishlist <span class="meta">12</span></span>
+      <span class="tab">Próximos <span class="meta">2</span></span>
+      <span class="tab">Pasados <span class="meta">8</span></span>
+    </div>
+
+    <div class="gallery">
+      <div class="wish">
+        <div class="wish-img">Oaxaca</div>
+        <div class="wish-body">
+          <div class="eyebrow">Viaje · agregado por Sofía</div>
+          <div class="h1" style="margin-top:4px;font-size:18px">Oaxaca · 4 días</div>
+          <p class="italic-serif" style="font-size:13px;margin-top:6px">Comida, mezcal, taller de barro negro. Hotel boutique en el centro.</p>
+          <div class="interest"><span>Tú</span><span class="stars">★★★★☆</span><span style="margin-left:auto">Sofía</span><span class="stars">★★★★★</span></div>
+        </div>
+      </div>
+
+      <div class="wish">
+        <div class="wish-img alt">Tulum</div>
+        <div class="wish-body">
+          <div class="eyebrow">Viaje · agregado por Alberto</div>
+          <div class="h1" style="margin-top:4px;font-size:18px">Tulum · 5 días</div>
+          <p class="italic-serif" style="font-size:13px;margin-top:6px">Cenotes, ruinas, playa. Cabaña frente al mar.</p>
+          <div class="interest"><span>Tú</span><span class="stars">★★★★★</span><span style="margin-left:auto">Sofía</span><span class="stars">★★★☆☆</span></div>
+        </div>
+      </div>
+
+      <div class="wish">
+        <div class="wish-img alt2">Lisboa</div>
+        <div class="wish-body">
+          <div class="eyebrow">Viaje · agregado por Sofía</div>
+          <div class="h1" style="margin-top:4px;font-size:18px">Lisboa · 8 días</div>
+          <p class="italic-serif" style="font-size:13px;margin-top:6px">Primera vez en Europa juntos. Trianos, vino verde, Sintra.</p>
+          <div class="interest"><span>Tú</span><span class="stars">★★★★☆</span><span style="margin-left:auto">Sofía</span><span class="stars">★★★★★</span></div>
+        </div>
+      </div>
+
+      <div class="wish">
+        <div class="wish-img">Festival Bahidorá</div>
+        <div class="wish-body">
+          <div class="eyebrow">Evento · agregado por Alberto</div>
+          <div class="h1" style="margin-top:4px;font-size:18px">Bahidorá 2027</div>
+          <p class="italic-serif" style="font-size:13px;margin-top:6px">3 días en las cascadas. Música electrónica.</p>
+          <div class="interest"><span>Tú</span><span class="stars">★★★★★</span><span style="margin-left:auto">Sofía</span><span class="stars">★★☆☆☆</span></div>
+        </div>
+      </div>
+
+      <div class="wish">
+        <div class="wish-img alt">Valle de Bravo</div>
+        <div class="wish-body">
+          <div class="eyebrow">Viaje · próximo · 23 mayo</div>
+          <div class="h1" style="margin-top:4px;font-size:18px">Valle de Bravo · 2 días</div>
+          <p class="italic-serif" style="font-size:13px;margin-top:6px">Escapada de aniversario. Casa Airbnb con chimenea.</p>
+          <div class="between" style="margin-top:6px"><span class="pill accent">En 16 días</span><span class="meta num">$8,400</span></div>
+        </div>
+      </div>
+
+      <div class="wish">
+        <div class="wish-img alt2">Japón</div>
+        <div class="wish-body">
+          <div class="eyebrow">Viaje · agregado por Sofía</div>
+          <div class="h1" style="margin-top:4px;font-size:18px">Japón · 14 días</div>
+          <p class="italic-serif" style="font-size:13px;margin-top:6px">Tokio, Kioto, Naoshima. Sakura ideal.</p>
+          <div class="interest"><span>Tú</span><span class="stars">★★★★★</span><span style="margin-left:auto">Sofía</span><span class="stars">★★★★★</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 26 SALUD SEXUAL ============== -->
+<section class="screen" id="salud">
+  <div class="screen-h"><span class="screen-num">26</span><h2 class="screen-title">SaludSexual · <em>eventos + revisiones</em></h2><span class="screen-device">iPad · dos pestañas</span></div>
+  <p class="screen-desc">Pestañas: eventos/salidas (intimidad registrada) y revisiones programadas (médicas). Ambos pueden comentar. Las revisiones generan accionables con recordatorio 7 días antes para los asignados.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>SALUD SEXUAL</span><span>PRIVADO · ENCRIPTADO</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display"><em>Salud</em> y registro.</div>
+        <div class="italic-serif" style="margin-top:6px">Eventos íntimos y revisiones médicas. Privado entre los dos.</div>
+      </div>
+      <div class="btn-row"><button class="btn btn-accent btn-sm">+ Evento</button><button class="btn btn-ghost btn-sm">+ Revisión</button></div>
+    </div>
+
+    <div class="tabs">
+      <span class="tab active">Eventos y salidas <span class="meta">14 en 2026</span></span>
+      <span class="tab">Revisiones programadas <span class="meta">2</span></span>
+      <span class="tab">Histórico médico</span>
+    </div>
+
+    <div class="row-2" style="gap:24px">
+      <div>
+        <div class="eyebrow" style="margin-bottom:12px">Eventos recientes</div>
+        <div class="list" style="margin-bottom:16px">
+          <div class="list-row"><span class="dot salud"></span><div><span class="name">Tarde de domingo</span><div class="meta">Evento · en casa · 4 mayo</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+          <div class="list-row"><span class="dot salud"></span><div><span class="name">Hotel Roma</span><div class="meta">Salida · fin de semana · 26 abril</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+          <div class="list-row"><span class="dot salud"></span><div><span class="name">Noche de viernes</span><div class="meta">Evento · en casa · 18 abril</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+          <div class="list-row"><span class="dot salud"></span><div><span class="name">Tulum getaway</span><div class="meta">Salida · 4 noches · 5-9 abril</div></div><span style="color:var(--muted);font-size:18px">›</span></div>
+        </div>
+
+        <div class="card">
+          <div class="eyebrow"><span class="dot salud"></span>Tarde de domingo · 4 mayo</div>
+          <div class="h1" style="margin-top:6px;font-size:20px">Evento · en casa</div>
+          <p class="italic-serif" style="font-size:14px;margin:8px 0 12px">"Domingo lento. Después del desayuno tarde."</p>
+          <hr class="divider">
+          <div class="eyebrow">Comentarios</div>
+          <div style="margin-top:8px"><div class="meta">Sofía</div><div class="body-s" style="font-style:italic">"Me gusta cuando no hay agenda."</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="eyebrow" style="margin-bottom:12px">Revisiones próximas</div>
+        <div class="card" style="margin-bottom:12px">
+          <div class="between"><span class="pill accent">En 35 días</span><span class="meta">11 junio</span></div>
+          <div class="h1" style="margin-top:6px">Revisión médica anual</div>
+          <p class="italic-serif" style="font-size:14px;margin-top:6px">Dr. Ramírez · ambos · estudios agrupados</p>
+          <hr class="divider">
+          <div class="eyebrow">Estudios incluidos</div>
+          <ul style="margin:8px 0 0 16px;font-size:13px;color:var(--ink)">
+            <li>Tamizaje ITS · ambos</li>
+            <li>Sangre completa · ambos</li>
+            <li>Papanicolaou · Sofía</li>
+          </ul>
+          <div class="meta" style="margin-top:8px">Recordatorio automático en 28 días.</div>
+        </div>
+        <div class="card">
+          <div class="between"><span class="pill warn">En 142 días</span><span class="meta">26 septiembre</span></div>
+          <div class="h1" style="margin-top:6px">Chequeo dental</div>
+          <p class="italic-serif" style="font-size:14px;margin-top:6px">Dra. Cortés · solo Alberto</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 27 FECHAS CLAVE ============== -->
+<section class="screen" id="fechas">
+  <div class="screen-h"><span class="screen-num">27</span><h2 class="screen-title">Fechas <em>clave</em></h2><span class="screen-device">iPad · aniversarios + hitos</span></div>
+  <p class="screen-desc">Aniversarios y milestones. Recurrencia anual o única. Notificación 7 días antes. Cada fecha tiene icono opcional y descripción. Próximas arriba, pasadas abajo.</p>
+  <div class="ipad">
+    <div class="ipad-bar"><span>FECHAS CLAVE · 14 ACTIVAS</span><span>PRÓXIMA · ANIVERSARIO 19 MAY</span></div>
+    <div class="between" style="margin-bottom:24px">
+      <div>
+        <div class="display">Lo que <em>se celebra</em>.</div>
+        <div class="italic-serif" style="margin-top:6px">Aniversarios, primeros, hitos.</div>
+      </div>
+      <button class="btn btn-accent btn-sm">+ Nueva fecha</button>
+    </div>
+
+    <div class="card-warm" style="margin-bottom:24px">
+      <div class="between">
+        <div>
+          <div class="eyebrow" style="color:var(--accent-deep)">Próxima · en 12 días</div>
+          <div class="display" style="font-size:42px;margin-top:6px">Aniversario · <em>4 años</em></div>
+          <p class="italic-serif" style="font-size:16px;margin-top:6px">19 de mayo de 2026 · cuatro años desde la primera cita</p>
+        </div>
+        <div style="font-size:64px;font-family:var(--serif);font-style:italic;color:var(--accent)">★</div>
+      </div>
+      <hr class="divider" style="border-color:var(--accent)">
+      <div class="meta" style="color:var(--accent-deep)">Recordatorio se envía a ambos el 12 de mayo.</div>
+    </div>
+
+    <div class="row-2" style="gap:24px">
+      <div>
+        <div class="eyebrow" style="margin-bottom:12px">Próximas · este año</div>
+        <div class="list">
+          <div class="list-row"><span style="font-size:20px">★</span><div><span class="name">Aniversario · 4 años</span><div class="meta">Anual · 19 mayo</div></div><span class="meta-r">en 12 días</span></div>
+          <div class="list-row"><span style="font-size:20px">🎂</span><div><span class="name">Cumple Sofía</span><div class="meta">Anual · 8 julio</div></div><span class="meta-r">en 62 días</span></div>
+          <div class="list-row"><span style="font-size:20px">🎂</span><div><span class="name">Cumple Alberto</span><div class="meta">Anual · 14 septiembre</div></div><span class="meta-r">en 130 días</span></div>
+          <div class="list-row"><span style="font-size:20px">🏠</span><div><span class="name">Mudanza al depa actual</span><div class="meta">Anual · 24 octubre</div></div><span class="meta-r">en 170 días</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="eyebrow" style="margin-bottom:12px">Pasadas recientes</div>
+        <div class="list">
+          <div class="list-row"><span style="font-size:20px">✈</span><div><span class="name">Primer viaje juntos · Cancún</span><div class="meta">Anual · 23 marzo</div></div><span class="meta-r">hace 42 días</span></div>
+          <div class="list-row"><span style="font-size:20px">💍</span><div><span class="name">Día que decidimos vivir juntos</span><div class="meta">Único · 4 enero 2024</div></div><span class="meta-r">hace 489 días</span></div>
+          <div class="list-row"><span style="font-size:20px">★</span><div><span class="name">Aniversario · 3 años</span><div class="meta">Anual · 19 mayo 2025</div></div><span class="meta-r">hace 354 días</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="margin-top:96px;padding-top:32px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;display:flex;justify-content:space-between">
+  <span>Ohana · Domestic Modernism · 27 pantallas</span>
+  <span>Próximo paso · DESIGN.md + scaffold</span>
+</footer>
+
+</main>
+
+</body>
+</html>

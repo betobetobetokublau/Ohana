@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Domestic Modernism — light (default) */
+    --bg: 34 47% 96%;          /* #FBF7F2 paper */
+    --surface: 34 47% 92%;     /* #F4EDE3 cream */
+    --surface-2: 33 46% 89%;   /* #EFE6D8 */
+    --surface-3: 33 41% 85%;   /* #E8DDC8 */
+    --ink: 24 13% 9%;          /* #1A1714 warm near-black */
+    --muted: 26 11% 38%;       /* #6B6358 stone */
+    --muted-2: 31 11% 57%;     /* #9A9082 */
+    --line: 33 36% 86%;        /* #E2D9CB */
+    --line-2: 32 28% 78%;      /* #D4C9B8 */
+
+    --accent: 17 53% 51%;      /* #C4623E terracotta */
+    --accent-soft: 21 67% 77%; /* #E8B89F */
+    --accent-deep: 17 57% 36%; /* #8E4427 */
+
+    --success: 95 27% 38%;     /* #5A7A47 sage */
+    --warning: 39 60% 50%;     /* #C99432 amber */
+    --error: 6 60% 41%;        /* #A8362B rust */
+
+    /* Module colors (desaturados ~15-20%) */
+    --mod-citas: 8 47% 49%;       /* #B85544 coral */
+    --mod-salud: 297 18% 46%;     /* #8C5E8A plum */
+    --mod-gastos: 39 60% 50%;     /* #C99432 amber */
+    --mod-proyectos: 209 28% 40%; /* #4A6B82 steel */
+    --mod-mant: 95 27% 38%;       /* #5A7A47 sage */
+    --mod-viajes: 185 28% 42%;    /* #4D8489 teal */
+    --mod-fechas: 39 47% 49%;     /* #B89043 gold */
+    --mod-discus: 35 7% 51%;      /* #8B847A warm grey */
+    --mod-mimos: 17 53% 51%;      /* same as accent */
+
+    --r-sm: 4px;
+    --r-md: 8px;
+    --r-lg: 16px;
+  }
+
+  .dark {
+    --bg: 24 13% 9%;
+    --surface: 24 11% 12%;
+    --surface-2: 24 9% 15%;
+    --surface-3: 24 8% 18%;
+    --ink: 34 47% 92%;
+    --muted: 31 11% 57%;
+    --muted-2: 26 11% 38%;
+    --line: 24 8% 18%;
+    --line-2: 24 7% 22%;
+    --accent: 18 60% 59%;
+    --accent-soft: 17 35% 28%;
+  }
+
+  * { @apply border-line; }
+
+  html { font-feature-settings: 'ss01', 'cv11'; }
+
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+    font-feature-settings: 'cv11';
+  }
+
+  /* Tabular nums por default en monospace */
+  .font-mono, .tabular { font-variant-numeric: tabular-nums; }
+
+  /* Smooth scrolling */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection { background: hsl(var(--accent-soft)); color: hsl(var(--ink)); }
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-[11px] font-sans font-semibold uppercase tracking-[0.1em] text-muted;
+  }
+
+  .italic-serif {
+    @apply font-serif italic font-light text-muted;
+  }
+
+  .display {
+    @apply font-serif font-normal tracking-tight leading-[1.05];
+  }
+  .display em {
+    @apply italic text-accent not-italic;
+    font-style: italic;
+  }
+
+  .h1 {
+    @apply font-serif font-medium tracking-tight leading-snug;
+  }
+
+  .meta {
+    @apply font-mono text-[11px] text-muted tracking-wider;
+  }
+
+  /* Card-warm: callout cálido con bordes redondeados (post-iteración) */
+  .card-warm {
+    @apply rounded-md p-[18px];
+    background: hsl(var(--accent-soft));
+    border: 1px solid hsl(var(--accent));
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: hsl(var(--line-2)); border-radius: 3px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+}

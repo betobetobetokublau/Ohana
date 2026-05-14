@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ohana — Quiet Instrument</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --surface: #F1F0EB;
+    --surface-2: #E6E5DF;
+    --ink: #0E0E0C;
+    --muted: #5C5C58;
+    --muted-2: #98978F;
+    --accent: #2D4A3E;
+    --accent-soft: #C8D5CD;
+    --line: #DCDBD3;
+    --signal: #BC4233;
+
+    --citas: #BC4233;
+    --salud: #6B4A6B;
+    --gastos: #8C6B2A;
+    --mant: #2D4A3E;
+    --viajes: #2A5666;
+    --fechas: #826A2C;
+
+    --r: 2px;
+    --sans: 'Inter Tight', -apple-system, system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  }
+  [data-theme="dark"] { --bg: #0E0E0C; --surface: #1A1A18; --surface-2: #242422; --ink: #F1F0EB; --muted: #98978F; --line: #2A2A28; --accent: #6FA28A; --accent-soft: #2A3D34; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:'ss01','cv11';transition:background 200ms,color 200ms}
+  body{padding:48px 32px 96px;max-width:1400px;margin:0 auto}
+
+  .grid-lines { position: relative; }
+  .page-header{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:24px 0;margin-bottom:64px}
+  .meta-row{display:flex;gap:32px;font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
+  .meta-row span strong{color:var(--ink);font-weight:500}
+  .page-title{font-family:var(--sans);font-weight:500;font-size:32px;letter-spacing:-0.02em;margin-top:8px}
+  .theme-toggle{font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;background:transparent;border:1px solid var(--ink);color:var(--ink);padding:6px 12px;cursor:pointer;border-radius:var(--r)}
+
+  section{margin-bottom:80px;border-top:1px solid var(--line);padding-top:32px}
+  .section-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+  .section-title{font-family:var(--sans);font-weight:500;font-size:22px;letter-spacing:-0.01em;margin-bottom:32px}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+  .grid-2 > div{background:var(--bg);padding:24px}
+
+  .specimen-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px}
+  .display{font-family:var(--sans);font-weight:500;font-size:48px;letter-spacing:-0.025em;line-height:1.05}
+  .display .num{font-family:var(--mono);font-weight:400;letter-spacing:-0.04em}
+  .body{font-size:15px;line-height:1.55;max-width:60ch}
+  .mono{font-family:var(--mono);font-size:13px;font-feature-settings:'tnum'}
+
+  .swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line)}
+  .swatch{background:var(--bg);padding:0}
+  .swatch-block{aspect-ratio:1.4;border-bottom:1px solid var(--line)}
+  .swatch-info{padding:10px 12px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em}
+  .swatch-info .name{color:var(--ink)}
+  .swatch-info .hex{color:var(--muted)}
+
+  /* Calendar */
+  .cal-wrap{border:1px solid var(--ink);background:var(--bg)}
+  .cal-top{display:grid;grid-template-columns:1fr auto;align-items:center;padding:16px 20px;border-bottom:1px solid var(--ink)}
+  .cal-month-meta{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+  .cal-month{font-family:var(--sans);font-weight:500;font-size:24px;letter-spacing:-0.015em}
+  .cal-month .num{font-family:var(--mono);font-weight:400;color:var(--muted)}
+  .cal-nav{display:flex;gap:0;border:1px solid var(--ink)}
+  .cal-nav button{background:transparent;border:0;border-right:1px solid var(--ink);padding:6px 10px;font-family:var(--mono);font-size:11px;cursor:pointer;color:var(--ink);text-transform:uppercase;letter-spacing:0.04em}
+  .cal-nav button:last-child{border-right:0}
+  .cal-nav button:hover{background:var(--surface)}
+
+  .cal-body{display:grid;grid-template-columns:7fr 3fr}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--line);border-right:1px solid var(--ink)}
+  .dow{background:var(--surface);padding:8px 10px;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+  .day{background:var(--bg);min-height:80px;padding:6px 8px;display:flex;flex-direction:column;gap:4px}
+  .day.muted{background:var(--surface)}
+  .day.muted .num{color:var(--muted-2)}
+  .day.today{background:var(--surface-2)}
+  .day.today .num{color:var(--accent);font-weight:600}
+  .day.session{background:var(--accent-soft)}
+  .num{font-family:var(--mono);font-size:12px;font-weight:500}
+  .ev{font-size:11px;line-height:1.25;font-weight:500;border-left:2px solid var(--ink);padding-left:6px;margin-top:auto}
+  .ev.citas{border-color:var(--citas)}
+  .ev.gastos{border-color:var(--gastos)}
+  .ev.mant{border-color:var(--mant)}
+  .ev.viajes{border-color:var(--viajes)}
+  .ev.fechas{border-color:var(--fechas)}
+  .session-tag{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent)}
+
+  .panel{padding:20px;display:flex;flex-direction:column;gap:20px}
+  .panel-h{font-family:var(--mono);font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);padding-bottom:8px;border-bottom:1px solid var(--ink)}
+  .panel-block{display:flex;flex-direction:column;gap:6px}
+  .panel-label{font-family:var(--mono);font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .panel-mark{width:6px;height:6px}
+  .panel-mark.citas{background:var(--citas)}
+  .panel-mark.gastos{background:var(--gastos)}
+  .panel-mark.mant{background:var(--mant)}
+  .panel-mark.fechas{background:var(--fechas)}
+  .panel-row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:4px 0;border-bottom:1px dotted var(--line);font-size:13px}
+  .panel-row:last-child{border-bottom:0}
+  .panel-row .meta{font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+  /* Resumen — instrument-precise, not editorial */
+  .res{border:1px solid var(--ink);padding:48px;background:var(--bg);position:relative}
+  .res-meta{font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:24px;display:flex;justify-content:space-between}
+  .res-title{font-family:var(--sans);font-weight:600;font-size:48px;letter-spacing:-0.03em;line-height:1.05;margin-bottom:8px}
+  .res-title .figure{font-family:var(--mono);font-weight:400;color:var(--accent)}
+  .res-sub{font-size:15px;color:var(--muted);max-width:50ch;margin-bottom:48px}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--ink);margin-bottom:48px}
+  .stat{background:var(--bg);padding:20px}
+  .stat-label{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px}
+  .stat-value{font-family:var(--sans);font-weight:500;font-size:36px;letter-spacing:-0.02em;line-height:1}
+  .stat-delta{font-family:var(--mono);font-size:10px;margin-top:6px;letter-spacing:0.04em}
+  .stat-delta.up{color:var(--accent)}
+  .stat-delta.down{color:var(--signal)}
+
+  .res-section{display:grid;grid-template-columns:140px 1fr;gap:32px;padding:24px 0;border-top:1px solid var(--line)}
+  .res-h{font-family:var(--mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted)}
+  .res-body{font-size:15px;line-height:1.65;max-width:62ch}
+
+  /* Mobile */
+  .mob{width:340px;border:1px solid var(--ink);padding:20px;margin:0 auto}
+  .mob-meta{font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);padding-bottom:8px;border-bottom:1px solid var(--ink);margin-bottom:24px;display:flex;justify-content:space-between}
+  .mob-q{font-size:22px;font-weight:500;letter-spacing:-0.02em;margin-bottom:8px}
+  .mob-prompt{font-size:13px;color:var(--muted);margin-bottom:24px}
+  .mob-label{font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:8px}
+  .scale{display:grid;grid-template-columns:repeat(10,1fr);gap:1px;background:var(--line);border:1px solid var(--ink);margin-bottom:20px}
+  .scale-n{background:var(--bg);aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:500;cursor:pointer}
+  .scale-n.on{background:var(--ink);color:var(--bg)}
+  .field{border:1px solid var(--ink);padding:12px 14px;font-size:14px;margin-bottom:16px;font-family:var(--sans)}
+  .field.placeholder{color:var(--muted)}
+  .btn{display:block;width:100%;padding:14px;font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;background:var(--ink);color:var(--bg);border:0;cursor:pointer}
+  .btn-2{background:transparent;color:var(--ink);border:1px solid var(--ink);margin-top:8px}
+
+  /* Mimos */
+  .mimos{border:1px solid var(--ink);padding:32px;background:var(--surface);max-width:480px}
+  .mimos-tag{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;justify-content:space-between}
+  .mimos-q{font-size:24px;font-weight:500;letter-spacing:-0.015em;line-height:1.25;margin-bottom:16px}
+  .mimos-body{font-size:14px;line-height:1.6;color:var(--ink);margin-bottom:24px}
+  .mimos-foot{font-family:var(--mono);font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);padding-top:16px;border-top:1px solid var(--line);display:flex;justify-content:space-between}
+
+  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--ink);font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div>
+    <div class="meta-row">
+      <span>OHANA · <strong>QUIET INSTRUMENT</strong></span>
+      <span>PROPOSAL 02 / 04</span>
+      <span>SWISS / BRUTALIST</span>
+    </div>
+    <h1 class="page-title">A precision instrument for two.</h1>
+  </div>
+  <button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">Toggle</button>
+</header>
+
+<section>
+  <div class="section-meta"><span>01 · TIPOGRAFÍA</span><span>INTER TIGHT · JETBRAINS MONO</span></div>
+  <h2 class="section-title">One sans, one mono. That's it.</h2>
+  <div class="grid-2">
+    <div>
+      <div class="specimen-label">Display · Inter Tight 500 · -2.5% tracking</div>
+      <div class="display">Mayo <span class="num">2026</span></div>
+      <div class="display" style="margin-top:8px;">Resumen <span class="num">04</span>/<span class="num">26</span></div>
+    </div>
+    <div>
+      <div class="specimen-label">Body · Inter Tight 400 · 15px / 1.55</div>
+      <p class="body">Esta semana hicieron dos citas, completaron cinco accionables y agregaron un mimo cada uno. La presión laboral bajó de alta a mediana. Sofía propuso adelantar el viaje a Oaxaca.</p>
+    </div>
+    <div>
+      <div class="specimen-label">Data · JetBrains Mono · tnum</div>
+      <div class="mono">$ 2,400.00 MXN — vence 12.05.26</div>
+      <div class="mono" style="margin-top:8px;">+12.4% vs ABR · 7.4 / 10 ENERGÍA</div>
+      <div class="mono" style="margin-top:8px;">04 CITAS · 12 MIMOS · 01 DISCUSIÓN</div>
+    </div>
+    <div>
+      <div class="specimen-label">UI label · Inter Tight 600 · 11px · all-caps · 8% tracking</div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase">SIGUIENTES PAGOS · MANTENIMIENTO · CITAS PRÓXIMAS</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-meta"><span>02 · COLOR</span><span>MONOCHROME + ONE</span></div>
+  <h2 class="section-title">Restraint. One green that isn't blue.</h2>
+  <div class="swatches">
+    <div class="swatch"><div class="swatch-block" style="background:#FAFAF7"></div><div class="swatch-info"><span class="name">Paper</span><span class="hex">FAFAF7</span></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#F1F0EB"></div><div class="swatch-info"><span class="name">Bone</span><span class="hex">F1F0EB</span></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#0E0E0C"></div><div class="swatch-info"><span class="name">Ink</span><span class="hex">0E0E0C</span></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#5C5C58"></div><div class="swatch-info"><span class="name">Stone</span><span class="hex">5C5C58</span></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#2D4A3E"></div><div class="swatch-info"><span class="name">Forest</span><span class="hex">2D4A3E</span></div></div>
+    <div class="swatch"><div class="swatch-block" style="background:#BC4233"></div><div class="swatch-info"><span class="name">Signal</span><span class="hex">BC4233</span></div></div>
+  </div>
+  <p style="margin-top:24px;font-size:13px;color:var(--muted);max-width:60ch">Forest is the ONLY accent in the whole system. Signal red appears only on errors and overdue items. Module identity comes from a 2px left-border, not from a fill.</p>
+</section>
+
+<section>
+  <div class="section-meta"><span>03 · CALENDARIO</span><span>iPad · 1366 × 1024</span></div>
+  <h2 class="section-title">Every pixel earned.</h2>
+  <div class="cal-wrap">
+    <div class="cal-top">
+      <div>
+        <div class="cal-month-meta">SEM 19 / 52 · 7 DÍAS RESTANTES MAYO</div>
+        <div class="cal-month">MAYO <span class="num">2026</span></div>
+      </div>
+      <div class="cal-nav"><button>← ABR</button><button>HOY</button><button>JUN →</button></div>
+    </div>
+    <div class="cal-body">
+      <div class="cal-grid">
+        <div class="dow">L</div><div class="dow">M</div><div class="dow">M</div><div class="dow">J</div><div class="dow">V</div><div class="dow">S</div><div class="dow">D</div>
+        <div class="day muted"><span class="num">28</span></div><div class="day muted"><span class="num">29</span></div><div class="day muted"><span class="num">30</span></div>
+        <div class="day"><span class="num">01</span></div><div class="day"><span class="num">02</span><div class="ev mant">Riego plantas</div></div><div class="day"><span class="num">03</span></div><div class="day"><span class="num">04</span></div>
+        <div class="day"><span class="num">05</span></div><div class="day"><span class="num">06</span><div class="ev gastos">Internet · Totalplay</div></div>
+        <div class="day today"><span class="num">07</span></div><div class="day"><span class="num">08</span></div>
+        <div class="day"><span class="num">09</span><div class="ev citas">Cena · La Docena</div></div><div class="day"><span class="num">10</span></div><div class="day"><span class="num">11</span></div>
+        <div class="day"><span class="num">12</span><div class="ev gastos">CFE · luz</div></div><div class="day"><span class="num">13</span></div><div class="day"><span class="num">14</span><div class="ev mant">Filtros AC</div></div><div class="day"><span class="num">15</span></div>
+        <div class="day"><span class="num">16</span><div class="ev citas">Cine</div></div><div class="day"><span class="num">17</span></div><div class="day"><span class="num">18</span></div>
+        <div class="day"><span class="num">19</span><div class="ev fechas">Aniversario · 4</div></div><div class="day"><span class="num">20</span></div><div class="day"><span class="num">21</span></div>
+        <div class="day"><span class="num">22</span><div class="ev gastos">Renta</div></div><div class="day"><span class="num">23</span><div class="ev viajes">Valle de Bravo</div></div><div class="day"><span class="num">24</span></div><div class="day"><span class="num">25</span></div>
+        <div class="day"><span class="num">26</span></div><div class="day"><span class="num">27</span></div><div class="day"><span class="num">28</span><div class="ev mant">Limpieza</div></div><div class="day"><span class="num">29</span></div><div class="day"><span class="num">30</span></div><div class="day"><span class="num">31</span></div>
+        <div class="day session"><span class="num">01</span><span class="session-tag">SESIÓN MIMOS</span></div>
+      </div>
+      <aside class="panel">
+        <div class="panel-h">PRÓXIMOS 14 DÍAS · VENTANA</div>
+        <div class="panel-block">
+          <div class="panel-label"><span class="panel-mark citas"></span>CITAS</div>
+          <div class="panel-row"><span>Cena · La Docena</span><span class="meta">VIE 09</span></div>
+          <div class="panel-row"><span>Cine y caminar</span><span class="meta">VIE 16</span></div>
+        </div>
+        <div class="panel-block">
+          <div class="panel-label"><span class="panel-mark gastos"></span>PAGOS</div>
+          <div class="panel-row"><span>CFE · luz</span><span class="meta">$ 2,400</span></div>
+          <div class="panel-row"><span>Renta</span><span class="meta">$ 28,500</span></div>
+        </div>
+        <div class="panel-block">
+          <div class="panel-label"><span class="panel-mark mant"></span>MANTENIMIENTO</div>
+          <div class="panel-row"><span>Filtros AC</span><span class="meta">+3 D</span></div>
+          <div class="panel-row"><span>Limpieza profunda</span><span class="meta">+21 D</span></div>
+        </div>
+        <div class="panel-block">
+          <div class="panel-label"><span class="panel-mark fechas"></span>FECHAS CLAVE</div>
+          <div class="panel-row"><span>Aniversario · 4 años</span><span class="meta">+12 D</span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-meta"><span>04 · RESUMEN MENSUAL</span><span>STORED IN monthly_summaries</span></div>
+  <h2 class="section-title">Synthesis as data, not poetry.</h2>
+  <article class="res">
+    <div class="res-meta"><span>RESUMEN · ABRIL 2026</span><span>GENERADO 01.05.26 · 04:32</span></div>
+    <h1 class="res-title">Mes <span class="figure">04</span>. <span class="figure">+12</span> mimos, <span class="figure">−2</span> discusiones.</h1>
+    <p class="res-sub">El componente narrativo ocupa cuatro secciones cortas, abajo. Las cifras vienen primero porque las cifras son inequívocas.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Citas</div><div class="stat-value">04</div><div class="stat-delta up">+ 01 vs MAR</div></div>
+      <div class="stat"><div class="stat-label">Mimos</div><div class="stat-value">12</div><div class="stat-delta up">+ 05 vs MAR</div></div>
+      <div class="stat"><div class="stat-label">Energía</div><div class="stat-value">7.4</div><div class="stat-delta up">+ 0.6</div></div>
+      <div class="stat"><div class="stat-label">Discusiones</div><div class="stat-value">01</div><div class="stat-delta down">− 02 vs MAR</div></div>
+    </div>
+    <div class="res-section"><div class="res-h">CONEXIÓN</div><p class="res-body">Cuatro citas en abril, una más que marzo. Calificación promedio 4.4 (vs 3.8). La cena en El Califa fue la mejor calificada por ambos. Sofía: 7 mimos (5 ternura, 2 gratitud). Alberto: 5 mimos (3 gratitud, 2 diversión).</p></div>
+    <div class="res-section"><div class="res-h">CONFLICTO</div><p class="res-body">Una discusión registrada (vs 3 en marzo). El tema "tiempo con familias" pasó de abierto a resuelto el 22.04 con la creación del acuerdo de fines de semana alternados. Tercera vez este año que un tema recurrente se resuelve formalmente.</p></div>
+    <div class="res-section"><div class="res-h">LOGÍSTICA</div><p class="res-body">87% de accionables completados en plazo. 2 mantenimientos vencidos al cierre del mes (filtros AC, limpieza balcón). Sin pagos atrasados.</p></div>
+    <div class="res-section"><div class="res-h">INTIMIDAD</div><p class="res-body">2 eventos registrados, 1 salida. Deseo promedio 6.8 (sin cambio significativo). Próxima revisión médica programada 15.06 — agendada.</p></div>
+  </article>
+</section>
+
+<section>
+  <div class="section-meta"><span>05 · CAPTURA · MÓVIL</span><span>iPhone · checkin semanal</span></div>
+  <div class="grid-2">
+    <div>
+      <div class="mob">
+        <div class="mob-meta"><span>CHECKIN · SEM 19</span><span>DOM 04.05</span></div>
+        <h2 class="mob-q">¿Cómo estuvo tu semana?</h2>
+        <p class="mob-prompt">Dos minutos. Antes de empezar la nueva.</p>
+        <div class="mob-label">ESTADO DE ÁNIMO</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--ink);margin-bottom:20px">
+          <div style="background:var(--bg);padding:12px;text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:0.06em">FELIZ</div>
+          <div style="background:var(--ink);color:var(--bg);padding:12px;text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:0.06em">NEUTRAL</div>
+          <div style="background:var(--bg);padding:12px;text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:0.06em">AGOTADO</div>
+          <div style="background:var(--bg);padding:12px;text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:0.06em">TRISTE</div>
+        </div>
+        <div class="mob-label">ENERGÍA — 1 a 10</div>
+        <div class="scale"><div class="scale-n">1</div><div class="scale-n">2</div><div class="scale-n">3</div><div class="scale-n">4</div><div class="scale-n">5</div><div class="scale-n">6</div><div class="scale-n on">7</div><div class="scale-n">8</div><div class="scale-n">9</div><div class="scale-n">10</div></div>
+        <div class="mob-label">PRESIÓN LABORAL</div>
+        <div class="field">Mediana ⌄</div>
+        <div class="mob-label">COMENTARIO LIBRE</div>
+        <div class="field placeholder">Esta semana sentí que estuvimos muy presentes…</div>
+        <button class="btn">ENVIAR CHECKIN</button>
+        <button class="btn btn-2">GUARDAR BORRADOR</button>
+      </div>
+    </div>
+    <div>
+      <div class="mimos">
+        <div class="mimos-tag"><span>TERNURA</span><span>23.04 · DE SOFÍA</span></div>
+        <h3 class="mimos-q">El café del miércoles, sin que lo pidiera.</h3>
+        <p class="mimos-body">Estabas concentrado escribiendo y simplemente apareció en la mesa. No dijiste nada, no esperaste un gracias, ni siquiera te paraste a verificar si lo había visto. Esos pequeños actos sin performance son los que más me llegan.</p>
+        <div class="mimos-foot"><span>SOFÍA → ALBERTO</span><span>SES. 01.06</span></div>
+      </div>
+      <div style="margin-top:24px;padding:20px;border:1px solid var(--ink)">
+        <div class="panel-h" style="border:0;padding:0;margin-bottom:12px">SESIÓN PRÓXIMA</div>
+        <div style="font-size:18px;font-weight:500;letter-spacing:-0.015em;margin-bottom:6px">DOM 01.06.26 · 19:00</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em">ALBERTO 03 · SOFÍA 04 · TOTAL 07</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><span>OHANA · QUIET INSTRUMENT · 02/04</span><span>PRECISION OVER WARMTH</span></footer>
+
+</body>
+</html>

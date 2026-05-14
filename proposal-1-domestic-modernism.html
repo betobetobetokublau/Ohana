@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ohana — Domestic Modernism preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBF7F2;
+    --surface: #F4EDE3;
+    --surface-2: #EFE6D8;
+    --ink: #1A1714;
+    --muted: #6B6358;
+    --muted-2: #9A9082;
+    --accent: #C4623E;
+    --accent-soft: #E8B89F;
+    --line: #E2D9CB;
+    --success: #5A7A47;
+    --warning: #C99432;
+    --error: #A8362B;
+
+    --citas: #B85544;
+    --salud: #8C5E8A;
+    --gastos: #C99432;
+    --proyectos: #4A6B82;
+    --mant: #5A7A47;
+    --viajes: #4D8489;
+    --fechas: #B89043;
+    --discus: #8B847A;
+
+    --r-sm: 4px;
+    --r-md: 8px;
+    --r-lg: 16px;
+
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Instrument Sans', -apple-system, system-ui, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, Menlo, monospace;
+  }
+
+  [data-theme="dark"] {
+    --bg: #1A1714;
+    --surface: #221E1A;
+    --surface-2: #2A2521;
+    --ink: #F4EDE3;
+    --muted: #A89D8E;
+    --muted-2: #6B6358;
+    --accent: #D87554;
+    --accent-soft: #6B3B2A;
+    --line: #2F2A25;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; transition: background 200ms ease, color 200ms ease; }
+  body { padding: 48px 32px 96px; max-width: 1400px; margin: 0 auto; }
+
+  .page-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 64px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+  .page-title { font-family: var(--serif); font-weight: 400; font-size: 40px; letter-spacing: -0.01em; }
+  .page-title em { font-style: italic; color: var(--accent); }
+  .theme-toggle { font-family: var(--sans); font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; background: transparent; border: 1px solid var(--line); color: var(--ink); padding: 8px 16px; border-radius: var(--r-sm); cursor: pointer; }
+  .theme-toggle:hover { background: var(--surface); }
+
+  .section-label { font-family: var(--sans); font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  .section-title { font-family: var(--serif); font-weight: 400; font-size: 28px; letter-spacing: -0.005em; margin-bottom: 32px; }
+
+  section { margin-bottom: 96px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+
+  /* Type specimens */
+  .specimen { padding: 32px; background: var(--surface); border-radius: var(--r-md); }
+  .specimen-label { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 12px; letter-spacing: 0.04em; }
+  .display-sample { font-family: var(--serif); font-weight: 400; font-size: 56px; line-height: 1.05; letter-spacing: -0.015em; margin-bottom: 8px; }
+  .h1-sample { font-family: var(--serif); font-weight: 500; font-size: 32px; line-height: 1.15; }
+  .body-sample { font-family: var(--sans); font-weight: 400; font-size: 16px; line-height: 1.6; max-width: 60ch; }
+  .mono-sample { font-family: var(--mono); font-weight: 500; font-size: 14px; }
+
+  /* Color swatches */
+  .swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .swatch { display: flex; flex-direction: column; gap: 8px; }
+  .swatch-block { aspect-ratio: 1; border-radius: var(--r-md); border: 1px solid var(--line); }
+  .swatch-name { font-family: var(--mono); font-size: 11px; font-weight: 500; }
+  .swatch-hex { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .swatch-role { font-family: var(--sans); font-size: 12px; color: var(--muted); }
+
+  /* Calendar mockup — the centerpiece */
+  .calendar-mock { display: grid; grid-template-columns: 7fr 3fr; gap: 32px; padding: 32px; background: var(--surface); border-radius: var(--r-lg); border: 1px solid var(--line); }
+  .cal-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
+  .cal-month { font-family: var(--serif); font-weight: 400; font-size: 36px; letter-spacing: -0.01em; }
+  .cal-month em { font-style: italic; color: var(--accent); }
+  .cal-couple { font-family: var(--sans); font-size: 13px; color: var(--muted); letter-spacing: 0.02em; }
+  .cal-nav { display: flex; gap: 8px; }
+  .cal-nav button { background: transparent; border: 1px solid var(--line); color: var(--ink); padding: 6px 14px; border-radius: var(--r-sm); font-family: var(--sans); font-size: 13px; cursor: pointer; }
+
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--line); border-radius: var(--r-md); overflow: hidden; }
+  .cal-dow { background: var(--surface-2); padding: 10px 12px; font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .cal-day { background: var(--bg); aspect-ratio: 1.1; padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; position: relative; min-height: 78px; }
+  .cal-day.muted { background: var(--surface); }
+  .cal-day.muted .cal-num { color: var(--muted-2); }
+  .cal-day.today .cal-num { color: var(--accent); font-weight: 600; }
+  .cal-day.highlight { background: var(--accent-soft); }
+  .cal-num { font-family: var(--mono); font-size: 13px; font-weight: 500; }
+  .cal-dots { display: flex; gap: 3px; flex-wrap: wrap; margin-top: auto; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .dot-citas { background: var(--citas); }
+  .dot-salud { background: var(--salud); }
+  .dot-gastos { background: var(--gastos); }
+  .dot-proyectos { background: var(--proyectos); }
+  .dot-mant { background: var(--mant); }
+  .dot-viajes { background: var(--viajes); }
+  .dot-fechas { background: var(--fechas); }
+  .dot-discus { background: var(--discus); }
+  .cal-event { font-family: var(--sans); font-size: 11px; font-weight: 500; line-height: 1.3; color: var(--ink); margin-top: 2px; }
+  .mimos-pill { display: inline-block; font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); padding: 2px 6px; border: 1px solid var(--accent); border-radius: var(--r-sm); margin-top: 4px; }
+
+  /* Side panel */
+  .side-panel { display: flex; flex-direction: column; gap: 28px; }
+  .panel-title { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .panel-window { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 15px; color: var(--muted); margin-bottom: 16px; }
+  .panel-section { padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+  .panel-section:last-child { border-bottom: none; }
+  .panel-label { display: flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .panel-label .dot { width: 8px; height: 8px; }
+  .panel-item { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 6px 0; }
+  .panel-item-name { font-family: var(--sans); font-size: 14px; font-weight: 500; }
+  .panel-item-meta { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .panel-amount { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--ink); }
+
+  /* Resumen mensual editorial mockup */
+  .resumen { padding: 56px 64px; background: var(--surface); border-radius: var(--r-lg); border: 1px solid var(--line); }
+  .resumen-meta { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+  .resumen-title { font-family: var(--serif); font-weight: 400; font-size: 56px; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .resumen-title em { font-style: italic; color: var(--accent); }
+  .resumen-sub { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 22px; color: var(--muted); margin-bottom: 48px; }
+  .resumen-section { margin-bottom: 40px; }
+  .resumen-section h3 { font-family: var(--sans); font-weight: 600; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .resumen-body { font-family: var(--serif); font-weight: 400; font-size: 19px; line-height: 1.65; max-width: 62ch; }
+  .resumen-body::first-letter { font-family: var(--serif); font-weight: 500; font-size: 64px; line-height: 0.9; float: left; padding: 6px 10px 0 0; color: var(--accent); }
+  .stats-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 32px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 48px 0; }
+  .stat { display: flex; flex-direction: column; gap: 6px; }
+  .stat-label { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .stat-value { font-family: var(--serif); font-weight: 400; font-size: 36px; line-height: 1; letter-spacing: -0.01em; }
+  .stat-delta { font-family: var(--mono); font-size: 12px; font-weight: 500; }
+  .stat-delta.up { color: var(--success); }
+  .stat-delta.down { color: var(--error); }
+
+  /* Mobile capture mockup */
+  .mobile-frame { width: 360px; margin: 0 auto; padding: 24px 20px 32px; background: var(--bg); border: 1px solid var(--line); border-radius: 28px; }
+  .mobile-header { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 24px; letter-spacing: 0.04em; }
+  .mobile-title { font-family: var(--serif); font-weight: 400; font-size: 28px; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .mobile-prompt { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--muted); margin-bottom: 28px; }
+  .field-label { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .field { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 16px; font-family: var(--sans); font-size: 16px; margin-bottom: 20px; }
+  .scale { display: flex; gap: 6px; margin-bottom: 24px; }
+  .scale-num { flex: 1; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 14px; font-weight: 500; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-sm); cursor: pointer; }
+  .scale-num.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn { display: block; width: 100%; padding: 16px; font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: 0.02em; background: var(--ink); color: var(--bg); border: none; border-radius: var(--r-md); cursor: pointer; }
+  .btn-secondary { background: transparent; color: var(--ink); border: 1px solid var(--line); margin-top: 12px; }
+
+  /* Mimos card */
+  .mimos-card { padding: 40px 36px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); max-width: 480px; }
+  .mimos-emocion { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+  .mimos-titulo { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 32px; line-height: 1.2; margin-bottom: 16px; }
+  .mimos-desc { font-family: var(--serif); font-weight: 300; font-size: 17px; line-height: 1.6; color: var(--ink); margin-bottom: 24px; }
+  .mimos-author { font-family: var(--sans); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+  .mimos-author strong { color: var(--ink); font-weight: 600; }
+
+  /* Buttons row */
+  .button-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary { background: var(--accent); color: white; border: 1px solid var(--accent); padding: 12px 24px; font-family: var(--sans); font-size: 14px; font-weight: 600; border-radius: var(--r-md); cursor: pointer; }
+  .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); padding: 12px 24px; font-family: var(--sans); font-size: 14px; font-weight: 500; border-radius: var(--r-md); cursor: pointer; }
+  .btn-link { background: transparent; color: var(--accent); border: none; padding: 12px 0; font-family: var(--sans); font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: var(--surface-2); border-radius: 999px; font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+
+  footer { margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1 class="page-title">Ohana <em>Domestic Modernism</em></h1>
+  <button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">Toggle theme</button>
+</header>
+
+<section>
+  <div class="section-label">01 — Tipografía</div>
+  <h2 class="section-title">Three roles, one system</h2>
+  <div class="grid-2">
+    <div class="specimen">
+      <div class="specimen-label">Fraunces · display · weight 400 · opsz 144</div>
+      <div class="display-sample">Mayo 2026</div>
+      <div class="display-sample" style="font-style: italic; color: var(--accent);">Resumen mensual</div>
+    </div>
+    <div class="specimen">
+      <div class="specimen-label">Fraunces · h1 · weight 500</div>
+      <h3 class="h1-sample">Una nueva acuerdo después de la cena del sábado.</h3>
+    </div>
+    <div class="specimen">
+      <div class="specimen-label">Instrument Sans · body · 16px / 1.6</div>
+      <p class="body-sample">Esta semana hicimos dos citas, completamos cinco accionables y agregamos un mimo cada uno. La presión en el trabajo bajó de alta a mediana. Sofía propuso adelantar el viaje a Oaxaca.</p>
+    </div>
+    <div class="specimen">
+      <div class="specimen-label">Geist Mono · data · 14px / 500</div>
+      <div class="mono-sample">$2,400.00 MXN · vence 12 may · pagado por Alberto</div>
+      <div class="mono-sample" style="margin-top: 8px;">+12% vs abril · 7.4 / 10 energía promedio</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">02 — Color</div>
+  <h2 class="section-title">Warm paper, ink, one bold accent</h2>
+  <div class="swatches">
+    <div class="swatch"><div class="swatch-block" style="background: #FBF7F2;"></div><span class="swatch-name">Paper</span><span class="swatch-hex">#FBF7F2</span><span class="swatch-role">Background</span></div>
+    <div class="swatch"><div class="swatch-block" style="background: #F4EDE3;"></div><span class="swatch-name">Cream</span><span class="swatch-hex">#F4EDE3</span><span class="swatch-role">Surface</span></div>
+    <div class="swatch"><div class="swatch-block" style="background: #1A1714;"></div><span class="swatch-name">Ink</span><span class="swatch-hex">#1A1714</span><span class="swatch-role">Text</span></div>
+    <div class="swatch"><div class="swatch-block" style="background: #6B6358;"></div><span class="swatch-name">Stone</span><span class="swatch-hex">#6B6358</span><span class="swatch-role">Muted</span></div>
+    <div class="swatch"><div class="swatch-block" style="background: #C4623E;"></div><span class="swatch-name">Terracotta</span><span class="swatch-hex">#C4623E</span><span class="swatch-role">Accent</span></div>
+  </div>
+  <div class="swatches" style="margin-top: 24px;">
+    <div class="swatch"><div class="swatch-block" style="background: #B85544;"></div><span class="swatch-name">Citas</span><span class="swatch-hex">#B85544</span></div>
+    <div class="swatch"><div class="swatch-block" style="background: #5A7A47;"></div><span class="swatch-name">Mantenimiento</span><span class="swatch-hex">#5A7A47</span></div>
+    <div class="swatch"><div class="swatch-block" style="background: #C99432;"></div><span class="swatch-name">Pagos</span><span class="swatch-hex">#C99432</span></div>
+    <div class="swatch"><div class="swatch-block" style="background: #4D8489;"></div><span class="swatch-name">Viajes</span><span class="swatch-hex">#4D8489</span></div>
+    <div class="swatch"><div class="swatch-block" style="background: #B89043;"></div><span class="swatch-name">Fechas clave</span><span class="swatch-hex">#B89043</span></div>
+  </div>
+  <div class="button-row" style="margin-top: 32px;">
+    <button class="btn-primary">Crear acuerdo</button>
+    <button class="btn-ghost">Cancelar</button>
+    <button class="btn-link">Ver todo el historial</button>
+    <span class="badge">Pendiente</span>
+    <span class="badge" style="color: var(--accent);">● Cita propuesta</span>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">03 — Calendario · iPad</div>
+  <h2 class="section-title">The working machinery</h2>
+  <div class="calendar-mock">
+    <div>
+      <div class="cal-header">
+        <div>
+          <div class="cal-month">Mayo <em>2026</em></div>
+          <div class="cal-couple">Alberto y Sofía · 4 años juntos</div>
+        </div>
+        <div class="cal-nav">
+          <button>← Abr</button>
+          <button>Hoy</button>
+          <button>Jun →</button>
+        </div>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-dow">Lun</div><div class="cal-dow">Mar</div><div class="cal-dow">Mié</div><div class="cal-dow">Jue</div><div class="cal-dow">Vie</div><div class="cal-dow">Sáb</div><div class="cal-dow">Dom</div>
+
+        <div class="cal-day muted"><span class="cal-num">28</span></div>
+        <div class="cal-day muted"><span class="cal-num">29</span></div>
+        <div class="cal-day muted"><span class="cal-num">30</span></div>
+        <div class="cal-day"><span class="cal-num">1</span></div>
+        <div class="cal-day"><span class="cal-num">2</span><div class="cal-dots"><span class="dot dot-mant"></span></div></div>
+        <div class="cal-day"><span class="cal-num">3</span></div>
+        <div class="cal-day"><span class="cal-num">4</span></div>
+
+        <div class="cal-day"><span class="cal-num">5</span></div>
+        <div class="cal-day"><span class="cal-num">6</span><div class="cal-dots"><span class="dot dot-gastos"></span></div></div>
+        <div class="cal-day today"><span class="cal-num">7</span></div>
+        <div class="cal-day"><span class="cal-num">8</span></div>
+        <div class="cal-day"><span class="cal-num">9</span><div class="cal-event">Cena · La Docena</div><div class="cal-dots"><span class="dot dot-citas"></span></div></div>
+        <div class="cal-day"><span class="cal-num">10</span></div>
+        <div class="cal-day"><span class="cal-num">11</span></div>
+
+        <div class="cal-day"><span class="cal-num">12</span><div class="cal-event">CFE · luz</div><div class="cal-dots"><span class="dot dot-gastos"></span></div></div>
+        <div class="cal-day"><span class="cal-num">13</span></div>
+        <div class="cal-day"><span class="cal-num">14</span><div class="cal-dots"><span class="dot dot-mant"></span></div></div>
+        <div class="cal-day"><span class="cal-num">15</span></div>
+        <div class="cal-day"><span class="cal-num">16</span><div class="cal-dots"><span class="dot dot-citas"></span></div></div>
+        <div class="cal-day"><span class="cal-num">17</span></div>
+        <div class="cal-day"><span class="cal-num">18</span></div>
+
+        <div class="cal-day"><span class="cal-num">19</span><div class="cal-event">Aniversario 4 años</div><div class="cal-dots"><span class="dot dot-fechas"></span></div></div>
+        <div class="cal-day"><span class="cal-num">20</span></div>
+        <div class="cal-day"><span class="cal-num">21</span></div>
+        <div class="cal-day"><span class="cal-num">22</span><div class="cal-dots"><span class="dot dot-gastos"></span><span class="dot dot-mant"></span></div></div>
+        <div class="cal-day"><span class="cal-num">23</span><div class="cal-event">Salida · Valle de Bravo</div><div class="cal-dots"><span class="dot dot-viajes"></span></div></div>
+        <div class="cal-day"><span class="cal-num">24</span></div>
+        <div class="cal-day"><span class="cal-num">25</span></div>
+
+        <div class="cal-day"><span class="cal-num">26</span></div>
+        <div class="cal-day"><span class="cal-num">27</span></div>
+        <div class="cal-day"><span class="cal-num">28</span><div class="cal-dots"><span class="dot dot-mant"></span></div></div>
+        <div class="cal-day"><span class="cal-num">29</span></div>
+        <div class="cal-day"><span class="cal-num">30</span></div>
+        <div class="cal-day"><span class="cal-num">31</span></div>
+        <div class="cal-day highlight"><span class="cal-num">1</span><span class="mimos-pill">Mimos</span></div>
+      </div>
+    </div>
+
+    <aside class="side-panel">
+      <div>
+        <div class="panel-title">Próximos 14 días</div>
+        <div class="panel-window">una ventana, no un historial</div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-label"><span class="dot dot-citas"></span>Citas próximas</div>
+        <div class="panel-item"><span class="panel-item-name">Cena en La Docena</span><span class="panel-item-meta">vie 9 may</span></div>
+        <div class="panel-item"><span class="panel-item-name">Cine y caminar</span><span class="panel-item-meta">vie 16 may</span></div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-label"><span class="dot dot-gastos"></span>Siguientes pagos</div>
+        <div class="panel-item"><span class="panel-item-name">CFE · luz</span><span class="panel-amount">$2,400</span></div>
+        <div class="panel-item"><span class="panel-item-name">Mantenimiento depa</span><span class="panel-amount">$3,200</span></div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-label"><span class="dot dot-mant"></span>Mantenimiento</div>
+        <div class="panel-item"><span class="panel-item-name">Filtros AC</span><span class="panel-item-meta">en 3 días</span></div>
+        <div class="panel-item"><span class="panel-item-name">Riego de plantas</span><span class="panel-item-meta">mié 14 may</span></div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-label"><span class="dot dot-fechas"></span>Fechas clave</div>
+        <div class="panel-item"><span class="panel-item-name">Aniversario · 4 años</span><span class="panel-item-meta">19 may</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">04 — Resumen mensual · iPad</div>
+  <h2 class="section-title">The Claude-generated narrative as something you actually read</h2>
+  <article class="resumen">
+    <div class="resumen-meta">Resumen mensual · Abril 2026 · Generado el 1 de mayo</div>
+    <h1 class="resumen-title">Un mes de <em>presencia</em>.</h1>
+    <p class="resumen-sub">Cuatro citas, doce mimos, una conversación pendiente que ya no lo está.</p>
+
+    <div class="stats-strip">
+      <div class="stat"><span class="stat-label">Citas</span><span class="stat-value">4</span><span class="stat-delta up">+1 vs mar</span></div>
+      <div class="stat"><span class="stat-label">Mimos intercambiados</span><span class="stat-value">12</span><span class="stat-delta up">+5 vs mar</span></div>
+      <div class="stat"><span class="stat-label">Energía promedio</span><span class="stat-value">7.4</span><span class="stat-delta up">+0.6</span></div>
+      <div class="stat"><span class="stat-label">Discusiones</span><span class="stat-value">1</span><span class="stat-delta down">−2 vs mar</span></div>
+    </div>
+
+    <div class="resumen-section">
+      <h3>Conexión</h3>
+      <p class="resumen-body">Hicieron cuatro citas en abril, una más que en marzo, y las calificaciones promedio subieron de 3.8 a 4.4. La cena en El Califa fue la mejor calificada por ambos. Sofía agregó siete mimos esta vez, casi todos en la categoría de ternura; Alberto agregó cinco, repartidos entre gratitud y diversión.</p>
+    </div>
+
+    <div class="resumen-section">
+      <h3>Conflicto</h3>
+      <p class="resumen-body">Una sola discusión registrada este mes, sobre los tiempos para visitar a la familia. El tema "tiempo con familias" pasó de abierto a resuelto el 22 de abril cuando crearon el acuerdo de alternar fines de semana. Es la tercera vez que un tema recurrente se convierte en acuerdo formal este año.</p>
+    </div>
+  </article>
+</section>
+
+<section>
+  <div class="section-label">05 — Captura · móvil</div>
+  <h2 class="section-title">Checkin semanal — single screen, large targets</h2>
+  <div class="grid-2" style="align-items: start;">
+    <div class="mobile-frame">
+      <div class="mobile-header">CHECKIN · SEM 19 · DOMINGO 4 MAY</div>
+      <h2 class="mobile-title">¿Cómo va tu semana?</h2>
+      <p class="mobile-prompt">Dos minutos, antes de empezar la semana nueva.</p>
+
+      <div class="field-label">Estado de ánimo</div>
+      <div class="scale">
+        <div class="scale-num">😄</div>
+        <div class="scale-num active">🙂</div>
+        <div class="scale-num">😐</div>
+        <div class="scale-num">😔</div>
+      </div>
+
+      <div class="field-label">Energía · 1 a 10</div>
+      <div class="scale">
+        <div class="scale-num">1</div><div class="scale-num">2</div><div class="scale-num">3</div><div class="scale-num">4</div><div class="scale-num">5</div><div class="scale-num">6</div><div class="scale-num active">7</div><div class="scale-num">8</div><div class="scale-num">9</div><div class="scale-num">10</div>
+      </div>
+
+      <div class="field-label">Presión en el trabajo</div>
+      <div class="field" style="display: flex; justify-content: space-between; align-items: center;"><span>Mediana</span><span style="color: var(--muted); font-size: 14px;">⌄</span></div>
+
+      <div class="field-label">¿Algo que quieras decir?</div>
+      <div class="field" style="min-height: 80px; color: var(--muted); font-style: italic; font-family: var(--serif); font-size: 15px;">Esta semana sentí que estuvimos muy presentes, sobre todo el sábado…</div>
+
+      <button class="btn">Enviar checkin</button>
+      <button class="btn btn-secondary">Guardar borrador</button>
+    </div>
+
+    <div>
+      <div class="mimos-card">
+        <div class="mimos-emocion">Ternura · de Sofía</div>
+        <h3 class="mimos-titulo">El café del miércoles, sin que lo pidiera.</h3>
+        <p class="mimos-desc">Estabas concentrado escribiendo y simplemente apareció en la mesa. No dijiste nada, no esperaste un gracias, ni siquiera te paraste a verificar si lo había visto. Esos pequeños actos sin performance son los que más me llegan.</p>
+        <div class="mimos-author"><strong>Sofía</strong> · 23 abril · revelado en sesión del 1 de mayo</div>
+      </div>
+
+      <div style="margin-top: 24px; padding: 20px 24px; background: var(--surface); border-radius: var(--r-md); border: 1px solid var(--line);">
+        <div class="panel-title" style="margin-bottom: 12px;">Sesión de Mimos · próxima</div>
+        <div style="font-family: var(--serif); font-style: italic; font-size: 18px; margin-bottom: 8px;">Domingo 1 de junio, en el iPad de la sala.</div>
+        <div style="font-family: var(--sans); font-size: 13px; color: var(--muted);">Has agregado 3 mimos este mes. Sofía ha agregado 4. Se revelan juntos.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Domestic Modernism · proposed direction for Ohana · DESIGN.md draft · light/dark toggle in top right
+</footer>
+
+</body>
+</html>

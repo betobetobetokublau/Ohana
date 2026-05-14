@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ohana — Mediterránea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F2E8D5;
+    --bg-2: #EBDFC8;
+    --surface-cream: #F7EFDD;
+    --surface-clay: #E5C4A8;
+    --surface-teal: #2A4F4F;
+    --surface-ochre: #C99550;
+    --surface-rose: #D89B8C;
+    --surface-cobalt: #2D4A82;
+    --ink: #2A1F18;
+    --muted: #7A6655;
+    --line: #D4C4A8;
+    --terracotta: #B8542B;
+    --ochre: #C99432;
+    --teal: #2A6B6B;
+    --rose: #C66B5B;
+    --olive: #6B7F3E;
+    --plum: #6B3B5C;
+
+    --serif: 'Newsreader', Georgia, serif;
+    --sans: 'DM Sans', -apple-system, system-ui, sans-serif;
+  }
+  [data-theme="dark"]{--bg:#1F1812;--bg-2:#2A2018;--surface-cream:#2F2520;--ink:#F2E8D5;--muted:#A89B85;--line:#3A2E25}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background 200ms,color 200ms}
+  body{padding:48px 32px 96px;max-width:1400px;margin:0 auto}
+
+  .page-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:64px;padding-bottom:32px;border-bottom:2px solid var(--ink);position:relative}
+  .page-header::after{content:'';position:absolute;bottom:-6px;left:0;right:0;height:1px;background:var(--ink)}
+  .page-eyebrow{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--terracotta);margin-bottom:12px}
+  .page-title{font-family:var(--serif);font-weight:400;font-size:56px;letter-spacing:-0.02em;line-height:1}
+  .page-title em{font-style:italic;font-weight:300}
+  .theme-toggle{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;background:var(--ink);color:var(--bg);border:0;padding:10px 18px;cursor:pointer;border-radius:0}
+
+  section{margin-bottom:96px}
+  .section-eyebrow{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px}
+  .section-title{font-family:var(--serif);font-weight:400;font-size:36px;letter-spacing:-0.015em;margin-bottom:32px}
+  .section-title em{font-style:italic}
+
+  /* Type specimens */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .specimen{padding:32px;background:var(--surface-cream);border:1px solid var(--line)}
+  .specimen.terracotta{background:var(--terracotta);color:#F7EFDD}
+  .specimen.terracotta .label{color:#F7EFDD;opacity:0.7}
+  .label{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .display{font-family:var(--serif);font-weight:400;font-size:64px;line-height:1;letter-spacing:-0.02em}
+  .display em{font-style:italic;font-weight:300}
+  .h{font-family:var(--serif);font-weight:500;font-size:32px;line-height:1.15}
+  .body-s{font-size:16px;line-height:1.65;max-width:62ch}
+  .body-s em{font-family:var(--serif);font-style:italic;font-weight:400}
+
+  /* Color — color blocks not swatches */
+  .color-blocks{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:24px}
+  .block{aspect-ratio:0.7;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;color:#F7EFDD;position:relative;overflow:hidden}
+  .block.dark{color:#F7EFDD}
+  .block.light{color:var(--ink)}
+  .block-name{font-family:var(--serif);font-style:italic;font-weight:400;font-size:22px;letter-spacing:-0.01em}
+  .block-hex{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;opacity:0.8}
+
+  .module-color-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .mc{padding:24px 20px;color:#F7EFDD;display:flex;flex-direction:column;justify-content:space-between;min-height:120px}
+  .mc-name{font-family:var(--serif);font-style:italic;font-weight:400;font-size:24px;line-height:1}
+  .mc-hex{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;opacity:0.8}
+
+  /* Calendar — color-blocked, hand-touched */
+  .cal{background:var(--surface-cream);border:2px solid var(--ink);position:relative}
+  .cal-top{display:flex;justify-content:space-between;align-items:center;padding:24px 32px;background:var(--ink);color:var(--bg)}
+  .cal-top-l{display:flex;flex-direction:column;gap:4px}
+  .cal-couple{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;opacity:0.8}
+  .cal-month{font-family:var(--serif);font-weight:400;font-size:42px;letter-spacing:-0.02em;line-height:1}
+  .cal-month em{font-style:italic;font-weight:300}
+  .cal-nav{display:flex;gap:0}
+  .cal-nav button{background:transparent;border:1px solid var(--bg);color:var(--bg);padding:10px 16px;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;margin-left:-1px}
+
+  .cal-body{display:grid;grid-template-columns:7fr 3fr;gap:0}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+  .dow{padding:14px 12px;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--ink);background:var(--bg-2)}
+  .day{aspect-ratio:1;padding:8px 10px;display:flex;flex-direction:column;gap:4px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);position:relative}
+  .day:nth-child(7n+7){border-right:0}
+  .day.muted{background:var(--bg-2);opacity:0.5}
+  .day.today{background:var(--surface-clay)}
+  .day.session{background:var(--terracotta);color:#F7EFDD}
+  .day.session .num{color:#F7EFDD}
+  .num{font-family:var(--serif);font-weight:500;font-size:18px;line-height:1}
+  .pill{display:inline-block;font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:0.04em;padding:2px 6px;color:#F7EFDD;align-self:flex-start;line-height:1.3}
+  .pill.citas{background:var(--rose)}
+  .pill.gastos{background:var(--ochre)}
+  .pill.mant{background:var(--olive)}
+  .pill.viajes{background:var(--teal)}
+  .pill.fechas{background:var(--terracotta)}
+  .session-tag{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;margin-top:auto}
+
+  /* Side panel — color-blocked sections */
+  .panel{display:flex;flex-direction:column}
+  .panel-block{padding:18px 20px;color:#F7EFDD;border-bottom:1px solid rgba(255,255,255,0.15)}
+  .panel-block:last-child{border-bottom:0}
+  .pb-citas{background:var(--rose)}
+  .pb-gastos{background:var(--ochre)}
+  .pb-mant{background:var(--olive)}
+  .pb-fechas{background:var(--terracotta)}
+  .panel-h{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.85;margin-bottom:10px}
+  .panel-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;font-size:13px;border-bottom:1px dotted rgba(255,255,255,0.25)}
+  .panel-row:last-child{border-bottom:0}
+  .panel-row .name{font-weight:500}
+  .panel-row .meta{font-family:var(--serif);font-style:italic;opacity:0.85;font-size:13px}
+
+  /* Resumen — magazine, hand-touched, drop cap, decorated */
+  .res{background:var(--surface-cream);border:2px solid var(--ink);padding:64px 80px;position:relative}
+  .res::before{content:'';position:absolute;top:24px;left:24px;right:24px;height:1px;background:var(--terracotta)}
+  .res-meta{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--terracotta);margin-bottom:32px}
+  .res-title{font-family:var(--serif);font-weight:400;font-size:88px;line-height:0.95;letter-spacing:-0.025em;margin-bottom:16px}
+  .res-title em{font-style:italic;font-weight:300;color:var(--terracotta)}
+  .res-sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:24px;color:var(--muted);max-width:30ch;margin-bottom:56px;line-height:1.4}
+
+  .res-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--ink);margin-bottom:64px}
+  .res-stat{padding:24px;border-right:1px solid var(--line);text-align:center;background:var(--bg)}
+  .res-stat:last-child{border-right:0}
+  .res-stat-label{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .res-stat-value{font-family:var(--serif);font-weight:400;font-size:48px;letter-spacing:-0.02em;line-height:1}
+  .res-stat-delta{font-family:var(--sans);font-size:11px;font-weight:600;margin-top:8px;letter-spacing:0.04em}
+  .res-stat-delta.up{color:var(--olive)}
+  .res-stat-delta.down{color:var(--terracotta)}
+
+  .res-section{margin-bottom:48px}
+  .res-h{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--terracotta);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+  .res-h::after{content:'';flex:1;height:1px;background:var(--terracotta);opacity:0.4}
+  .res-body{font-family:var(--serif);font-weight:400;font-size:21px;line-height:1.65;max-width:62ch}
+  .res-body em{font-style:italic;color:var(--terracotta)}
+  .res-body.first::first-letter{font-family:var(--serif);font-weight:300;font-size:96px;line-height:0.85;float:left;padding:8px 14px 0 0;color:var(--terracotta);font-style:italic}
+
+  /* Mobile */
+  .mob{width:360px;padding:24px;background:var(--surface-cream);border:2px solid var(--ink);margin:0 auto}
+  .mob-meta{display:flex;justify-content:space-between;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--terracotta);padding-bottom:12px;border-bottom:1px solid var(--ink);margin-bottom:24px}
+  .mob-q{font-family:var(--serif);font-weight:400;font-size:32px;letter-spacing:-0.015em;line-height:1.1;margin-bottom:8px}
+  .mob-q em{font-style:italic;color:var(--terracotta)}
+  .mob-prompt{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--muted);margin-bottom:28px;line-height:1.5}
+  .mob-label{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+  .mood{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
+  .mood-opt{aspect-ratio:1;background:var(--bg);border:2px solid var(--ink);font-family:var(--serif);font-style:italic;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-direction:column;gap:4px}
+  .mood-opt .em{font-size:24px}
+  .mood-opt.on{background:var(--terracotta);color:#F7EFDD;border-color:var(--terracotta)}
+  .scale{display:flex;gap:4px;margin-bottom:24px}
+  .scale-n{flex:1;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-weight:600;font-size:14px;background:var(--bg);border:1px solid var(--ink);cursor:pointer}
+  .scale-n.on{background:var(--ochre);color:var(--ink);border-color:var(--ochre)}
+  .field{background:var(--bg);border:2px solid var(--ink);padding:14px 16px;font-family:var(--serif);font-size:16px;font-style:italic;color:var(--muted);margin-bottom:20px}
+  .btn{display:block;width:100%;padding:18px;font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;background:var(--terracotta);color:#F7EFDD;border:0;cursor:pointer}
+  .btn-2{background:transparent;color:var(--ink);border:2px solid var(--ink);margin-top:8px}
+
+  /* Mimos */
+  .mimos{padding:48px 40px;background:var(--terracotta);color:#F7EFDD;max-width:480px;position:relative;border:2px solid var(--ink)}
+  .mimos::before{content:'❋';position:absolute;top:24px;right:32px;font-family:var(--serif);font-size:32px;font-style:italic;opacity:0.4}
+  .mimos-tag{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;opacity:0.9;margin-bottom:24px}
+  .mimos-q{font-family:var(--serif);font-style:italic;font-weight:300;font-size:36px;line-height:1.15;letter-spacing:-0.01em;margin-bottom:24px}
+  .mimos-body{font-family:var(--serif);font-weight:300;font-size:18px;line-height:1.65;margin-bottom:28px;opacity:0.95}
+  .mimos-foot{display:flex;justify-content:space-between;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding-top:20px;border-top:1px solid rgba(255,255,255,0.3);opacity:0.85}
+
+  footer{margin-top:64px;padding-top:32px;border-top:2px solid var(--ink);font-family:var(--sans);font-size:11px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;font-weight:600;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div>
+    <div class="page-eyebrow">Ohana · Proposal 03 / 04 · Mediterránea</div>
+    <h1 class="page-title">Casa Barragán <em>meets</em> Apartamento.</h1>
+  </div>
+  <button class="theme-toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">Tema oscuro</button>
+</header>
+
+<section>
+  <div class="section-eyebrow">01 · Tipografía</div>
+  <h2 class="section-title">Newsreader serif <em>+ DM Sans body</em>. Italic carries the warmth.</h2>
+  <div class="grid-2">
+    <div class="specimen">
+      <div class="label">Newsreader · display 400 · italic accents</div>
+      <div class="display">Mayo <em>2026</em></div>
+      <div class="display" style="margin-top:12px"><em>Resumen</em></div>
+    </div>
+    <div class="specimen terracotta">
+      <div class="label">Inverted · serif italic for emotion</div>
+      <div class="h" style="font-style:italic;font-weight:300">El café del miércoles, sin que lo pidiera.</div>
+    </div>
+    <div class="specimen">
+      <div class="label">Newsreader body · 16px · 1.65</div>
+      <p class="body-s">Esta semana hicimos dos citas, completamos cinco accionables y agregamos un mimo cada uno. La presión bajó de alta a mediana. Sofía propuso adelantar el viaje a <em>Oaxaca</em>.</p>
+    </div>
+    <div class="specimen">
+      <div class="label">DM Sans · UI · tabular nums</div>
+      <div style="font-family:var(--sans);font-weight:500;font-size:18px;font-feature-settings:'tnum'">$2,400.00 MXN · 12 mayo</div>
+      <div style="font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--terracotta);margin-top:12px">SIGUIENTES PAGOS</div>
+      <div style="font-family:var(--sans);font-weight:500;font-size:14px;margin-top:6px">4 citas · 12 mimos · 1 discusión</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-eyebrow">02 · Color</div>
+  <h2 class="section-title">Color-blocked. <em>Each module owns territory.</em></h2>
+  <div class="color-blocks">
+    <div class="block dark" style="background:#F2E8D5;color:#2A1F18"><span class="block-name">Arena</span><span class="block-hex">F2E8D5</span></div>
+    <div class="block light" style="background:#F7EFDD"><span class="block-name">Crema</span><span class="block-hex">F7EFDD</span></div>
+    <div class="block dark" style="background:#2A1F18"><span class="block-name">Tinta</span><span class="block-hex">2A1F18</span></div>
+    <div class="block dark" style="background:#B8542B"><span class="block-name">Terracotta</span><span class="block-hex">B8542B</span></div>
+    <div class="block dark" style="background:#C99432"><span class="block-name">Ocre</span><span class="block-hex">C99432</span></div>
+    <div class="block dark" style="background:#2A6B6B"><span class="block-name">Verde mar</span><span class="block-hex">2A6B6B</span></div>
+  </div>
+  <div class="module-color-grid">
+    <div class="mc" style="background:var(--rose)"><div class="mc-name">Citas</div><div class="mc-hex">C66B5B</div></div>
+    <div class="mc" style="background:var(--ochre)"><div class="mc-name">Pagos</div><div class="mc-hex">C99432</div></div>
+    <div class="mc" style="background:var(--olive)"><div class="mc-name">Mantenimiento</div><div class="mc-hex">6B7F3E</div></div>
+    <div class="mc" style="background:var(--teal)"><div class="mc-name">Viajes</div><div class="mc-hex">2A6B6B</div></div>
+  </div>
+  <p style="font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted);max-width:62ch;margin-top:24px">Each module gets a real color territory, not a color dot. The side panel is itself color-blocked. The Mimos card is fully terracotta. Color is content.</p>
+</section>
+
+<section>
+  <div class="section-eyebrow">03 · Calendario · iPad</div>
+  <h2 class="section-title">A working object, <em>not</em> a screen.</h2>
+  <div class="cal">
+    <div class="cal-top">
+      <div class="cal-top-l">
+        <div class="cal-couple">Alberto y Sofía · 4 años</div>
+        <div class="cal-month">Mayo <em>2026</em></div>
+      </div>
+      <div class="cal-nav"><button>← ABR</button><button>HOY</button><button>JUN →</button></div>
+    </div>
+    <div class="cal-body">
+      <div class="cal-grid">
+        <div class="dow">L</div><div class="dow">M</div><div class="dow">M</div><div class="dow">J</div><div class="dow">V</div><div class="dow">S</div><div class="dow">D</div>
+        <div class="day muted"><span class="num">28</span></div><div class="day muted"><span class="num">29</span></div><div class="day muted"><span class="num">30</span></div>
+        <div class="day"><span class="num">1</span></div><div class="day"><span class="num">2</span><span class="pill mant">Plantas</span></div><div class="day"><span class="num">3</span></div><div class="day"><span class="num">4</span></div>
+        <div class="day"><span class="num">5</span></div><div class="day"><span class="num">6</span><span class="pill gastos">Internet</span></div>
+        <div class="day today"><span class="num">7</span></div><div class="day"><span class="num">8</span></div>
+        <div class="day"><span class="num">9</span><span class="pill citas">La Docena</span></div><div class="day"><span class="num">10</span></div><div class="day"><span class="num">11</span></div>
+        <div class="day"><span class="num">12</span><span class="pill gastos">CFE luz</span></div><div class="day"><span class="num">13</span></div><div class="day"><span class="num">14</span><span class="pill mant">Filtros AC</span></div><div class="day"><span class="num">15</span></div>
+        <div class="day"><span class="num">16</span><span class="pill citas">Cine</span></div><div class="day"><span class="num">17</span></div><div class="day"><span class="num">18</span></div>
+        <div class="day"><span class="num">19</span><span class="pill fechas">Aniversario 4</span></div><div class="day"><span class="num">20</span></div><div class="day"><span class="num">21</span></div>
+        <div class="day"><span class="num">22</span><span class="pill gastos">Renta</span></div><div class="day"><span class="num">23</span><span class="pill viajes">Valle de B.</span></div><div class="day"><span class="num">24</span></div><div class="day"><span class="num">25</span></div>
+        <div class="day"><span class="num">26</span></div><div class="day"><span class="num">27</span></div><div class="day"><span class="num">28</span><span class="pill mant">Limpieza</span></div><div class="day"><span class="num">29</span></div><div class="day"><span class="num">30</span></div><div class="day"><span class="num">31</span></div>
+        <div class="day session"><span class="num">1</span><span class="session-tag">Sesión Mimos</span></div>
+      </div>
+      <aside class="panel">
+        <div class="panel-block pb-citas">
+          <div class="panel-h">Citas próximas</div>
+          <div class="panel-row"><span class="name">Cena en La Docena</span><span class="meta">vie 9 may</span></div>
+          <div class="panel-row"><span class="name">Cine y caminar</span><span class="meta">vie 16 may</span></div>
+        </div>
+        <div class="panel-block pb-gastos">
+          <div class="panel-h">Siguientes pagos</div>
+          <div class="panel-row"><span class="name">CFE · luz</span><span class="meta">$2,400</span></div>
+          <div class="panel-row"><span class="name">Renta · 22 mayo</span><span class="meta">$28,500</span></div>
+        </div>
+        <div class="panel-block pb-mant">
+          <div class="panel-h">Mantenimiento</div>
+          <div class="panel-row"><span class="name">Filtros AC</span><span class="meta">en 3 días</span></div>
+          <div class="panel-row"><span class="name">Limpieza profunda</span><span class="meta">en 21 días</span></div>
+        </div>
+        <div class="panel-block pb-fechas">
+          <div class="panel-h">Fechas clave</div>
+          <div class="panel-row"><span class="name">Aniversario · 4 años</span><span class="meta">19 mayo</span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-eyebrow">04 · Resumen mensual · iPad</div>
+  <h2 class="section-title">A monthly <em>essay</em>, not a dashboard.</h2>
+  <article class="res">
+    <div class="res-meta">Resumen · Abril 2026 · generado el 1° de mayo</div>
+    <h1 class="res-title">Un mes de <em>presencia</em>.</h1>
+    <p class="res-sub">Cuatro citas, doce mimos, una conversación pendiente que ya no lo está.</p>
+
+    <div class="res-stats">
+      <div class="res-stat"><div class="res-stat-label">Citas</div><div class="res-stat-value">4</div><div class="res-stat-delta up">+1 vs marzo</div></div>
+      <div class="res-stat"><div class="res-stat-label">Mimos</div><div class="res-stat-value">12</div><div class="res-stat-delta up">+5 vs marzo</div></div>
+      <div class="res-stat"><div class="res-stat-label">Energía</div><div class="res-stat-value">7.4</div><div class="res-stat-delta up">+0.6</div></div>
+      <div class="res-stat"><div class="res-stat-label">Discusiones</div><div class="res-stat-value">1</div><div class="res-stat-delta down">−2 vs marzo</div></div>
+    </div>
+
+    <div class="res-section">
+      <div class="res-h">Conexión</div>
+      <p class="res-body first">Hicieron cuatro citas en abril, una más que en marzo, y las calificaciones promedio subieron de 3.8 a 4.4. La cena en <em>El Califa</em> fue la mejor calificada por ambos. Sofía agregó siete mimos esta vez, casi todos en la categoría de <em>ternura</em>; Alberto agregó cinco, repartidos entre gratitud y diversión.</p>
+    </div>
+
+    <div class="res-section">
+      <div class="res-h">Conflicto</div>
+      <p class="res-body">Una sola discusión registrada este mes, sobre los tiempos para visitar a la familia. El tema "tiempo con familias" pasó de <em>abierto</em> a <em>resuelto</em> el 22 de abril cuando crearon el acuerdo de alternar fines de semana. Es la tercera vez este año que un tema recurrente se convierte en acuerdo formal.</p>
+    </div>
+  </article>
+</section>
+
+<section>
+  <div class="section-eyebrow">05 · Captura · móvil</div>
+  <h2 class="section-title">Checkin como <em>ritual breve</em>.</h2>
+  <div class="grid-2" style="align-items:start">
+    <div class="mob">
+      <div class="mob-meta"><span>CHECKIN · SEM 19</span><span>DOM 4 MAY</span></div>
+      <h2 class="mob-q">¿Cómo va tu <em>semana</em>?</h2>
+      <p class="mob-prompt">Dos minutos antes de empezar la semana nueva.</p>
+      <div class="mob-label">Estado de ánimo</div>
+      <div class="mood">
+        <div class="mood-opt"><span class="em">😄</span>Feliz</div>
+        <div class="mood-opt on"><span class="em">🙂</span>Neutral</div>
+        <div class="mood-opt"><span class="em">😔</span>Agotado</div>
+        <div class="mood-opt"><span class="em">😢</span>Triste</div>
+      </div>
+      <div class="mob-label">Energía · 1 a 10</div>
+      <div class="scale"><div class="scale-n">1</div><div class="scale-n">2</div><div class="scale-n">3</div><div class="scale-n">4</div><div class="scale-n">5</div><div class="scale-n">6</div><div class="scale-n on">7</div><div class="scale-n">8</div><div class="scale-n">9</div><div class="scale-n">10</div></div>
+      <div class="mob-label">Comentario libre</div>
+      <div class="field">Esta semana sentí que estuvimos muy presentes…</div>
+      <button class="btn">Enviar checkin</button>
+      <button class="btn btn-2">Guardar borrador</button>
+    </div>
+    <div>
+      <div class="mimos">
+        <div class="mimos-tag">Ternura · 23 abril · de Sofía</div>
+        <h3 class="mimos-q">El café del miércoles, sin que lo pidiera.</h3>
+        <p class="mimos-body">Estabas concentrado escribiendo y simplemente apareció en la mesa. No dijiste nada, no esperaste un gracias, ni siquiera te paraste a verificar si lo había visto. Esos pequeños actos sin performance son los que más me llegan.</p>
+        <div class="mimos-foot"><span>Sofía → Alberto</span><span>Sesión 1 jun</span></div>
+      </div>
+      <div style="margin-top:24px;padding:24px;background:var(--surface-cream);border:2px solid var(--ink)">
+        <div style="font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--terracotta);margin-bottom:12px">Sesión próxima</div>
+        <div style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:24px;line-height:1.2;margin-bottom:8px">Domingo 1 de junio, en el iPad de la sala.</div>
+        <div style="font-family:var(--sans);font-size:13px;color:var(--muted)">Has agregado 3 mimos. Sofía agregó 4. Se revelan juntos.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Ohana · Mediterránea · 03/04</span>
+  <span>Color is content. Italic carries warmth.</span>
+</footer>
+
+</body>
+</html>

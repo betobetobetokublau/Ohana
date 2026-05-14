@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { moodByKey } from '@/lib/utils/mood';
-import type { MoodEmocion } from '@/types/database';
+import { moodByKey, dominantMood } from '@/lib/utils/mood';
+import type { MoodEmocion } from '@/lib/types';
 import { format, parseISO, startOfWeek, addDays, addWeeks, isSameDay } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { cn } from '@/lib/utils/cn';
@@ -42,18 +42,6 @@ export function MoodHeatmap({
 
   function moodsForDay(date: Date): MoodPoint[] {
     return filtered.filter(m => isSameDay(parseISO(m.created_at), date));
-  }
-
-  function dominantMood(dayMoods: MoodPoint[]): MoodPoint | null {
-    if (dayMoods.length === 0) return null;
-    if (dayMoods.length === 1) return dayMoods[0];
-    // Más frecuente; empate → más reciente
-    const counts = new Map<MoodEmocion, number>();
-    dayMoods.forEach(m => counts.set(m.emocion, (counts.get(m.emocion) || 0) + 1));
-    const maxCount = Math.max(...counts.values());
-    const candidates = Array.from(counts.entries()).filter(([_, c]) => c === maxCount).map(([e]) => e);
-    const lastMatch = [...dayMoods].reverse().find(m => candidates.includes(m.emocion));
-    return lastMatch || dayMoods[dayMoods.length - 1];
   }
 
   return (

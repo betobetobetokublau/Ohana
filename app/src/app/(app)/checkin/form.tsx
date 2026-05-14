@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Button, Textarea, Label } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
-import type { EstadoAnimo, PresionTrabajo } from '@/types/database';
+import type { EstadoAnimo, PresionTrabajo } from '@/lib/types';
 
 type Step = 1 | 2 | 'submitting';
 

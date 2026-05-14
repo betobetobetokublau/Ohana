@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { MOOD_OPTIONS } from '@/lib/utils/mood';
 import { Button, Textarea } from '@/components/ui';
-import type { MoodEmocion } from '@/types/database';
+import type { MoodEmocion } from '@/lib/types';
 import { cn } from '@/lib/utils/cn';
 
 export function MoodQuickCapture({

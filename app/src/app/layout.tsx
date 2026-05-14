@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Instrument_Sans, Geist_Mono } from 'next/font/google';
+import { Fraunces, Instrument_Sans, JetBrains_Mono } from 'next/font/google';
 import { PWARegister } from '@/components/pwa-register';
 import './globals.css';
 
@@ -16,7 +16,7 @@ const instrumentSans = Instrument_Sans({
   display: 'swap',
 });
 
-const geistMono = Geist_Mono({
+const mono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-geist-mono',
   display: 'swap',
@@ -32,11 +32,17 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
   },
   icons: {
-    apple: '/icons/apple-touch-icon.png',
     icon: [
-      { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+      { url: '/icons/icon.svg', type: 'image/svg+xml' },
     ],
+    apple: [
+      { url: '/icons/icon.svg', type: 'image/svg+xml' },
+    ],
+  },
+  other: {
+    // Modern equivalent del apple-mobile-web-app-capable que Next.js inyecta vía appleWebApp.
+    // Sin este meta, Chrome avisa deprecation en consola.
+    'mobile-web-app-capable': 'yes',
   },
 };
 
@@ -55,7 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="es"
-      className={`${fraunces.variable} ${instrumentSans.variable} ${geistMono.variable}`}
+      className={`${fraunces.variable} ${instrumentSans.variable} ${mono.variable}`}
     >
       <body>
         {children}

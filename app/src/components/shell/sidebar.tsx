@@ -15,7 +15,7 @@ export function Sidebar({ collapsed }: SidebarProps) {
   return (
     <nav
       className={cn(
-        'bg-surface border-r border-line transition-[width] duration-[220ms] ease-out overflow-hidden',
+        'bg-surface border-r border-line transition-[width] duration-200 ease-out overflow-hidden',
         collapsed ? 'w-0' : 'w-[200px]'
       )}
     >

@@ -2,7 +2,7 @@
 
 import { moodByKey } from '@/lib/utils/mood';
 import { useState } from 'react';
-import type { MoodEmocion } from '@/types/database';
+import type { MoodEmocion } from '@/lib/types';
 import { format, parseISO, startOfDay, addDays, isSameDay } from 'date-fns';
 import { es } from 'date-fns/locale';
 

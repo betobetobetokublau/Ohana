@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#FBF7F2" rx="64"/>
+  <text x="256" y="372"
+        font-family="Fraunces, Georgia, serif"
+        font-style="italic"
+        font-weight="400"
+        font-size="380"
+        fill="#C4623E"
+        text-anchor="middle">O</text>
+</svg>

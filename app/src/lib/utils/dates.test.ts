@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { fmtRel, fmtDate, fmtDateShort, fmtWeekOf, greeting } from './dates';
+import { fmtRel, fmtDate, fmtDateShort, fmtWeekOf, greeting, nextAnnualOccurrence } from './dates';
 
 describe('fmtRel · fecha relativa en español', () => {
   const now = new Date('2026-05-14T12:00:00');
@@ -66,6 +66,71 @@ describe('fmtWeekOf · lunes de la semana actual', () => {
 
   it('lunes → mismo día', () => {
     expect(fmtWeekOf('2026-05-11')).toBe('2026-05-11');
+  });
+});
+
+describe('nextAnnualOccurrence · próxima ocurrencia anual', () => {
+  it('aniversario en el futuro este año → este año', () => {
+    const now = new Date(2026, 4, 1); // 1 mayo
+    const result = nextAnnualOccurrence('2022-05-19', now);
+    expect(result.getFullYear()).toBe(2026);
+    expect(result.getMonth()).toBe(4);
+    expect(result.getDate()).toBe(19);
+  });
+
+  it('aniversario ya pasó este año → próximo año', () => {
+    const now = new Date(2026, 5, 1); // 1 junio
+    const result = nextAnnualOccurrence('2022-05-19', now);
+    expect(result.getFullYear()).toBe(2027);
+    expect(result.getMonth()).toBe(4);
+    expect(result.getDate()).toBe(19);
+  });
+
+  it('aniversario es hoy → hoy', () => {
+    const now = new Date(2026, 4, 19);
+    const result = nextAnnualOccurrence('2022-05-19', now);
+    expect(result.getFullYear()).toBe(2026);
+    expect(result.getDate()).toBe(19);
+  });
+
+  it('aniversario fue ayer → próximo año', () => {
+    const now = new Date(2026, 4, 20);
+    const result = nextAnnualOccurrence('2022-05-19', now);
+    expect(result.getFullYear()).toBe(2027);
+    expect(result.getDate()).toBe(19);
+  });
+
+  it('29 feb · año bisiesto → 29 feb', () => {
+    const now = new Date(2028, 0, 1); // enero 2028 (2028 es bisiesto)
+    const result = nextAnnualOccurrence('2020-02-29', now);
+    expect(result.getFullYear()).toBe(2028);
+    expect(result.getMonth()).toBe(1);
+    expect(result.getDate()).toBe(29);
+  });
+
+  it('29 feb · año NO bisiesto → 28 feb (no se va a 1 marzo)', () => {
+    const now = new Date(2027, 0, 1); // enero 2027 (no bisiesto)
+    const result = nextAnnualOccurrence('2020-02-29', now);
+    expect(result.getFullYear()).toBe(2027);
+    expect(result.getMonth()).toBe(1); // febrero
+    expect(result.getDate()).toBe(28);
+  });
+
+  it('acepta Date como input', () => {
+    const now = new Date(2026, 0, 1);
+    const result = nextAnnualOccurrence(new Date(2022, 11, 25), now);
+    expect(result.getFullYear()).toBe(2026);
+    expect(result.getMonth()).toBe(11);
+    expect(result.getDate()).toBe(25);
+  });
+
+  it('isLeapYear · cubre 2000 (sí) y 2100 (no)', () => {
+    // 2000 es divisible entre 400 → bisiesto
+    const result2000 = nextAnnualOccurrence('1996-02-29', new Date(2000, 0, 1));
+    expect(result2000.getDate()).toBe(29);
+    // 2100 es divisible entre 100 pero no 400 → NO bisiesto
+    const result2100 = nextAnnualOccurrence('1996-02-29', new Date(2100, 0, 1));
+    expect(result2100.getDate()).toBe(28);
   });
 });
 

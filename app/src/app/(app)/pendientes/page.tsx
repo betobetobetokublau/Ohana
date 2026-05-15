@@ -1,20 +1,11 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { fmtRel } from '@/lib/utils/dates';
+import { accionableColor } from '@/lib/utils/modules';
 import { Dot } from '@/components/ui';
 
 export const metadata = { title: 'Ohana · Mis pendientes' };
 export const dynamic = 'force-dynamic';
-
-const tipoColor: Record<string, string> = {
-  pago: 'hsl(var(--mod-gastos))',
-  mantenimiento: 'hsl(var(--mod-mant))',
-  proyecto: 'hsl(var(--mod-proyectos))',
-  viaje: 'hsl(var(--mod-viajes))',
-  saludsexual: 'hsl(var(--mod-salud))',
-  discusion: 'hsl(var(--mod-discus))',
-  revision: 'hsl(var(--mod-salud))',
-};
 
 export default async function PendientesPage() {
   const supabase = await createClient();
@@ -50,7 +41,7 @@ export default async function PendientesPage() {
               className={`flex items-center gap-3 px-4 py-3 ${i > 0 ? 'border-t border-line' : ''}`}
             >
               <div className="w-4 h-4 border border-line-2 rounded-sm bg-bg flex-shrink-0" />
-              <Dot color={tipoColor[p.tipo] || 'hsl(var(--ink))'} />
+              <Dot color={accionableColor(p.tipo)} />
               <div className="flex-1 min-w-0">
                 <div className="text-[14px] font-medium">{p.titulo}</div>
                 <div className="meta uppercase text-[10px]">{p.tipo}</div>

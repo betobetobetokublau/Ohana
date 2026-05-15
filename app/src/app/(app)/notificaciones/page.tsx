@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { fmtDate, fmtRel } from '@/lib/utils/dates';
-import { Button } from '@/components/ui';
+import { RealtimeRefresher } from '@/components/shared/realtime-refresher';
+import { MarkAllReadButton } from './mark-all-read';
 
 export const metadata = { title: 'Ohana · Notificaciones' };
 export const dynamic = 'force-dynamic';
@@ -22,6 +23,9 @@ export default async function NotificacionesPage() {
 
   return (
     <div className="px-5 py-8 md:px-10 max-w-3xl mx-auto">
+      <RealtimeRefresher
+        subs={[{ table: 'notification_events', filter: `user_id=eq.${user.id}` }]}
+      />
       <div className="flex justify-between items-baseline mb-8">
         <div>
           <div className="eyebrow">
@@ -29,7 +33,7 @@ export default async function NotificacionesPage() {
           </div>
           <h1 className="display text-3xl mt-1">Lo que <em>está pasando</em>.</h1>
         </div>
-        {unread.length > 0 && <Button variant="ghost" size="sm">Marcar todas leídas</Button>}
+        <MarkAllReadButton userId={user.id} unreadCount={unread.length} />
       </div>
 
       {!notifs || notifs.length === 0 ? (

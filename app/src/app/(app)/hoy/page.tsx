@@ -3,10 +3,13 @@ import { createClient } from '@/lib/supabase/server';
 import { fmtWeekOf, greeting, fmtRel } from '@/lib/utils/dates';
 import { MoodSparkline } from '@/components/mood/sparkline';
 import { MoodQuickCapture } from '@/components/mood/quick-capture';
+import { RealtimeRefresher } from '@/components/shared/realtime-refresher';
 import { Card, CardIconRow, CardIcon, Button, Pill, Dot } from '@/components/ui';
 import Link from 'next/link';
 import { CheckCircle2, Heart } from 'lucide-react';
 import type { MoodEmocion } from '@/lib/types';
+import { accionableColor, MODULE_COLOR } from '@/lib/utils/modules';
+import { partnerOf, isUserA } from '@/lib/utils/partner';
 
 type MoodRow = {
   id: string;
@@ -38,7 +41,7 @@ export default async function HoyPage() {
 
   if (!couple) redirect('/onboarding/espacio');
 
-  const partnerId = couple.user_a_id === user.id ? couple.user_b_id : couple.user_a_id;
+  const partnerId = partnerOf(couple, user.id);
 
   // Checkin semanal pendiente?
   const weekOf = fmtWeekOf();
@@ -58,7 +61,7 @@ export default async function HoyPage() {
     .eq('semana', weekOf)
     .maybeSingle();
 
-  const myVotes = couple.user_a_id === user.id ? propuesta?.votos_user_a : propuesta?.votos_user_b;
+  const myVotes = isUserA(couple, user.id) ? propuesta?.votos_user_a : propuesta?.votos_user_b;
   const haveIvoted = !!myVotes && myVotes.length > 0;
 
   // Pendientes top 3
@@ -85,18 +88,15 @@ export default async function HoyPage() {
 
   const name = userRow?.display_name || user.email?.split('@')[0] || 'tú';
 
-  const tipoColor: Record<string, string> = {
-    pago: 'hsl(var(--mod-gastos))',
-    mantenimiento: 'hsl(var(--mod-mant))',
-    proyecto: 'hsl(var(--mod-proyectos))',
-    viaje: 'hsl(var(--mod-viajes))',
-    saludsexual: 'hsl(var(--mod-salud))',
-    discusion: 'hsl(var(--mod-discus))',
-    revision: 'hsl(var(--mod-salud))',
-  };
-
   return (
     <div className="px-5 py-8 md:px-10 md:py-10 max-w-3xl mx-auto">
+      <RealtimeRefresher
+        subs={[
+          { table: 'mood_checkins', filter: `couple_id=eq.${couple.id}` },
+          { table: 'notification_events', filter: `user_id=eq.${user.id}` },
+          { table: 'citas_propuestas', filter: `couple_id=eq.${couple.id}` },
+        ]}
+      />
       <div className="eyebrow text-accent mb-2">Hoy</div>
       <h1 className="display text-3xl md:text-4xl">
         {greeting()}, <em>{name}</em>.
@@ -131,7 +131,7 @@ export default async function HoyPage() {
         {propuesta && !propuesta.consenso_idea_id && !haveIvoted && (
           <Card>
             <CardIconRow>
-              <CardIcon style={{ backgroundColor: 'hsl(var(--mod-citas))' }}>
+              <CardIcon style={{ backgroundColor: MODULE_COLOR.citas }}>
                 <Heart className="w-5 h-5" />
               </CardIcon>
               <div>
@@ -151,7 +151,7 @@ export default async function HoyPage() {
         {pendientes && pendientes.length > 0 && (
           <Card>
             <CardIconRow>
-              <CardIcon style={{ backgroundColor: 'hsl(var(--ink))' }}>
+              <CardIcon style={{ backgroundColor: MODULE_COLOR.ink }}>
                 <CheckCircle2 className="w-5 h-5" />
               </CardIcon>
               <div>
@@ -160,7 +160,7 @@ export default async function HoyPage() {
                   {pendientes.map(p => (
                     <div key={p.id} className="flex items-center gap-2.5">
                       <div className="w-4 h-4 border border-line-2 rounded-sm bg-bg" />
-                      <Dot color={tipoColor[p.tipo] || 'hsl(var(--ink))'} />
+                      <Dot color={accionableColor(p.tipo)} />
                       <span className="text-[14px] font-medium flex-1 truncate">{p.titulo}</span>
                       {p.due_date && (
                         <span className="meta">{fmtRel(p.due_date)}</span>

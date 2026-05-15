@@ -2,7 +2,9 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { MoodHeatmap } from '@/components/mood/heatmap';
 import { MoodCaptureFull } from '@/components/mood/capture-full';
+import { RealtimeRefresher } from '@/components/shared/realtime-refresher';
 import { Button } from '@/components/ui';
+import { partnerOf } from '@/lib/utils/partner';
 import type { MoodEmocion } from '@/lib/types';
 
 type MoodRow = {
@@ -29,7 +31,7 @@ export default async function MoodPage() {
 
   if (!couple) redirect('/onboarding/espacio');
 
-  const partnerId = couple.user_a_id === user.id ? couple.user_b_id : couple.user_a_id;
+  const partnerId = partnerOf(couple, user.id);
 
   // Últimos 8 semanas de moods
   const sinceDate = new Date();
@@ -45,6 +47,9 @@ export default async function MoodPage() {
 
   return (
     <div className="px-5 py-8 md:px-10 md:py-10 max-w-5xl mx-auto">
+      <RealtimeRefresher
+        subs={[{ table: 'mood_checkins', filter: `couple_id=eq.${couple.id}` }]}
+      />
       <div className="flex justify-between items-baseline mb-8">
         <div>
           <div className="eyebrow text-accent">Mood ad-hoc</div>

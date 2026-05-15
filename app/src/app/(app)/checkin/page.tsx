@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { fmtWeekOf } from '@/lib/utils/dates';
+import { partnerOf } from '@/lib/utils/partner';
 import { CheckinForm } from './form';
 import { CheckinCompare } from './compare';
 
@@ -19,7 +20,7 @@ export default async function CheckinPage() {
     .single();
 
   if (!couple) redirect('/onboarding/espacio');
-  const partnerId = couple.user_a_id === user.id ? couple.user_b_id : couple.user_a_id;
+  const partnerId = partnerOf(couple, user.id);
 
   const weekOf = fmtWeekOf();
 

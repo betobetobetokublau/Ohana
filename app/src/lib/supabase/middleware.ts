@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 import type { Database } from '@/types/database';
 
-const PUBLIC_PATHS = ['/login', '/auth/callback', '/auth/confirm', '/manifest.webmanifest', '/sw.js'];
+const PUBLIC_PATHS = ['/login', '/auth/callback', '/auth/confirm', '/auth/cambiar-password', '/manifest.webmanifest', '/sw.js'];
 const STATIC_PATHS = ['/_next', '/icons', '/favicon'];
 
 export async function updateSession(request: NextRequest) {
@@ -48,6 +48,23 @@ export async function updateSession(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = '/hoy';
     return NextResponse.redirect(url);
+  }
+
+  // Auth · enforce must_change_password antes que cualquier otra cosa
+  // Si el usuario fue invitado con password temporal, no puede usar la app
+  // hasta cambiarla. Excepción: ya está en /auth/cambiar-password o salir (sign-out).
+  if (user && path !== '/auth/cambiar-password' && !path.startsWith('/auth/signout')) {
+    const { data: profile } = await supabase
+      .from('users')
+      .select('must_change_password')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (profile?.must_change_password) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/auth/cambiar-password';
+      return NextResponse.redirect(url);
+    }
   }
 
   // Auth pero sin couple → forzar onboarding

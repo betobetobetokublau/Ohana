@@ -74,6 +74,9 @@ export function MoodHeatmap({
               const day = addDays(weekStart, dow);
               const dayMoods = moodsForDay(day);
               const dom = dominantMood(dayMoods);
+              // Las últimas 2 columnas: tooltip anclado a la derecha para no salirse
+              const tooltipAnchor: 'center' | 'right' =
+                wi >= weeks.length - 2 ? 'right' : 'center';
               return (
                 <HeatmapCell
                   key={`${dow}-${wi}`}
@@ -81,6 +84,7 @@ export function MoodHeatmap({
                   count={dayMoods.length}
                   dominant={dom}
                   allMoods={dayMoods}
+                  tooltipAnchor={tooltipAnchor}
                 />
               );
             })}
@@ -110,11 +114,13 @@ function HeatmapCell({
   count,
   dominant,
   allMoods,
+  tooltipAnchor,
 }: {
   date: Date;
   count: number;
   dominant: MoodPoint | null;
   allMoods: MoodPoint[];
+  tooltipAnchor: 'center' | 'right';
 }) {
   const [hover, setHover] = useState(false);
 
@@ -129,7 +135,12 @@ function HeatmapCell({
     >
       {dominant && moodByKey[dominant.emocion]?.emoji}
       {hover && allMoods.length > 0 && (
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-10 bg-ink text-bg text-[11px] rounded-md px-2.5 py-1.5 whitespace-nowrap pointer-events-none">
+        <div
+          className={cn(
+            'absolute bottom-full mb-2 z-10 bg-ink text-bg text-[11px] rounded-md px-2.5 py-1.5 whitespace-nowrap pointer-events-none',
+            tooltipAnchor === 'right' ? 'right-0' : 'left-1/2 -translate-x-1/2'
+          )}
+        >
           {format(date, 'EEE d MMM', { locale: es })} · {count} captura{count > 1 ? 's' : ''}
         </div>
       )}

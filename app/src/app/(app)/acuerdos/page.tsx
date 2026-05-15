@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { requireCoupleContext } from '@/lib/auth-helpers';
 import { fmtDate } from '@/lib/utils/dates';
-import { ACUERDO_CATEGORIA_COLOR, ACUERDO_CATEGORIA_LABEL } from '@/lib/utils/modules';
+import { ACUERDO_CATEGORIA_COLOR, ACUERDO_CATEGORIA_LABEL, ACUERDO_CATEGORIA_EMOJI } from '@/lib/utils/modules';
 import { PageHeader } from '@/components/shared/page-header';
 import { EmptyState } from '@/components/shared/empty-state';
 import { Button, Card, Dot } from '@/components/ui';
@@ -68,9 +68,15 @@ export default async function AcuerdosPage() {
         <div className="space-y-6">
           {(Object.keys(byCategoria) as AcuerdoCategoria[]).map(cat => (
             <section key={cat}>
-              <div className="eyebrow mb-3 flex items-center gap-2">
-                <Dot color={ACUERDO_CATEGORIA_COLOR[cat]} />
-                {ACUERDO_CATEGORIA_LABEL[cat]} · {byCategoria[cat]?.length}
+              <div className="mb-3 flex items-center gap-2.5">
+                <span
+                  className="text-xl leading-none"
+                  aria-hidden
+                >{ACUERDO_CATEGORIA_EMOJI[cat]}</span>
+                <h2 className="text-[15px] font-sans font-semibold uppercase tracking-[0.08em] text-ink">
+                  {ACUERDO_CATEGORIA_LABEL[cat]}
+                </h2>
+                <span className="meta">· {byCategoria[cat]?.length}</span>
               </div>
               <div className="space-y-2">
                 {byCategoria[cat]?.map(a => (

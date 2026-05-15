@@ -17,7 +17,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   const { data: userRow } = await supabase
     .from('users')
-    .select('display_name')
+    .select('display_name, avatar_emoji, avatar_color')
     .eq('id', user.id)
     .single();
 
@@ -27,12 +27,10 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     .eq('user_id', user.id)
     .is('read_at', null);
 
-  const userInitial = (userRow?.display_name || user.email || 'U')[0].toUpperCase();
-
   return (
     <AppShell
       coupleName={couple.display_name}
-      userInitial={userInitial}
+      avatar={{ emoji: userRow?.avatar_emoji, color: userRow?.avatar_color }}
       unreadCount={unread ?? 0}
     >
       {children}

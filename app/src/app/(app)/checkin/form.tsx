@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { Button, Textarea, Label } from '@/components/ui';
+import { Button, Textarea, Scale10, EnumPicker, Field } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 import type { EstadoAnimo, PresionTrabajo } from '@/lib/types';
 
@@ -16,7 +16,7 @@ const ANIMO_OPTS: { value: EstadoAnimo; label: string; emoji: string }[] = [
   { value: 'triste',   label: 'Triste',   emoji: '😔' },
 ];
 
-const PRESION_OPTS: PresionTrabajo[] = ['baja', 'mediana', 'alta', 'extrema'];
+const PRESION_OPTS: readonly PresionTrabajo[] = ['baja', 'mediana', 'alta', 'extrema'];
 
 export function CheckinForm({
   coupleId,
@@ -32,31 +32,26 @@ export function CheckinForm({
   const router = useRouter();
   const [step, setStep] = useState<Step>(1);
 
-  // Step 1 fields
   const [animo, setAnimo] = useState<EstadoAnimo | null>(null);
   const [energia, setEnergia] = useState<number | null>(null);
   const [deseo, setDeseo] = useState<number | null>(null);
   const [presion, setPresion] = useState<PresionTrabajo | null>(null);
   const [comentarios, setComentarios] = useState('');
-
-  // Step 2 fields (partner rating)
   const [partnerEnergia, setPartnerEnergia] = useState<number | null>(null);
   const [partnerEstres, setPartnerEstres] = useState<PresionTrabajo | null>(null);
 
   const [error, setError] = useState<string | null>(null);
 
+  const step1Complete = !!(animo && energia && deseo && presion);
+
   function nextFromStep1() {
-    if (!animo || !energia || !deseo || !presion) {
-      setError('Llena energía, deseo, ánimo y presión laboral.');
+    if (!step1Complete) {
+      setError('Llena ánimo, energía, deseo y presión laboral.');
       return;
     }
     setError(null);
     if (hasPartner) setStep(2);
     else submit();
-  }
-
-  function skipPartnerRating() {
-    submit();
   }
 
   async function submit() {
@@ -93,7 +88,7 @@ export function CheckinForm({
   }
 
   return (
-    <div className="px-5 py-8 md:px-10 max-w-2xl mx-auto">
+    <div className="px-5 py-8 md:px-10 max-w-2xl mx-auto pb-32">
       <div className="flex justify-between items-baseline mb-6">
         <div>
           <div className="eyebrow text-accent">
@@ -117,6 +112,7 @@ export function CheckinForm({
               {ANIMO_OPTS.map(o => (
                 <button
                   key={o.value}
+                  type="button"
                   onClick={() => setAnimo(o.value)}
                   className={cn(
                     'aspect-square rounded-md border-2 flex flex-col items-center justify-center gap-1 transition-colors',
@@ -132,17 +128,17 @@ export function CheckinForm({
             </div>
           </Field>
 
-          <Field label="Energía · 1 a 10">
+          <FieldWithIcon icon="⚡" label="Energía · 1 a 10" hint="Tu sensación general de empuje.">
             <Scale10 value={energia} onChange={setEnergia} />
-          </Field>
+          </FieldWithIcon>
 
-          <Field label="Deseo · 1 a 10">
+          <FieldWithIcon icon="🔥" label="Deseo · 1 a 10" hint="Tu deseo sexual esta semana.">
             <Scale10 value={deseo} onChange={setDeseo} />
-          </Field>
+          </FieldWithIcon>
 
-          <Field label="Presión laboral">
+          <FieldWithIcon icon="💼" label="Presión laboral" hint="Qué tan demandante estuvo tu trabajo.">
             <EnumPicker options={PRESION_OPTS} value={presion} onChange={setPresion} />
-          </Field>
+          </FieldWithIcon>
 
           <Field label="¿Algo que quieras decir? (opcional)">
             <Textarea
@@ -154,10 +150,6 @@ export function CheckinForm({
           </Field>
 
           {error && <p className="text-[13px] text-error font-medium">{error}</p>}
-
-          <Button variant="accent" className="w-full py-3.5" onClick={nextFromStep1}>
-            {hasPartner ? 'Continuar al paso 2 →' : 'Enviar checkin'}
-          </Button>
         </div>
       )}
 
@@ -170,91 +162,77 @@ export function CheckinForm({
             </p>
           </div>
 
-          <Field label="¿Cómo viste su energía? · 1 a 10">
+          <FieldWithIcon icon="⚡" label="¿Cómo viste su energía? · 1 a 10">
             <Scale10 value={partnerEnergia} onChange={setPartnerEnergia} />
-          </Field>
+          </FieldWithIcon>
 
-          <Field label="¿Cómo viste su estrés / presión?">
+          <FieldWithIcon icon="💼" label="¿Cómo viste su estrés / presión?">
             <EnumPicker options={PRESION_OPTS} value={partnerEstres} onChange={setPartnerEstres} />
-          </Field>
+          </FieldWithIcon>
 
           {error && <p className="text-[13px] text-error font-medium">{error}</p>}
 
-          <div className="flex gap-3">
-            <Button variant="ghost" onClick={() => setStep(1)}>
-              ← Volver
-            </Button>
-            <Button variant="accent" className="flex-1 py-3.5" onClick={submit}>
-              Enviar checkin
-            </Button>
-          </div>
           <button
-            onClick={skipPartnerRating}
-            className="block w-full text-center text-[13px] text-muted underline underline-offset-4 hover:text-ink"
+            onClick={submit}
+            className="block w-full text-center text-[13px] text-muted underline underline-offset-4 hover:text-ink mt-4"
           >
             Skip — solo enviar mi self-checkin
           </button>
         </div>
       )}
+
+      {/* Floating submit · pinned above mobile bottom nav, normal en desktop */}
+      <div className="fixed bottom-[76px] md:bottom-6 inset-x-0 z-30 px-5 pointer-events-none">
+        <div className="max-w-2xl mx-auto pointer-events-auto">
+          <div className="bg-bg/95 backdrop-blur border border-line shadow-lg rounded-md p-2 flex gap-2">
+            {step === 2 && (
+              <Button
+                variant="ghost"
+                onClick={() => { setStep(1); setError(null); }}
+              >
+                ← Volver
+              </Button>
+            )}
+            <Button
+              variant="accent"
+              className="flex-1 py-3"
+              onClick={step === 1 ? nextFromStep1 : submit}
+              disabled={step === 1 && !step1Complete}
+            >
+              {step === 1
+                ? hasPartner
+                  ? 'Continuar al paso 2 →'
+                  : 'Enviar checkin'
+                : 'Enviar checkin'}
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <Label>{label}</Label>
-      {children}
-    </div>
-  );
-}
-
-function Scale10({ value, onChange }: { value: number | null; onChange: (v: number) => void }) {
-  return (
-    <div className="grid grid-cols-10 gap-1">
-      {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
-        <button
-          key={n}
-          onClick={() => onChange(n)}
-          className={cn(
-            'aspect-square rounded-sm border font-mono text-[14px] font-medium transition-colors',
-            value === n
-              ? 'bg-ink text-bg border-ink'
-              : 'bg-surface text-ink border-line hover:border-line-2'
-          )}
-        >
-          {n}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function EnumPicker<T extends string>({
-  options,
-  value,
-  onChange,
+function FieldWithIcon({
+  icon,
+  label,
+  hint,
+  children,
 }: {
-  options: T[];
-  value: T | null;
-  onChange: (v: T) => void;
+  icon: string;
+  label: string;
+  hint?: string;
+  children: React.ReactNode;
 }) {
   return (
-    <div className="grid grid-cols-4 gap-2">
-      {options.map(opt => (
-        <button
-          key={opt}
-          onClick={() => onChange(opt)}
-          className={cn(
-            'py-2.5 rounded-sm border text-[12px] font-semibold uppercase tracking-wider transition-colors',
-            value === opt
-              ? 'bg-ink text-bg border-ink'
-              : 'bg-surface text-ink border-line hover:border-line-2'
-          )}
-        >
-          {opt}
-        </button>
-      ))}
+    <div>
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-xl leading-none" aria-hidden>{icon}</span>
+        <label className="text-[11px] font-sans font-semibold uppercase tracking-[0.08em] text-muted">
+          {label}
+        </label>
+      </div>
+      {children}
+      {hint && <p className="meta mt-1.5">{hint}</p>}
     </div>
   );
 }

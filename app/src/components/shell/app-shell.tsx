@@ -4,15 +4,16 @@ import { useState, useEffect } from 'react';
 import { Topbar } from './topbar';
 import { Sidebar } from './sidebar';
 import { BottomNav } from './bottom-nav';
+import type { AvatarData } from '@/lib/utils/avatar';
 
 interface AppShellProps {
   children: React.ReactNode;
   coupleName: string;
-  userInitial: string;
+  avatar: Partial<AvatarData>;
   unreadCount: number;
 }
 
-export function AppShell({ children, coupleName, userInitial, unreadCount }: AppShellProps) {
+export function AppShell({ children, coupleName, avatar, unreadCount }: AppShellProps) {
   const [collapsed, setCollapsed] = useState(false);
 
   // Persistir estado sidebar en localStorage
@@ -37,7 +38,7 @@ export function AppShell({ children, coupleName, userInitial, unreadCount }: App
           brand="Ohana"
           coupleName={coupleName}
           unreadCount={unreadCount}
-          userInitial={userInitial}
+          avatar={avatar}
           onToggleSidebar={toggleSidebar}
         />
       </div>

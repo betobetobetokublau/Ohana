@@ -20,6 +20,7 @@ export function MoodQuickCapture({
   const [selected, setSelected] = useState<MoodEmocion | null>(null);
   const [nota, setNota] = useState('');
   const [pending, startTransition] = useTransition();
+  const [confirmed, setConfirmed] = useState(false);
 
   async function submit() {
     if (!selected) return;
@@ -30,10 +31,14 @@ export function MoodQuickCapture({
       emocion: selected,
       nota: nota.trim() || null,
     });
-    setOpen(false);
-    setSelected(null);
-    setNota('');
-    startTransition(() => router.refresh());
+    setConfirmed(true);
+    setTimeout(() => {
+      setOpen(false);
+      setSelected(null);
+      setNota('');
+      setConfirmed(false);
+      startTransition(() => router.refresh());
+    }, 900);
   }
 
   if (!open) {
@@ -80,10 +85,10 @@ export function MoodQuickCapture({
         <Button
           variant="accent"
           className="flex-1"
-          disabled={!selected || pending}
+          disabled={!selected || pending || confirmed}
           onClick={submit}
         >
-          {pending ? 'Enviando…' : 'Enviar'}
+          {confirmed ? 'Guardado ✓' : pending ? 'Enviando…' : 'Enviar'}
         </Button>
         <Button variant="ghost" onClick={() => { setOpen(false); setSelected(null); setNota(''); }}>
           Cancelar

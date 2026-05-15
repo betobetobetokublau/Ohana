@@ -65,6 +65,19 @@ export const ACUERDO_CATEGORIA_LABEL: Record<AcuerdoCategoria, string> = {
 };
 
 /**
+ * Iconos emoji por categoría · usado en headers de agrupación en /acuerdos.
+ */
+export const ACUERDO_CATEGORIA_EMOJI: Record<AcuerdoCategoria, string> = {
+  comunicacion: '💬',
+  dinero: '💰',
+  familia: '👨‍👩‍👧',
+  tiempo: '⏰',
+  intimidad: '❤️',
+  hogar: '🏠',
+  otros: '·',
+};
+
+/**
  * Helper · regresa el color de un accionable con fallback a ink.
  */
 export function accionableColor(tipo: string): string {

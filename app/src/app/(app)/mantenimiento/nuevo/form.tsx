@@ -3,11 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { Input, Textarea, EnumPicker, Field } from '@/components/ui';
+import { Input, Textarea, Field } from '@/components/ui';
 import { FormFooter, FormError } from '@/components/shared/form-footer';
-
-const RECUR_UNITS = ['days', 'weeks', 'months', 'years'] as const;
-const RECUR_LABELS = { days: 'días', weeks: 'sem', months: 'meses', years: 'años' };
+import { RecurrencePicker, type RecurrenceValue } from '@/components/shared/recurrence-picker';
 
 export function NewMantForm({
   coupleId,
@@ -21,9 +19,7 @@ export function NewMantForm({
   const [descripcion, setDescripcion] = useState('');
   const [asignado, setAsignado] = useState<string>('');
   const [dueDate, setDueDate] = useState('');
-  const [recurrente, setRecurrente] = useState(false);
-  const [recurValue, setRecurValue] = useState<number | ''>('');
-  const [recurUnit, setRecurUnit] = useState<typeof RECUR_UNITS[number]>('months');
+  const [recurrencia, setRecurrencia] = useState<RecurrenceValue>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,9 +37,7 @@ export function NewMantForm({
       descripcion: descripcion.trim() || null,
       asignado_user_id: asignado || null,
       due_date: dueDate || null,
-      recurrencia: recurrente && recurValue
-        ? { value: Number(recurValue), unit: recurUnit }
-        : null,
+      recurrencia,
     });
 
     if (error) {
@@ -99,49 +93,7 @@ export function NewMantForm({
         />
       </Field>
 
-      <Field label="¿Recurrente?">
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => setRecurrente(false)}
-            className={`flex-1 py-3 rounded-sm border text-[13px] font-semibold uppercase tracking-wider ${
-              !recurrente ? 'bg-ink text-bg border-ink' : 'bg-surface border-line'
-            }`}
-          >
-            Única
-          </button>
-          <button
-            type="button"
-            onClick={() => setRecurrente(true)}
-            className={`flex-1 py-3 rounded-sm border text-[13px] font-semibold uppercase tracking-wider ${
-              recurrente ? 'bg-ink text-bg border-ink' : 'bg-surface border-line'
-            }`}
-          >
-            Recurrente
-          </button>
-        </div>
-      </Field>
-
-      {recurrente && (
-        <Field label="Cada">
-          <div className="flex gap-2">
-            <Input
-              type="number"
-              min="1"
-              placeholder="6"
-              value={recurValue}
-              onChange={e => setRecurValue(e.target.value === '' ? '' : Number(e.target.value))}
-              className="w-24"
-            />
-            <EnumPicker
-              options={RECUR_UNITS}
-              value={recurUnit}
-              onChange={setRecurUnit}
-              labelMap={RECUR_LABELS}
-            />
-          </div>
-        </Field>
-      )}
+      <RecurrencePicker value={recurrencia} onChange={setRecurrencia} />
 
       <FormError message={error} />
 

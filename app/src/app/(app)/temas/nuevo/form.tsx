@@ -3,13 +3,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { Input, Textarea, Field } from '@/components/ui';
+import { Input, Textarea, Field, EnumPicker } from '@/components/ui';
 import { FormFooter, FormError } from '@/components/shared/form-footer';
+
+const PRIORIDADES = ['baja', 'media', 'alta', 'urgente'] as const;
+type Prioridad = (typeof PRIORIDADES)[number];
 
 export function NewTemaForm({ coupleId }: { coupleId: string }) {
   const router = useRouter();
   const [nombre, setNombre] = useState('');
   const [resumen, setResumen] = useState('');
+  const [prioridad, setPrioridad] = useState<Prioridad | null>('media');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,6 +27,7 @@ export function NewTemaForm({ coupleId }: { coupleId: string }) {
       couple_id: coupleId,
       nombre_tema: nombre,
       resumen: resumen.trim() || null,
+      prioridad: prioridad ?? 'media',
       estado: 'abierto',
     });
 
@@ -54,6 +59,10 @@ export function NewTemaForm({ coupleId }: { coupleId: string }) {
           value={resumen}
           onChange={e => setResumen(e.target.value)}
         />
+      </Field>
+
+      <Field label="Prioridad" hint="Urgente sale arriba en la lista. Default: media.">
+        <EnumPicker options={PRIORIDADES} value={prioridad} onChange={setPrioridad} />
       </Field>
 
       <FormError message={error} />

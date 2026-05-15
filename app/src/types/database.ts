@@ -168,6 +168,57 @@ export type Database = {
           },
         ]
       }
+      acuerdo_versiones: {
+        Row: {
+          acuerdo_id: string
+          cambiado_por: string | null
+          cambios_resumen: string | null
+          categoria: string | null
+          created_at: string
+          descripcion: string | null
+          id: string
+          nombre: string
+          version_num: number
+        }
+        Insert: {
+          acuerdo_id: string
+          cambiado_por?: string | null
+          cambios_resumen?: string | null
+          categoria?: string | null
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          nombre: string
+          version_num: number
+        }
+        Update: {
+          acuerdo_id?: string
+          cambiado_por?: string | null
+          cambios_resumen?: string | null
+          categoria?: string | null
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          nombre?: string
+          version_num?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "acuerdo_versiones_acuerdo_id_fkey"
+            columns: ["acuerdo_id"]
+            isOneToOne: false
+            referencedRelation: "acuerdos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "acuerdo_versiones_cambiado_por_fkey"
+            columns: ["cambiado_por"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       acuerdos: {
         Row: {
           categoria: string | null
@@ -682,6 +733,8 @@ export type Database = {
           id: string
           invited_by: string
           message: string | null
+          must_change_password: boolean
+          temp_password_hash: string | null
         }
         Insert: {
           accepted_at?: string | null
@@ -692,6 +745,8 @@ export type Database = {
           id?: string
           invited_by: string
           message?: string | null
+          must_change_password?: boolean
+          temp_password_hash?: string | null
         }
         Update: {
           accepted_at?: string | null
@@ -702,6 +757,8 @@ export type Database = {
           id?: string
           invited_by?: string
           message?: string | null
+          must_change_password?: boolean
+          temp_password_hash?: string | null
         }
         Relationships: [
           {
@@ -1028,6 +1085,51 @@ export type Database = {
           },
         ]
       }
+      pago_instancias: {
+        Row: {
+          created_at: string
+          due_date: string | null
+          id: string
+          monto: number
+          pagado_en: string
+          pagado_por: string | null
+          pago_id: string
+        }
+        Insert: {
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          monto: number
+          pagado_en?: string
+          pagado_por?: string | null
+          pago_id: string
+        }
+        Update: {
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          monto?: number
+          pagado_en?: string
+          pagado_por?: string | null
+          pago_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pago_instancias_pagado_por_fkey"
+            columns: ["pagado_por"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pago_instancias_pago_id_fkey"
+            columns: ["pago_id"]
+            isOneToOne: false
+            referencedRelation: "pagos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pagos: {
         Row: {
           categoria: string | null
@@ -1036,6 +1138,7 @@ export type Database = {
           due_date: string | null
           id: string
           monto: number
+          monto_variable: boolean
           nombre: string
           pagado: boolean
           pagado_en: string | null
@@ -1049,6 +1152,7 @@ export type Database = {
           due_date?: string | null
           id?: string
           monto: number
+          monto_variable?: boolean
           nombre: string
           pagado?: boolean
           pagado_en?: string | null
@@ -1062,6 +1166,7 @@ export type Database = {
           due_date?: string | null
           id?: string
           monto?: number
+          monto_variable?: boolean
           nombre?: string
           pagado?: boolean
           pagado_en?: string | null
@@ -1289,6 +1394,49 @@ export type Database = {
           },
         ]
       }
+      tema_acuerdo_links: {
+        Row: {
+          acuerdo_id: string
+          tema_id: string
+          vinculado_at: string
+          vinculado_por: string | null
+        }
+        Insert: {
+          acuerdo_id: string
+          tema_id: string
+          vinculado_at?: string
+          vinculado_por?: string | null
+        }
+        Update: {
+          acuerdo_id?: string
+          tema_id?: string
+          vinculado_at?: string
+          vinculado_por?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tema_acuerdo_links_acuerdo_id_fkey"
+            columns: ["acuerdo_id"]
+            isOneToOne: false
+            referencedRelation: "acuerdos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tema_acuerdo_links_tema_id_fkey"
+            columns: ["tema_id"]
+            isOneToOne: false
+            referencedRelation: "temas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tema_acuerdo_links_vinculado_por_fkey"
+            columns: ["vinculado_por"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tema_timeline_entries: {
         Row: {
           autor_id: string | null
@@ -1342,6 +1490,7 @@ export type Database = {
           estado: string
           id: string
           nombre_tema: string
+          prioridad: string | null
           resumen: string | null
         }
         Insert: {
@@ -1351,6 +1500,7 @@ export type Database = {
           estado?: string
           id?: string
           nombre_tema: string
+          prioridad?: string | null
           resumen?: string | null
         }
         Update: {
@@ -1360,6 +1510,7 @@ export type Database = {
           estado?: string
           id?: string
           nombre_tema?: string
+          prioridad?: string | null
           resumen?: string | null
         }
         Relationships: [
@@ -1381,27 +1532,36 @@ export type Database = {
       }
       users: {
         Row: {
+          avatar_color: string | null
+          avatar_emoji: string | null
           avatar_url: string | null
           created_at: string
           display_name: string | null
           email: string
           id: string
+          must_change_password: boolean
           updated_at: string
         }
         Insert: {
+          avatar_color?: string | null
+          avatar_emoji?: string | null
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
           email: string
           id: string
+          must_change_password?: boolean
           updated_at?: string
         }
         Update: {
+          avatar_color?: string | null
+          avatar_emoji?: string | null
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
           email?: string
           id?: string
+          must_change_password?: boolean
           updated_at?: string
         }
         Relationships: []

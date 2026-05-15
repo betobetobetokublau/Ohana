@@ -4,16 +4,35 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { MOOD_OPTIONS } from '@/lib/utils/mood';
-import { Button, Textarea } from '@/components/ui';
-import type { MoodEmocion } from '@/lib/types';
+import { Button, Textarea, Scale10, EnumPicker } from '@/components/ui';
+import type { MoodEmocion, PresionTrabajo } from '@/lib/types';
 import { cn } from '@/lib/utils/cn';
 
-export function MoodCaptureFull({ coupleId, userId }: { coupleId: string; userId: string }) {
+const PRESION_OPTS: readonly PresionTrabajo[] = ['baja', 'mediana', 'alta', 'extrema'];
+
+interface MoodCaptureFullProps {
+  coupleId: string;
+  userId: string;
+  /**
+   * Si goBackAfter es true, hace router.back() después de capturar (vuelve a la
+   * página anterior). Si es false, se queda en /mood con un refresh.
+   * Default: true (UX consistente con el quick-capture de Hoy).
+   */
+  goBackAfter?: boolean;
+}
+
+export function MoodCaptureFull({ coupleId, userId, goBackAfter = true }: MoodCaptureFullProps) {
   const router = useRouter();
   const [selected, setSelected] = useState<MoodEmocion | null>(null);
   const [nota, setNota] = useState('');
   const [pending, startTransition] = useTransition();
   const [confirmed, setConfirmed] = useState(false);
+
+  // Extras opcionales (PRD §12)
+  const [showEstres, setShowEstres] = useState(false);
+  const [estres, setEstres] = useState<PresionTrabajo | null>(null);
+  const [showEnergia, setShowEnergia] = useState(false);
+  const [energia, setEnergia] = useState<number | null>(null);
 
   async function submit() {
     if (!selected) return;
@@ -22,12 +41,23 @@ export function MoodCaptureFull({ coupleId, userId }: { coupleId: string; userId
       couple_id: coupleId,
       user_id: userId,
       emocion: selected,
-      nota: nota.trim() || null,
+      nota: buildNota(nota, estres, energia),
     });
     setConfirmed(true);
+
+    if (goBackAfter) {
+      // Mostrar confirm brevemente, luego volver a la página anterior
+      setTimeout(() => router.back(), 800);
+      return;
+    }
+
     setTimeout(() => {
       setSelected(null);
       setNota('');
+      setEstres(null);
+      setEnergia(null);
+      setShowEstres(false);
+      setShowEnergia(false);
       setConfirmed(false);
       startTransition(() => router.refresh());
     }, 1200);
@@ -57,6 +87,34 @@ export function MoodCaptureFull({ coupleId, userId }: { coupleId: string; userId
         ))}
       </div>
 
+      {/* Extras · 2 columnas (PRD §12) */}
+      <div className="grid grid-cols-2 gap-2 mb-4">
+        <ExtraToggle
+          label={showEstres ? '💼 Estrés laboral' : '+ Estrés'}
+          active={showEstres}
+          onClick={() => setShowEstres(s => !s)}
+        />
+        <ExtraToggle
+          label={showEnergia ? '🔥 Energía sexual' : '+ Energía'}
+          active={showEnergia}
+          onClick={() => setShowEnergia(s => !s)}
+        />
+      </div>
+
+      {showEstres && (
+        <div className="mb-4 animate-in-up">
+          <div className="eyebrow mb-2">Estrés / presión laboral</div>
+          <EnumPicker options={PRESION_OPTS} value={estres} onChange={setEstres} />
+        </div>
+      )}
+
+      {showEnergia && (
+        <div className="mb-4 animate-in-up">
+          <div className="eyebrow mb-2">Energía sexual · 1 a 10</div>
+          <Scale10 value={energia} onChange={setEnergia} />
+        </div>
+      )}
+
       <Textarea
         placeholder="Una nota corta… (opcional)"
         value={nota}
@@ -76,4 +134,39 @@ export function MoodCaptureFull({ coupleId, userId }: { coupleId: string; userId
       </Button>
     </div>
   );
+}
+
+function ExtraToggle({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        'rounded-md border-2 px-3 py-3 text-[13px] font-medium transition-colors text-left',
+        active ? 'border-accent bg-bg' : 'border-line bg-bg hover:border-line-2'
+      )}
+    >
+      {label}
+    </button>
+  );
+}
+
+/**
+ * Empaqueta extras en la nota como prefijo etiquetado · simple, sin schema change.
+ * Ejemplo: "[estres: alta] [energia: 7] · su nota aquí"
+ */
+function buildNota(nota: string, estres: PresionTrabajo | null, energia: number | null): string | null {
+  const parts: string[] = [];
+  if (estres) parts.push(`[estres: ${estres}]`);
+  if (energia !== null) parts.push(`[energia: ${energia}]`);
+  if (nota.trim()) parts.push(nota.trim());
+  return parts.length === 0 ? null : parts.join(' · ');
 }

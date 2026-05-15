@@ -13,6 +13,7 @@ type Pago = {
   id: string;
   nombre: string;
   monto: number;
+  monto_variable: boolean;
   categoria: string | null;
   pagador_asignado: string | null;
   recurrencia: { value: number; unit: string } | null;
@@ -26,7 +27,7 @@ export default async function PagosPage() {
 
   const { data: pagos } = await supabase
     .from('pagos')
-    .select('id, nombre, monto, categoria, pagador_asignado, recurrencia, due_date, pagado, pagado_en')
+    .select('id, nombre, monto, monto_variable, categoria, pagador_asignado, recurrencia, due_date, pagado, pagado_en')
     .eq('couple_id', couple.id)
     .order('due_date', { ascending: true, nullsFirst: false })
     .returns<Pago[]>();

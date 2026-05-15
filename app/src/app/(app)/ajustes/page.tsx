@@ -1,6 +1,8 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { Card, Button } from '@/components/ui';
+import { AvatarPicker } from '@/components/shared/avatar-picker';
+import { PageHeader } from '@/components/shared/page-header';
 
 export const metadata = { title: 'Ohana · Ajustes' };
 export const dynamic = 'force-dynamic';
@@ -12,7 +14,7 @@ export default async function AjustesPage() {
 
   const { data: profile } = await supabase
     .from('users')
-    .select('display_name, email')
+    .select('display_name, email, avatar_emoji, avatar_color')
     .eq('id', user.id)
     .single();
 
@@ -24,25 +26,32 @@ export default async function AjustesPage() {
 
   return (
     <div className="px-5 py-8 md:px-10 max-w-2xl mx-auto">
-      <div className="eyebrow mb-2">Ajustes</div>
-      <h1 className="display text-3xl"><em>Tu</em> cuenta.</h1>
-      <p className="italic-serif text-[15px] mt-2 mb-7">
-        Lo que es tuyo, lo que es del espacio compartido.
-      </p>
+      <PageHeader
+        eyebrow="Ajustes"
+        title="Tu"
+        titleAccent="cuenta"
+        subtitle="Personaliza cómo apareces ante tu pareja."
+      />
 
       <div className="space-y-3">
+        <Card className="p-6">
+          <AvatarPicker
+            userId={user.id}
+            initialEmoji={profile?.avatar_emoji ?? null}
+            initialColor={profile?.avatar_color ?? null}
+          />
+        </Card>
+
         <Card>
           <div className="eyebrow mb-2">Perfil</div>
-          <div className="text-[14px] font-medium">{profile?.display_name || '—'}</div>
+          <div className="text-[14px] font-medium">{profile?.display_name ?? '—'}</div>
           <div className="meta">{profile?.email}</div>
         </Card>
 
         <Card>
           <div className="eyebrow mb-2">Espacio compartido</div>
           <div className="text-[14px] font-medium">{couple?.display_name}</div>
-          <div className="meta">
-            Aniversario: {couple?.anniversary_date || '—'}
-          </div>
+          <div className="meta">Aniversario: {couple?.anniversary_date ?? '—'}</div>
           {!couple?.user_b_id && (
             <p className="italic-serif text-[13px] mt-3 text-accent-deep">
               Tu pareja aún no se ha unido. Las invitaciones expiran en 14 días.

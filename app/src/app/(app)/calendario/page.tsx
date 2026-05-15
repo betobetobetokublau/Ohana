@@ -1,12 +1,16 @@
 import { requireCoupleContext } from '@/lib/auth-helpers';
 import { CalendarView } from './calendar-view';
-import { startOfMonth, endOfMonth, parseISO } from 'date-fns';
+import { startOfMonth, endOfMonth, parseISO, format, addDays } from 'date-fns';
 import { accionableColor, MODULE_COLOR } from '@/lib/utils/modules';
 import { nextAnnualOccurrence } from '@/lib/utils/dates';
+import { expandRecurrence, parseDbDate, type Recurrence } from '@/lib/utils/calendar-events';
+import { resolveAvatar } from '@/lib/utils/avatar';
 import type { CalendarEvent } from './types';
 
 export const metadata = { title: 'Ohana · Calendario' };
 export const dynamic = 'force-dynamic';
+
+const fmtDate = (d: Date) => format(d, 'yyyy-MM-dd');
 
 export default async function CalendarioPage({
   searchParams,
@@ -15,22 +19,19 @@ export default async function CalendarioPage({
 }) {
   const { supabase, couple } = await requireCoupleContext();
 
-  // Mes a mostrar
   const baseDate = searchParams.month
     ? parseISO(`${searchParams.month}-01`)
     : new Date();
   const monthStart = startOfMonth(baseDate);
   const monthEnd = endOfMonth(baseDate);
 
-  // Ventana extendida para próximos 14 días desde hoy (side panel)
-  const now = new Date();
-  const in14 = new Date(now);
-  in14.setDate(in14.getDate() + 14);
+  // Cargar usuarios del couple con avatar
+  const { data: users } = await supabase
+    .from('users')
+    .select('id, display_name, avatar_emoji, avatar_color')
+    .or(`id.eq.${couple.user_a_id},id.eq.${couple.user_b_id ?? couple.user_a_id}`);
 
-  // Cargamos todos los eventos en paralelo
-  const monthStartIso = monthStart.toISOString();
-  const monthEndIso = monthEnd.toISOString();
-
+  // Cargar TODOS los items relevantes · luego expandimos recurrencias
   const [
     accionablesRes,
     citasRes,
@@ -42,204 +43,317 @@ export default async function CalendarioPage({
   ] = await Promise.all([
     supabase
       .from('accionables')
-      .select('id, titulo, tipo, due_date')
+      .select('id, titulo, tipo, due_date, asignado_user_id, completado_at, recurrencia')
       .eq('couple_id', couple.id)
-      .is('completado_at', null)
-      .not('due_date', 'is', null)
-      .gte('due_date', monthStartIso.slice(0, 10))
-      .lte('due_date', monthEndIso.slice(0, 10)),
+      .not('due_date', 'is', null),
     supabase
       .from('citas_eventos')
       .select('id, fecha, idea:citas_ideas(nombre_actividad)')
-      .eq('couple_id', couple.id)
-      .gte('fecha', monthStartIso)
-      .lte('fecha', monthEndIso),
+      .eq('couple_id', couple.id),
     supabase
       .from('saludsexual_eventos')
       .select('id, nombre_actividad, fecha, tipo')
-      .eq('couple_id', couple.id)
-      .gte('fecha', monthStartIso)
-      .lte('fecha', monthEndIso),
+      .eq('couple_id', couple.id),
     supabase
       .from('saludsexual_revisiones')
       .select('id, tipo_revision, proxima_fecha')
-      .eq('couple_id', couple.id)
-      .gte('proxima_fecha', monthStartIso.slice(0, 10))
-      .lte('proxima_fecha', monthEndIso.slice(0, 10)),
+      .eq('couple_id', couple.id),
     supabase
       .from('fechas_clave')
-      .select('id, titulo, fecha, icono')
+      .select('id, titulo, fecha, icono, recurrencia')
       .eq('couple_id', couple.id),
     supabase
       .from('viajes_eventos')
       .select('id, nombre, fecha_inicio, fecha_fin')
-      .eq('couple_id', couple.id)
-      .or(`fecha_inicio.gte.${monthStartIso.slice(0, 10)},fecha_fin.gte.${monthStartIso.slice(0, 10)}`),
+      .eq('couple_id', couple.id),
     supabase
       .from('pagos')
-      .select('id, nombre, due_date, monto, pagado')
+      .select('id, nombre, due_date, monto, monto_variable, pagado, recurrencia, pagador_asignado')
       .eq('couple_id', couple.id)
-      .not('due_date', 'is', null)
-      .gte('due_date', monthStartIso.slice(0, 10))
-      .lte('due_date', monthEndIso.slice(0, 10)),
+      .not('due_date', 'is', null),
   ]);
 
-  // Normalizar a CalendarEvent
-  const events: CalendarEvent[] = [
-    ...(accionablesRes.data ?? []).map(a => ({
-      id: a.id,
-      type: a.tipo,
-      label: a.titulo,
-      date: a.due_date!,
-      color: accionableColor(a.tipo),
-    })),
-    ...(citasRes.data ?? []).map(c => ({
-      id: c.id,
-      type: 'cita',
-      label: (c.idea as { nombre_actividad?: string } | null)?.nombre_actividad ?? 'Cita',
-      date: c.fecha!.slice(0, 10),
-      color: MODULE_COLOR.citas,
-    })),
-    ...(saludRes.data ?? []).map(s => ({
-      id: s.id,
-      type: 'saludsexual',
-      label: s.nombre_actividad ?? 'Evento',
-      date: s.fecha!.slice(0, 10),
-      color: MODULE_COLOR.salud,
-    })),
-    ...(revisionesRes.data ?? []).map(r => ({
-      id: r.id,
-      type: 'revision',
-      label: r.tipo_revision ?? 'Revisión',
-      date: r.proxima_fecha,
-      color: MODULE_COLOR.salud,
-    })),
-    ...(fechasRes.data ?? [])
-      .filter(f => {
-        const dt = parseISO(f.fecha);
-        return dt >= monthStart && dt <= monthEnd;
-      })
-      .map(f => ({
+  // Normalizar · expandir recurrencias dentro del mes
+  const events: CalendarEvent[] = [];
+
+  for (const a of accionablesRes.data ?? []) {
+    if (!a.due_date) continue;
+    const base = parseDbDate(a.due_date);
+    const dates = expandRecurrence(base, a.recurrencia as Recurrence | null, monthStart, monthEnd);
+    for (const dt of dates) {
+      events.push({
+        id: `${a.id}:${fmtDate(dt)}`,
+        sourceId: a.id,
+        type: a.tipo as CalendarEvent['type'],
+        label: a.titulo,
+        date: fmtDate(dt),
+        color: accionableColor(a.tipo),
+        completed: !!a.completado_at,
+        assignedTo: a.asignado_user_id,
+        category: capitalize(a.tipo),
+      });
+    }
+  }
+
+  for (const c of citasRes.data ?? []) {
+    if (!c.fecha) continue;
+    const dt = parseDbDate(c.fecha);
+    if (dt >= monthStart && dt <= monthEnd) {
+      events.push({
+        id: c.id,
+        sourceId: c.id,
+        type: 'cita',
+        label: (c.idea as { nombre_actividad?: string } | null)?.nombre_actividad ?? 'Cita',
+        date: fmtDate(dt),
+        color: MODULE_COLOR.citas,
+        category: 'Cita',
+      });
+    }
+  }
+
+  for (const s of saludRes.data ?? []) {
+    if (!s.fecha) continue;
+    const dt = parseDbDate(s.fecha);
+    if (dt >= monthStart && dt <= monthEnd) {
+      events.push({
+        id: s.id,
+        sourceId: s.id,
+        type: 'saludsexual',
+        label: s.nombre_actividad ?? 'Evento',
+        date: fmtDate(dt),
+        color: MODULE_COLOR.salud,
+        category: 'Salud sexual',
+      });
+    }
+  }
+
+  for (const r of revisionesRes.data ?? []) {
+    const dt = parseDbDate(r.proxima_fecha);
+    if (dt >= monthStart && dt <= monthEnd) {
+      events.push({
+        id: r.id,
+        sourceId: r.id,
+        type: 'revision',
+        label: r.tipo_revision ?? 'Revisión',
+        date: fmtDate(dt),
+        color: MODULE_COLOR.salud,
+        category: 'Revisión',
+      });
+    }
+  }
+
+  for (const f of fechasRes.data ?? []) {
+    const base = parseDbDate(f.fecha);
+    const rec = f.recurrencia as Recurrence | null;
+    if (rec?.unit === 'years') {
+      const dates = expandRecurrence(base, rec, monthStart, monthEnd);
+      for (const dt of dates) {
+        events.push({
+          id: `${f.id}:${fmtDate(dt)}`,
+          sourceId: f.id,
+          type: 'fecha',
+          label: `${f.icono ?? '★'} ${f.titulo}`,
+          date: fmtDate(dt),
+          color: MODULE_COLOR.fechas,
+          category: 'Fecha clave',
+        });
+      }
+    } else if (base >= monthStart && base <= monthEnd) {
+      events.push({
         id: f.id,
+        sourceId: f.id,
         type: 'fecha',
         label: `${f.icono ?? '★'} ${f.titulo}`,
-        date: f.fecha,
+        date: fmtDate(base),
         color: MODULE_COLOR.fechas,
-      })),
-    ...(viajesRes.data ?? [])
-      .filter(v => v.fecha_inicio)
-      .map(v => ({
+        category: 'Fecha clave',
+      });
+    }
+  }
+
+  for (const v of viajesRes.data ?? []) {
+    if (!v.fecha_inicio) continue;
+    const dt = parseDbDate(v.fecha_inicio);
+    if (dt >= monthStart && dt <= monthEnd) {
+      events.push({
         id: v.id,
+        sourceId: v.id,
         type: 'viaje',
         label: v.nombre,
-        date: v.fecha_inicio!,
+        date: fmtDate(dt),
         color: MODULE_COLOR.viajes,
-      })),
-    ...(pagosRes.data ?? []).map(p => ({
-      id: p.id,
-      type: 'pago',
-      label: p.nombre,
-      date: p.due_date!,
-      color: MODULE_COLOR.gastos,
-      completed: p.pagado,
-    })),
-  ];
+        category: 'Viaje',
+      });
+    }
+  }
 
-  // Side panel: próximos 14 días desde hoy (independiente del mes mostrado)
+  for (const p of pagosRes.data ?? []) {
+    if (!p.due_date) continue;
+    const base = parseDbDate(p.due_date);
+    const dates = expandRecurrence(base, p.recurrencia as Recurrence | null, monthStart, monthEnd);
+    for (const dt of dates) {
+      events.push({
+        id: `${p.id}:${fmtDate(dt)}`,
+        sourceId: p.id,
+        type: 'pago',
+        label: p.nombre,
+        date: fmtDate(dt),
+        color: MODULE_COLOR.gastos,
+        completed: p.pagado,
+        assignedTo: p.pagador_asignado,
+        category: 'Pago',
+        monto: p.monto_variable ? undefined : Number(p.monto),
+        variableUnfilled: p.monto_variable && !p.pagado,
+      });
+    }
+  }
+
   const sidePanelEvents = await loadSidePanelEvents(supabase, couple.id);
+
+  const usersWithAvatar = (users ?? []).map(u => ({
+    id: u.id,
+    name: u.display_name ?? 'Usuario',
+    avatar: resolveAvatar({ emoji: u.avatar_emoji, color: u.avatar_color }),
+  }));
 
   return (
     <CalendarView
       monthStart={monthStart}
       events={events}
       sidePanelEvents={sidePanelEvents}
+      users={usersWithAvatar}
     />
   );
 }
+
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
 
 async function loadSidePanelEvents(
   supabase: Awaited<ReturnType<typeof requireCoupleContext>>['supabase'],
   coupleId: string
 ): Promise<CalendarEvent[]> {
   const now = new Date();
-  const in14 = new Date(now);
-  in14.setDate(in14.getDate() + 14);
-  const nowIso = now.toISOString().slice(0, 10);
-  const in14Iso = in14.toISOString().slice(0, 10);
+  const in14 = addDays(now, 14);
 
   const [a, c, p, f, m] = await Promise.all([
     supabase
       .from('accionables')
-      .select('id, titulo, tipo, due_date')
+      .select('id, titulo, tipo, due_date, asignado_user_id, completado_at, recurrencia')
       .eq('couple_id', coupleId)
-      .is('completado_at', null)
-      .gte('due_date', nowIso)
-      .lte('due_date', in14Iso),
+      .not('due_date', 'is', null),
     supabase
       .from('citas_eventos')
       .select('id, fecha, idea:citas_ideas(nombre_actividad)')
-      .eq('couple_id', coupleId)
-      .gte('fecha', now.toISOString())
-      .lte('fecha', in14.toISOString()),
+      .eq('couple_id', coupleId),
     supabase
       .from('pagos')
-      .select('id, nombre, due_date, monto')
+      .select('id, nombre, due_date, monto, monto_variable, pagado, recurrencia, pagador_asignado')
       .eq('couple_id', coupleId)
-      .eq('pagado', false)
-      .not('due_date', 'is', null)
-      .gte('due_date', nowIso)
-      .lte('due_date', in14Iso),
+      .not('due_date', 'is', null),
     supabase
       .from('fechas_clave')
-      .select('id, titulo, fecha, icono'),
+      .select('id, titulo, fecha, icono, recurrencia')
+      .eq('couple_id', coupleId),
     supabase
       .from('viajes_eventos')
       .select('id, nombre, fecha_inicio')
       .eq('couple_id', coupleId)
-      .gte('fecha_inicio', nowIso)
-      .lte('fecha_inicio', in14Iso),
+      .not('fecha_inicio', 'is', null),
   ]);
 
-  // Filtrar fechas_clave a las próximas en 14 días (considerando recurrencia anual)
-  const upcomingFechas = (f.data ?? [])
-    .map(fc => ({ ...fc, computed: nextAnnualOccurrence(fc.fecha, now) }))
-    .filter(fc => fc.computed >= now && fc.computed <= in14);
+  const out: CalendarEvent[] = [];
 
-  return [
-    ...(a.data ?? []).map(x => ({
-      id: x.id,
-      type: x.tipo,
-      label: x.titulo,
-      date: x.due_date!,
-      color: accionableColor(x.tipo),
-    })),
-    ...(c.data ?? []).map(x => ({
-      id: x.id,
-      type: 'cita',
-      label: (x.idea as { nombre_actividad?: string } | null)?.nombre_actividad ?? 'Cita',
-      date: x.fecha!.slice(0, 10),
-      color: MODULE_COLOR.citas,
-    })),
-    ...(p.data ?? []).map(x => ({
-      id: x.id,
-      type: 'pago',
-      label: `${x.nombre} · $${Number(x.monto).toLocaleString()}`,
-      date: x.due_date!,
-      color: MODULE_COLOR.gastos,
-    })),
-    ...upcomingFechas.map(x => ({
-      id: x.id,
-      type: 'fecha',
-      label: `${x.icono ?? '★'} ${x.titulo}`,
-      date: x.computed.toISOString().slice(0, 10),
-      color: MODULE_COLOR.fechas,
-    })),
-    ...(m.data ?? []).map(x => ({
-      id: x.id,
-      type: 'viaje',
-      label: x.nombre,
-      date: x.fecha_inicio!,
-      color: MODULE_COLOR.viajes,
-    })),
-  ].sort((x, y) => x.date.localeCompare(y.date));
+  for (const x of a.data ?? []) {
+    if (!x.due_date) continue;
+    const base = parseDbDate(x.due_date);
+    const dates = expandRecurrence(base, x.recurrencia as Recurrence | null, now, in14);
+    for (const dt of dates) {
+      // Skip si ya está completado y no es recurrente (otra ocurrencia futura)
+      if (x.completado_at && dates.length === 1) continue;
+      out.push({
+        id: `${x.id}:${fmtDate(dt)}`,
+        sourceId: x.id,
+        type: x.tipo as CalendarEvent['type'],
+        label: x.titulo,
+        date: fmtDate(dt),
+        color: accionableColor(x.tipo),
+        completed: !!x.completado_at,
+        assignedTo: x.asignado_user_id,
+        category: capitalize(x.tipo),
+      });
+    }
+  }
+  for (const x of c.data ?? []) {
+    if (!x.fecha) continue;
+    const dt = parseDbDate(x.fecha);
+    if (dt >= now && dt <= in14) {
+      out.push({
+        id: x.id,
+        sourceId: x.id,
+        type: 'cita',
+        label: (x.idea as { nombre_actividad?: string } | null)?.nombre_actividad ?? 'Cita',
+        date: fmtDate(dt),
+        color: MODULE_COLOR.citas,
+        category: 'Cita',
+      });
+    }
+  }
+  for (const x of p.data ?? []) {
+    if (!x.due_date) continue;
+    const base = parseDbDate(x.due_date);
+    const dates = expandRecurrence(base, x.recurrencia as Recurrence | null, now, in14);
+    for (const dt of dates) {
+      out.push({
+        id: `${x.id}:${fmtDate(dt)}`,
+        sourceId: x.id,
+        type: 'pago',
+        label: x.nombre,
+        date: fmtDate(dt),
+        color: MODULE_COLOR.gastos,
+        completed: false,
+        assignedTo: x.pagador_asignado,
+        category: 'Pago',
+        monto: x.monto_variable ? undefined : Number(x.monto),
+        variableUnfilled: x.monto_variable,
+      });
+    }
+  }
+  for (const x of f.data ?? []) {
+    const rec = x.recurrencia as Recurrence | null;
+    const computed = rec?.unit === 'years'
+      ? nextAnnualOccurrence(x.fecha, now)
+      : parseDbDate(x.fecha);
+    if (computed >= now && computed <= in14) {
+      out.push({
+        id: `${x.id}:${fmtDate(computed)}`,
+        sourceId: x.id,
+        type: 'fecha',
+        label: `${x.icono ?? '★'} ${x.titulo}`,
+        date: fmtDate(computed),
+        color: MODULE_COLOR.fechas,
+        category: 'Fecha clave',
+      });
+    }
+  }
+  for (const x of m.data ?? []) {
+    if (!x.fecha_inicio) continue;
+    const dt = parseDbDate(x.fecha_inicio);
+    if (dt >= now && dt <= in14) {
+      out.push({
+        id: x.id,
+        sourceId: x.id,
+        type: 'viaje',
+        label: x.nombre,
+        date: fmtDate(dt),
+        color: MODULE_COLOR.viajes,
+        category: 'Viaje',
+      });
+    }
+  }
+
+  return out.sort((a, b) => a.date.localeCompare(b.date));
 }

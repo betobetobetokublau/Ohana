@@ -1,16 +1,19 @@
 'use client';
 
-import { Menu, Search, Plus, Mail } from 'lucide-react';
+import { Menu, Search, Mail } from 'lucide-react';
+import { Avatar } from '@/components/shared/avatar';
+import { QuickCaptureMenu } from './quick-capture-menu';
+import type { AvatarData } from '@/lib/utils/avatar';
 
 interface TopbarProps {
   brand: string;
   coupleName: string;
   unreadCount: number;
-  userInitial: string;
+  avatar: Partial<AvatarData>;
   onToggleSidebar: () => void;
 }
 
-export function Topbar({ brand, coupleName, unreadCount, userInitial, onToggleSidebar }: TopbarProps) {
+export function Topbar({ brand, coupleName, unreadCount, avatar, onToggleSidebar }: TopbarProps) {
   return (
     <header className="flex items-center gap-3.5 px-4 h-12 bg-ink text-bg">
       <button
@@ -28,17 +31,15 @@ export function Topbar({ brand, coupleName, unreadCount, userInitial, onToggleSi
         <button className="rounded-sm p-1.5 hover:bg-white/10" aria-label="Buscar">
           <Search className="w-4 h-4" />
         </button>
-        <button className="rounded-sm p-1.5 hover:bg-white/10" aria-label="Capturar rápido">
-          <Plus className="w-4 h-4" />
-        </button>
+        <QuickCaptureMenu />
         <button className="rounded-sm p-1.5 hover:bg-white/10 relative" aria-label="Notificaciones">
           <Mail className="w-4 h-4" />
           {unreadCount > 0 && (
             <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-accent" />
           )}
         </button>
-        <div className="w-8 h-8 rounded-full bg-accent text-white text-sm flex items-center justify-center ml-1 font-serif">
-          {userInitial}
+        <div className="ml-1">
+          <Avatar data={avatar} size="sm" />
         </div>
       </div>
     </header>
